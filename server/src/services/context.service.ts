@@ -3,7 +3,7 @@ import { DB } from "./db.service";
 import { LoggerService } from "./logger.service";
 
 export class ContextsService {
-  public static getAllContexts(): Context[] {
+  public static getAll(): Context[] {
     const req = `SELECT * FROM contexts
                  WHERE deleted = false`;
     let contexts: Context[] = [];
