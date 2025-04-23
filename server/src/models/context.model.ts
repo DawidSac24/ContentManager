@@ -12,13 +12,14 @@ export interface NewContext {
   icon_id?: number | null;
 }
 
-export interface ContextFull {
-  id: number;
-  name: string;
-  icon_id: number;
-  deleted: boolean;
-  pages: Page[];
-}
+//  TODO : DO I NEED THIS ???
+// export interface ContextFull {
+//   id: number;
+//   name: string;
+//   icon_id: number;
+//   deleted: boolean;
+//   pages: Page[];
+// }
 
 export interface ContextDTO {
   id: number;
@@ -32,10 +33,10 @@ export interface NewContextDTO {
   icon_id?: number | null;
 }
 
-export interface ContextFullDTO {
-  id: number;
-  name: string;
-  icon_id: number;
-  deleted: boolean;
-  pages: Page[];
-}
+// export interface ContextFullDTO {
+//   id: number;
+//   name: string;
+//   icon_id: number;
+//   deleted: boolean;
+//   pages: Page[];
+// }

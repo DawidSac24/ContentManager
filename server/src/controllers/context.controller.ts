@@ -9,9 +9,7 @@ export const contextController = Router();
 contextController.get("/", (req: Request, res: Response) => {
   LoggerService.info("[GET] /contexts");
 
-  let contexts: ContextDTO[] = [];
-
-  contexts = ContextsService.getAll();
+  const contexts: ContextDTO[] = ContextsService.getAll();
 
   res.status(200).json(contexts);
 });

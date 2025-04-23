@@ -105,3 +105,32 @@ export function isNewContext(data: unknown): boolean {
       isIdentifier(newContext.icon_id))
   );
 }
+/**
+ * Function that validates that an input is a valid Page
+ * @param data any data
+ * @returns true if data matches Page structure
+ */
+export function isPage(data: unknown): boolean {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const page = data as any;
+
+  return isIdentifier(page.id) && isString(page.name) && isString(page.url);
+}
+
+/**
+ * Function that validates that an input is a valid NewPage
+ * @param data any data
+ * @returns true if data matches NewPage structure
+ */
+export function isNewPage(data: unknown): boolean {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const newPage = data as any;
+
+  return isString(newPage.name) && isString(newPage.url);
+}
