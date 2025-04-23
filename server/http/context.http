@@ -1,3 +1,14 @@
 @baseUrl = http://localhost:5000
 
 GET {{baseUrl}}/contexts
+
+###
+
+POST {{baseUrl}}/contexts
+Content-Type: application/json
+
+{
+    "name": "Test Context",
+    "icon_id": 1
+}
+

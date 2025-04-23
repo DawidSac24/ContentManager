@@ -56,3 +56,52 @@ export function isIdentifier(data: unknown): data is number {
 export function isString(data: unknown): data is string {
   return data !== undefined && data !== null && typeof data === "string";
 }
+
+/**
+ * Function that validates that an input is a boolean
+ * @param data any data
+ * @returns true if data is a boolean
+ */
+export function isBoolean(data: unknown): data is boolean {
+  return data !== undefined && data !== null && typeof data === "boolean";
+}
+
+/**
+ * Function that validates that an input is a valid Context
+ * @param data any data
+ * @returns true if data matches Context structure
+ */
+export function isContext(data: unknown): boolean {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const context = data as any;
+
+  return (
+    isIdentifier(context.id) &&
+    isString(context.name) &&
+    isIdentifier(context.icon_id) &&
+    isBoolean(context.deleted)
+  );
+}
+
+/**
+ * Function that validates that an input is a valid NewContext
+ * @param data any data
+ * @returns true if data matches NewContext structure
+ */
+export function isNewContext(data: unknown): boolean {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const newContext = data as any;
+
+  return (
+    isString(newContext.name) &&
+    (newContext.icon_id === undefined ||
+      newContext.icon_id === null ||
+      isIdentifier(newContext.icon_id))
+  );
+}
