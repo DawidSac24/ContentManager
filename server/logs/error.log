@@ -20,3 +20,17 @@
 2025-04-23T16:12:48.223Z - FOREIGN KEY constraint failed
 2025-04-23T16:14:46.104Z - FOREIGN KEY constraint failed
 2025-04-23T16:14:56.862Z - FOREIGN KEY constraint failed
+2025-04-23T18:03:27.928Z - Invalid Context
+2025-04-23T18:04:16.545Z - Invalid Context
+2025-04-23T18:04:59.378Z - Invalid Context
+2025-04-23T18:05:04.226Z - Invalid Context
+2025-04-23T18:05:04.832Z - Invalid Context
+2025-04-23T18:05:37.065Z - Invalid Context
+2025-04-23T18:05:48.074Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:05:52.719Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:06:12.388Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:06:20.733Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:06:23.546Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:06:24.056Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:06:55.949Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
+2025-04-23T18:12:50.178Z - Context not found
