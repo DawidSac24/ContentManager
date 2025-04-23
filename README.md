@@ -14,9 +14,9 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 ## How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons
-2. **Add Pages**: Add your frequently visited pages to each context
+2. **Add Pages**: Add your frequently visited pages to each context or add them automatically to your context
 3. **Switch Contexts**: With a single click, switch between contexts:
-   - The extension will close your current tabs
+   - The extension will close your current tabs (and save the unsaved pages inside of a temporary context)
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
 
