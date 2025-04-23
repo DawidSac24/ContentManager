@@ -1,3 +1,5 @@
+import { Page } from "./page.model";
+
 export interface Context {
   id: number;
   name: string;
@@ -10,9 +12,12 @@ export interface NewContext {
   icon_id?: number | null;
 }
 
-export interface ContextPage {
-  context_id: number;
-  page_id: number;
+export interface ContextFull {
+  id: number;
+  name: string;
+  icon_id: number;
+  deleted: boolean;
+  pages: Page[];
 }
 
 export interface ContextDTO {
@@ -25,4 +30,12 @@ export interface ContextDTO {
 export interface NewContextDTO {
   name: string;
   icon_id?: number | null;
+}
+
+export interface ContextFullDTO {
+  id: number;
+  name: string;
+  icon_id: number;
+  deleted: boolean;
+  pages: Page[];
 }
