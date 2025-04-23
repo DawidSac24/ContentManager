@@ -31,14 +31,13 @@ export class ContextsService {
 
   public static insert(newContext: NewContext): Context | null {
     const req = `INSERT INTO contexts (name, icon_id, deleted) 
-           VALUES (?, ?, ?)`;
+           VALUES (?, ?, false)`;
     let info;
 
     try {
       info = DB.prepare(req).run(
         newContext.name,
-        newContext.icon_id ?? 0,
-        0 // Convert false to 0 for SQLite
+        newContext.icon_id ?? 1 // Default to 1 if not provided
       );
     } catch (error) {
       LoggerService.error(error);
@@ -48,7 +47,7 @@ export class ContextsService {
     return {
       id: info.lastInsertRowId,
       name: newContext.name,
-      icon_id: newContext.icon_id ?? 0,
+      icon_id: newContext.icon_id ?? 1,
       deleted: false,
     };
   }

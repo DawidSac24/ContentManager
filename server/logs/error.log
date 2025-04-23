@@ -17,3 +17,6 @@
 2025-04-21T14:58:05.159Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
 2025-04-21T14:59:06.316Z - SQLite3 can only bind numbers, strings, bigints, buffers, and null
 2025-04-21T14:59:59.435Z - FOREIGN KEY constraint failed
+2025-04-23T16:12:48.223Z - FOREIGN KEY constraint failed
+2025-04-23T16:14:46.104Z - FOREIGN KEY constraint failed
+2025-04-23T16:14:56.862Z - FOREIGN KEY constraint failed
