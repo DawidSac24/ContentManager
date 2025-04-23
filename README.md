@@ -47,19 +47,3 @@ Context Manager consists of:
 ## Development Status
 
 This project is currently in active development. Features and functionality may change as development progresses.
-
-## Getting Started
-
-1. Clone this repository
-2. Install dependencies for both client and server
-3. Build the extension
-4. Load the unpacked extension in Chrome
-5. Start the backend server
-
-## License
-
-[Your chosen license]
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
