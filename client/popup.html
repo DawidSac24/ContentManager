@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="./styles/popup.css" />
   </head>
   <body>
-    <h1>Context Manager</h1>
-    <div id="content">
-      <!-- Your extension content will go here -->
+    <div id="title-container">
+      <h1 id="title">Context Manager</h1>
     </div>
+    <div id="content">
+      <div id="context-list">
+        <h2>Contexts</h2>
+        <ul id="context-list-items"></ul>
+      </div>
+      <button id="create-context-button">Create Context</button>
+    </div>
+    <script src="./scripts/popup.js"></script>
   </body>
 </html>
