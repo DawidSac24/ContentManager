@@ -1,0 +1,21 @@
+{
+  "name": "Context Manager",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "Context Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.",
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./scripts/contentScript.ts"],
+      "css": ["./styles/styles.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "./background/background.ts"
+  },
+  "action": {
+    "default_title": "Context Manager",
+    "default_popup": "popup.html"
+  }
+}
