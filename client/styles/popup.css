@@ -1,0 +1,10 @@
+body {
+  width: 300px;
+  min-height: 200px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+h1 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
