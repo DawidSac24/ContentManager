@@ -1,122 +1,95 @@
-import { ContextService } from "../services/context.service";
+import { Request, Response, Router } from "express";
 import { LoggerService } from "../services/logger.service";
 import { ContextDTO, NewContextDTO } from "../models/context.model";
 import { isContext, isIdentifier, isNewContext } from "../utils/guards";
+import { ContextService } from "../services/context.service";
 
-export class ContextController {
-  private static instance: ContextController;
-  private contextService: ContextService;
-  private exampleContexts: ContextDTO[] = [
-    {
-      id: 1,
-      name: "Work",
-      pages: [],
-      isDeleted: false,
-    },
-    {
-      id: 2,
-      name: "Development",
-      pages: [],
-      isDeleted: false,
-    },
-    {
-      id: 3,
-      name: "Learning",
-      pages: [],
-      isDeleted: false,
-    },
-  ];
+export const ContextController = Router();
 
-  private constructor() {
-    this.contextService = ContextService.getInstance();
+ContextController.post("/", async (req, res) => {
+  LoggerService.info("[POST] /users/");
+  const newContext: NewContextDTO = req.body;
+
+  if (!isNewContext(newContext)) {
+    LoggerService.error("Bad request: Invalid new context model");
+    return res.status(400).json({ error: "Invalid new context model" });
   }
 
-  public static getInstance(): ContextController {
-    if (!ContextController.instance) {
-      ContextController.instance = new ContextController();
-    }
-    return ContextController.instance;
+  try {
+    const context = await ContextService.add(newContext);
+
+    LoggerService.alert(`Context created successfully`);
+    return res.status(200).json(context);
+  } catch (error) {
+    LoggerService.error("Internal server error");
+    return res.status(500).json("Internal server error");
+  }
+});
+
+ContextController.get("/", (req: Request, res: Response) => {
+  LoggerService.info("[GET] /contexts/");
+
+  LoggerService.info("Getting all contexts");
+  const contexts = ContextService.getAll();
+  return res.status(200).json(contexts);
+});
+
+// async getById(id: number): Promise<ContextDTO> {
+//   LoggerService.info(`Getting context with id: ${id}`);
+
+//   if (!isIdentifier(id)) {
+//     LoggerService.error("Invalid context id");
+//     throw new Error("Invalid context id");
+//   }
+
+//   const context = await ContextService.getById(id);
+
+//   if (!context) {
+//     LoggerService.error("Context not found");
+//     throw new Error("Context not found");
+//   }
+
+//   LoggerService.info(`Context ${context.name} found successfully`);
+//   return context as ContextDTO;
+// }
+
+ContextController.put("/", (req: Request, res: Response) => {
+  LoggerService.info("[PUT] /contexts/");
+  const updatedContext: ContextDTO = req.body;
+
+  if (!isContext(updatedContext)) {
+    LoggerService.error("Invalid context model");
+    throw new Error("Invalid context model");
   }
 
-  async add(newContext: NewContextDTO): Promise<ContextDTO> {
-    LoggerService.info(`Adding context: ${newContext.name}`);
+  ContextService.update(updatedContext);
 
-    if (!isNewContext(newContext)) {
-      LoggerService.error("Invalid new context model");
-      throw new Error("Invalid new context model");
-    }
+  return res.status(200).json(updatedContext);
+});
 
-    const context = await this.contextService.add(newContext);
+ContextController.put("/soft-del/:id", (req: Request, res: Response) => {
+  LoggerService.info("[PUT] /contexts/soft-del/:id");
+  const id = parseInt(req.params.id);
 
-    if (!context) {
-      LoggerService.error("Failed to create context");
-      throw new Error("Failed to create context");
-    }
-
-    LoggerService.alert(`Context ${context.name} created successfully`);
-    return context as ContextDTO;
+  if (!isIdentifier(id)) {
+    LoggerService.error("Invalid context id");
+    throw new Error("Invalid context id");
   }
 
-  async getAll(): Promise<ContextDTO[]> {
-    LoggerService.info("Getting all contexts");
-    // For testing purposes, return example contexts
-    return this.exampleContexts;
+  ContextService.softDelete(id);
 
-    // Original implementation:
-    // const contexts = await this.contextService.getAll();
-    // LoggerService.info(`Found ${contexts.length} contexts`);
-    // return contexts as ContextDTO[];
+  return res.status(200).send("Context soft deleted successfully");
+});
+
+ContextController.delete("/:id", (req: Request, res: Response) => {
+  LoggerService.info("[DELETE] /contexts/:id");
+  const id = parseInt(req.params.id);
+
+  if (!isIdentifier(id)) {
+    LoggerService.error("Invalid context id");
+    throw new Error("Invalid context id");
   }
 
-  async getById(id: number): Promise<ContextDTO> {
-    LoggerService.info(`Getting context with id: ${id}`);
-
-    if (!isIdentifier(id)) {
-      LoggerService.error("Invalid context id");
-      throw new Error("Invalid context id");
-    }
-
-    const context = await this.contextService.getById(id);
-
-    if (!context) {
-      LoggerService.error("Context not found");
-      throw new Error("Context not found");
-    }
-
-    LoggerService.info(`Context ${context.name} found successfully`);
-    return context as ContextDTO;
-  }
-
-  async update(updatedContext: ContextDTO): Promise<void> {
-    LoggerService.info(`Updating context: ${updatedContext.name}`);
-
-    if (!isContext(updatedContext)) {
-      LoggerService.error("Invalid context model");
-      throw new Error("Invalid context model");
-    }
-
-    await this.contextService.update(updatedContext);
-  }
-
-  async softDelete(id: number): Promise<void> {
-    LoggerService.info(`Soft deleting context with id: ${id}`);
-
-    if (!isIdentifier(id)) {
-      LoggerService.error("Invalid context id");
-      throw new Error("Invalid context id");
-    }
-
-    await this.contextService.softDelete(id);
-  }
-
-  async delete(id: number): Promise<void> {
-    LoggerService.info(`Deleting context with id: ${id}`);
-
-    if (!isIdentifier(id)) {
-      LoggerService.error("Invalid context id");
-      throw new Error("Invalid context id");
-    }
-
-    await this.contextService.delete(id);
-  }
-}
+  ContextService.delete(id);
+  return res.status(200).send("Context deleted successfully");
+});

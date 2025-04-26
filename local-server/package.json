@@ -12,12 +12,14 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "@types/node": "^22.15.2",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "idb": "^8.0.2"
   }
 }

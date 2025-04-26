@@ -2,18 +2,7 @@ import { Context, NewContext } from "../models/context.model";
 import { getDatabase } from "./db.service";
 
 export class ContextService {
-  private static instance: ContextService;
-
-  private constructor() {}
-
-  public static getInstance(): ContextService {
-    if (!ContextService.instance) {
-      ContextService.instance = new ContextService();
-    }
-    return ContextService.instance;
-  }
-
-  async add(newContext: NewContext): Promise<Context> {
+  public static async add(newContext: NewContext): Promise<Context> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readwrite");
     const store = tx.objectStore("contexts");
@@ -35,7 +24,7 @@ export class ContextService {
     };
   }
 
-  async getAll(): Promise<Context[]> {
+  public static async getAll(): Promise<Context[]> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readonly");
     const store = tx.objectStore("contexts");
@@ -44,7 +33,7 @@ export class ContextService {
     return allContexts;
   }
 
-  async getById(id: number): Promise<Context | undefined> {
+  public static async getById(id: number): Promise<Context | undefined> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readonly");
     const store = tx.objectStore("contexts");
@@ -54,7 +43,7 @@ export class ContextService {
     return context;
   }
 
-  async update(updatedContext: Context): Promise<void> {
+  public static async update(updatedContext: Context): Promise<void> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readwrite");
     const store = tx.objectStore("contexts");
@@ -62,7 +51,7 @@ export class ContextService {
     await tx.done;
   }
 
-  async softDelete(id: number): Promise<void> {
+  public static async softDelete(id: number): Promise<void> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readwrite");
     const store = tx.objectStore("contexts");
@@ -79,7 +68,7 @@ export class ContextService {
     await tx.done;
   }
 
-  async delete(id: number): Promise<void> {
+  public static async delete(id: number): Promise<void> {
     const db = await getDatabase();
     const tx = db.transaction("contexts", "readwrite");
     const store = tx.objectStore("contexts");
