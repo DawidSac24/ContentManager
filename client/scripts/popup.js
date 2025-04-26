@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Load all contexts when popup opens
   async function loadAllContexts() {
     try {
-      const contexts = await contextController.getAll();
+      const contexts = await this.contextController.getAll();
       contexts.forEach((context) => {
         const contextItem = document.createElement("li");
         contextItem.className = "context-item";
