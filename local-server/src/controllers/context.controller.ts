@@ -6,6 +6,26 @@ import { isContext, isIdentifier, isNewContext } from "../utils/guards";
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
+  private exampleContexts: ContextDTO[] = [
+    {
+      id: 1,
+      name: "Work",
+      pages: [],
+      isDeleted: false,
+    },
+    {
+      id: 2,
+      name: "Development",
+      pages: [],
+      isDeleted: false,
+    },
+    {
+      id: 3,
+      name: "Learning",
+      pages: [],
+      isDeleted: false,
+    },
+  ];
 
   private constructor() {
     this.contextService = ContextService.getInstance();
@@ -39,10 +59,13 @@ export class ContextController {
 
   async getAll(): Promise<ContextDTO[]> {
     LoggerService.info("Getting all contexts");
-    const contexts = await this.contextService.getAll();
+    // For testing purposes, return example contexts
+    return this.exampleContexts;
 
-    LoggerService.info(`Found ${contexts.length} contexts`);
-    return contexts as ContextDTO[];
+    // Original implementation:
+    // const contexts = await this.contextService.getAll();
+    // LoggerService.info(`Found ${contexts.length} contexts`);
+    // return contexts as ContextDTO[];
   }
 
   async getById(id: number): Promise<ContextDTO> {
