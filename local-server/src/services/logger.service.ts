@@ -19,6 +19,17 @@ export class LoggerService {
   }
 
   /**
+   * Log a message on the info level and show browser alert
+   * @param message the message to log
+   */
+  static alert(message: string): void {
+    this.log(message, "ALERT");
+    if (typeof window !== "undefined") {
+      window.alert(message);
+    }
+  }
+
+  /**
    * Log a message on the debug level
    * @param message the message to log
    */
@@ -27,8 +38,8 @@ export class LoggerService {
   }
 
   /**
-   * Log a message on the error level
-   * @param message the message to log
+   * Log a message on the error level and show browser alert
+   * @param error the error to log
    */
   static error(error: unknown): void {
     if (error instanceof Error) {
