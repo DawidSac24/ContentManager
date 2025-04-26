@@ -2,6 +2,7 @@
 // Ces type guards sont utilisés pour valider les données de l'application.
 
 import { Context, NewContext } from "../models/context.model";
+import { Page, NewPage } from "../models/page.model";
 
 /**
  * Function that validates that an input is a number
@@ -113,5 +114,41 @@ export function isContext(data: unknown): data is Context {
     isArray(data.pages) &&
     "isDeleted" in data &&
     isBoolean(data.isDeleted)
+  );
+}
+
+/**
+ * Function that validates that an input is a new page
+ * @param data any data
+ * @returns true if data is a new page
+ */
+export function isNewPage(data: unknown): data is NewPage {
+  return (
+    data !== undefined &&
+    data !== null &&
+    typeof data === "object" &&
+    "title" in data &&
+    isString(data.title) &&
+    "url" in data &&
+    isString(data.url)
+  );
+}
+
+/**
+ * Function that validates that an input is a page
+ * @param data any data
+ * @returns true if data is a page
+ */
+export function isPage(data: unknown): data is Page {
+  return (
+    data !== undefined &&
+    data !== null &&
+    typeof data === "object" &&
+    "id" in data &&
+    isIdentifier(data.id) &&
+    "title" in data &&
+    isString(data.title) &&
+    "url" in data &&
+    isString(data.url)
   );
 }

@@ -3,3 +3,8 @@ export interface Page {
   title: string;
   url: string;
 }
+
+export interface NewPage {
+  title: string;
+  url: string;
+}
