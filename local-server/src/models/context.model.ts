@@ -12,7 +12,7 @@ export interface NewContext {
 }
 
 export interface ContextDTO {
-  id: number;
+  id?: number;
   name: string;
   pages: Page[];
   isDeleted: boolean;

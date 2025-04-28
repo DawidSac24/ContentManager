@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:3000
+
+### GET /contexts
+GET {{baseUrl}}/contexts HTTP/1.1
+
+### POST /contexts
+POST {{baseUrl}}/contexts HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Context 1"
+}
