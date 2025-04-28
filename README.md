@@ -41,8 +41,8 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 Context Manager consists of:
 
 - A Chrome extension frontend built with **Vite** and **React**
-- A Node.js backend server
-- SQLite database for storing contexts and pages
+- A **Node.js** backend server
+- **IndexedDB** database for storing contexts and pages
 
 ## Development Status
 
