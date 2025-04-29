@@ -15,8 +15,7 @@ export class ContextService {
   }
 
   private async createDatabase(
-    request: IDBOpenDBRequest,
-    version: number
+    request: IDBOpenDBRequest
   ): Promise<IDBDatabase | undefined> {
     const db = request.result;
 
@@ -40,7 +39,7 @@ export class ContextService {
     const request = this.indexDb.open(dbName, version);
     let result: IDBDatabase | undefined = undefined;
 
-    request.onupgradeneeded = this.createDatabase.bind(this, request, version);
+    request.onupgradeneeded = this.createDatabase.bind(this, request);
 
     request.onsuccess = function () {
       const db = request.result;
@@ -54,23 +53,27 @@ export class ContextService {
     return result;
   }
 
-  public async getContexts(): Promise<Context[] | undefined> {
+  public async getContexts(): Promise<Context[]> {
     const db = await this.openDatabase("contextDB", 1);
+    let result = [] as Context[];
+
     if (!db) {
       LoggerService.error("Database not opened successfully.");
-      return undefined;
+      return result;
     }
 
     const transaction = db.transaction("contexts", "readonly");
     const objectStore = transaction.objectStore("contexts");
     const getAllRequest = objectStore.getAll();
-    let contexts: Context[] | undefined = undefined;
 
     getAllRequest.onsuccess = function () {
-      contexts = getAllRequest.result as Context[];
+      result = getAllRequest.result as Context[];
     };
+
     getAllRequest.onerror = function () {
       LoggerService.error(`Error getting contexts: ${getAllRequest.error}`);
     };
+
+    return await result;
   }
 }

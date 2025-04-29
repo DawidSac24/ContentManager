@@ -1,11 +1,8 @@
-import { Context } from "../../local-server/models/context.model";
+import { ContextController } from "../../local-server/controllers/context.controller";
 
 function Contexts() {
-  const contexts: Context[] = [
-    { id: 1, name: "Context 1", pages: [], isDeleted: false },
-    { id: 2, name: "Context 2", pages: [], isDeleted: false },
-    { id: 3, name: "Context 3", pages: [], isDeleted: false },
-  ];
+  const contextController = ContextController.getInstance();
+  let contexts = contextController.getContexts();
 
   return (
     <div className="Contexts">
