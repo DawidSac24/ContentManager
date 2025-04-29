@@ -74,13 +74,13 @@ export class ContextService {
       const objectStore = transaction.objectStore("contexts");
       const putRequest = objectStore.put(context);
 
-      putRequest.onsuccess = function () {
+      putRequest.onsuccess = () => {
         const resultId = putRequest.result as number;
         const result = { ...context, id: resultId };
         resolve(result);
       };
 
-      putRequest.onerror = function () {
+      putRequest.onerror = () => {
         reject(new Error(`Error adding context: ${putRequest.error}`));
       };
     });

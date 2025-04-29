@@ -1,34 +1,38 @@
+import { useEffect, useState } from "react";
 import { ContextController } from "../../local-server/controllers/context.controller";
 import { ContextDTO } from "../../local-server/models/context.model";
 
 function Contexts() {
   const contextController = ContextController.getInstance();
-  const testContexts: ContextDTO[] = [
-    {
-      id: 1,
-      name: "Test Context 1",
-      pages: [],
-      isDeleted: false,
-    },
-    {
-      id: 2,
-      name: "Test Context 2",
-      pages: [],
-      isDeleted: false,
-    },
-    {
-      id: 3,
-      name: "Test Context 3",
-      pages: [],
-      isDeleted: false,
-    },
-  ];
+  const [contexts, setContexts] = useState<ContextDTO[]>([]);
 
-  for (const context of testContexts) {
-    contextController.addContext(context);
-  }
+  useEffect(() => {
+    const loadContexts = async () => {
+      const testContexts: ContextDTO[] = [
+        { id: 1, name: "Test Context 1", pages: [], isDeleted: false },
+        { id: 2, name: "Test Context 2", pages: [], isDeleted: false },
+        { id: 3, name: "Test Context 3", pages: [], isDeleted: false },
+      ];
 
-  let contexts = contextController.getAll();
+      // Load current data
+      const existingContexts = await contextController.getAll();
+
+      // Avoid duplicates by checking IDs
+      const existingIds = new Set(existingContexts.map((ctx) => ctx.id));
+
+      for (const context of testContexts) {
+        if (!existingIds.has(context.id)) {
+          await contextController.addContext(context);
+        }
+      }
+
+      // Reload after insertions
+      const updatedContexts = await contextController.getAll();
+      setContexts(updatedContexts);
+    };
+
+    loadContexts();
+  }, []);
 
   return (
     <div className="Contexts">

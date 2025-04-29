@@ -17,47 +17,36 @@ export class ContextController {
     return ContextController.instance;
   }
 
-  public getAll(): ContextDTO[] {
+  public async getAll(): Promise<ContextDTO[]> {
     LoggerService.info("Get all contexts");
 
-    let result: ContextDTO[] = [];
-
     try {
-      this.contextService.getContexts().then((contexts) => {
-        if (contexts) {
-          for (const context of contexts) {
-            const contextDTO = {
-              id: context.id,
-              name: context.name,
-              pages: context.pages,
-              isDeleted: context.isDeleted,
-            };
-            result.push(contextDTO);
-          }
-        }
-      });
+      const contexts = await this.contextService.getContexts();
+      const result: ContextDTO[] = contexts.map((context) => ({
+        id: context.id,
+        name: context.name,
+        pages: context.pages,
+        isDeleted: context.isDeleted,
+      }));
+      return result;
     } catch (error) {
       LoggerService.error(error);
       return [];
     }
-
-    return result;
   }
 
-  public addContext(context: ContextDTO): ContextDTO | undefined {
-    LoggerService.info("Add context: ${context.name}");
-
-    let result: ContextDTO | undefined = undefined;
+  public async addContext(
+    context: ContextDTO
+  ): Promise<ContextDTO | undefined> {
+    LoggerService.info(`Add context: ${context.name}`);
 
     try {
-      this.contextService.addContext(context).then(() => {
-        LoggerService.info(`Context: ${context} added successfully`);
-        result = context;
-      });
+      const added = await this.contextService.addContext(context);
+      LoggerService.info(`Context: ${context.name} added successfully`);
+      return added;
     } catch (error) {
       LoggerService.error(error);
+      return undefined;
     }
-
-    return result;
   }
 }
