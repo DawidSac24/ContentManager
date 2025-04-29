@@ -1,8 +1,34 @@
 import { ContextController } from "../../local-server/controllers/context.controller";
+import { ContextDTO } from "../../local-server/models/context.model";
 
 function Contexts() {
   const contextController = ContextController.getInstance();
-  let contexts = contextController.getContexts();
+  const testContexts: ContextDTO[] = [
+    {
+      id: 1,
+      name: "Test Context 1",
+      pages: [],
+      isDeleted: false,
+    },
+    {
+      id: 2,
+      name: "Test Context 2",
+      pages: [],
+      isDeleted: false,
+    },
+    {
+      id: 3,
+      name: "Test Context 3",
+      pages: [],
+      isDeleted: false,
+    },
+  ];
+
+  for (const context of testContexts) {
+    contextController.addContext(context);
+  }
+
+  let contexts = contextController.getAll();
 
   return (
     <div className="Contexts">

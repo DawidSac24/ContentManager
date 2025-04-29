@@ -1,9 +1,10 @@
 import { Context } from "../models/context.model";
-import { LoggerService } from "./logger.service";
 
 export class ContextService {
   private static instance: ContextService;
   private indexDb = window.indexedDB;
+  private dbName = "contexts";
+  private dbVersion = 1;
 
   private constructor() {}
 
@@ -14,66 +15,74 @@ export class ContextService {
     return ContextService.instance;
   }
 
-  private async createDatabase(
-    request: IDBOpenDBRequest
-  ): Promise<IDBDatabase | undefined> {
+  private createDatabase(request: IDBOpenDBRequest): void {
     const db = request.result;
 
-    if (!db.objectStoreNames.contains("contexts")) {
+    if (!db.objectStoreNames.contains(this.dbName)) {
       // Create an object store for contexts if it doesn't exist
-      db.createObjectStore("contexts", {
+      db.createObjectStore(this.dbName, {
         keyPath: "id",
         autoIncrement: true,
       });
     }
-
-    return db;
   }
 
   private async openDatabase(
     dbName: string,
     version: number
-  ): Promise<IDBDatabase | undefined> {
-    LoggerService.info(`Opening database: ${dbName}, version: ${version}`);
+  ): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      const request = this.indexDb.open(dbName, version);
 
-    const request = this.indexDb.open(dbName, version);
-    let result: IDBDatabase | undefined = undefined;
+      request.onupgradeneeded = (event) => {
+        this.createDatabase(request);
+      };
 
-    request.onupgradeneeded = this.createDatabase.bind(this, request);
+      request.onsuccess = function () {
+        resolve(request.result);
+      };
 
-    request.onsuccess = function () {
-      const db = request.result;
-      result = db;
-    };
-
-    request.onerror = function () {
-      LoggerService.error(`Error opening database: ${request.error}`);
-    };
-
-    return result;
+      request.onerror = function () {
+        reject(new Error(`Error opening database: ${request.error}`));
+      };
+    });
   }
 
   public async getContexts(): Promise<Context[]> {
-    const db = await this.openDatabase("contextDB", 1);
-    let result = [] as Context[];
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
 
-    if (!db) {
-      LoggerService.error("Database not opened successfully.");
-      return result;
-    }
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readonly");
+      const objectStore = transaction.objectStore("contexts");
+      const getAllRequest = objectStore.getAll();
 
-    const transaction = db.transaction("contexts", "readonly");
-    const objectStore = transaction.objectStore("contexts");
-    const getAllRequest = objectStore.getAll();
+      getAllRequest.onsuccess = () => {
+        resolve(getAllRequest.result as Context[]);
+      };
 
-    getAllRequest.onsuccess = function () {
-      result = getAllRequest.result as Context[];
-    };
+      getAllRequest.onerror = function () {
+        reject(new Error(`Error getting contexts: ${getAllRequest.error}`));
+      };
+    });
+  }
 
-    getAllRequest.onerror = function () {
-      LoggerService.error(`Error getting contexts: ${getAllRequest.error}`);
-    };
+  public async addContext(context: Context): Promise<Context | undefined> {
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
 
-    return await result;
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readwrite");
+      const objectStore = transaction.objectStore("contexts");
+      const putRequest = objectStore.put(context);
+
+      putRequest.onsuccess = function () {
+        const resultId = putRequest.result as number;
+        const result = { ...context, id: resultId };
+        resolve(result);
+      };
+
+      putRequest.onerror = function () {
+        reject(new Error(`Error adding context: ${putRequest.error}`));
+      };
+    });
   }
 }

@@ -17,21 +17,47 @@ export class ContextController {
     return ContextController.instance;
   }
 
-  public getContexts(): ContextDTO[] {
+  public getAll(): ContextDTO[] {
+    LoggerService.info("Get all contexts");
+
     let result: ContextDTO[] = [];
-    this.contextService.getContexts().then((contexts) => {
-      if (contexts) {
-        for (const context of contexts) {
-          const contextDTO = {
-            id: context.id,
-            name: context.name,
-            pages: context.pages,
-            isDeleted: context.isDeleted,
-          };
-          result.push(contextDTO);
+
+    try {
+      this.contextService.getContexts().then((contexts) => {
+        if (contexts) {
+          for (const context of contexts) {
+            const contextDTO = {
+              id: context.id,
+              name: context.name,
+              pages: context.pages,
+              isDeleted: context.isDeleted,
+            };
+            result.push(contextDTO);
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      LoggerService.error(error);
+      return [];
+    }
+
+    return result;
+  }
+
+  public addContext(context: ContextDTO): ContextDTO | undefined {
+    LoggerService.info("Add context: ${context.name}");
+
+    let result: ContextDTO | undefined = undefined;
+
+    try {
+      this.contextService.addContext(context).then(() => {
+        LoggerService.info(`Context: ${context} added successfully`);
+        result = context;
+      });
+    } catch (error) {
+      LoggerService.error(error);
+    }
+
     return result;
   }
 }
