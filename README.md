@@ -1,54 +1,49 @@
-# React + TypeScript + Vite
+# Context Manager Chrome Extension
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Context Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
 
-Currently, two official plugins are available:
+## Purpose
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The main purpose of Context Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
-## Expanding the ESLint configuration
+- **Work Context**: All the tabs you need for your job (email, project management, documentation)
+- **Development Context**: Your coding environment, GitHub, Stack Overflow, and other developer tools
+- **Personal Context**: Social media, news sites, and personal projects
+- **Study Context**: Educational resources, research papers, and learning platforms
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## How It Works
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. **Create Contexts**: Define different contexts with custom names and icons
+2. **Add Pages**: Add your frequently visited pages to each context or add them automatically to your context
+3. **Switch Contexts**: With a single click, switch between contexts:
+   - The extension will close your current tabs (and save the unsaved pages inside of a temporary context)
+   - Open all the pages associated with your selected context
+   - You can instantly shift your focus from work to study, or from personal to development
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Context Management**: Create, edit, and delete contexts
+- **Page Organization**: Group related pages into contexts
+- **Quick Switching**: Instantly switch between different browsing environments
+- **Custom Icons**: Assign custom icons to each context for easy identification
+- **Persistence**: Your contexts and pages are saved between browser sessions
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Use Cases
+
+- **Work-Life Balance**: Keep your work and personal browsing separate
+- **Project Management**: Create contexts for different projects
+- **Learning**: Organize educational resources by subject or course
+- **Research**: Group research materials by topic
+- **Development**: Switch between different development environments
+
+## Technical Details
+
+Context Manager consists of:
+
+- A Chrome extension frontend built with **Vite** and **React**
+- A Node.js backend server
+- SQLite database for storing contexts and pages
+
+## Development Status
+
+This project is currently in active development. Features and functionality may change as development progresses.
