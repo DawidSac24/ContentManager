@@ -9,6 +9,6 @@
   },
   "action": {
     "default_title": "Context Manager",
-    "default_popup": "./client/popup.html"
+    "default_popup": "./index.html"
   }
 }
