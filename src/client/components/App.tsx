@@ -1,7 +1,13 @@
 import "../styles/App.css";
 
+import Contexts from "./Contexts";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Contexts />
+    </>
+  );
 }
 
 export default App;
