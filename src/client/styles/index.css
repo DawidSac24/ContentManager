@@ -1,7 +1,12 @@
 :root {
-  width: 200px;
-  height: 300px;
+  width: 250px;
+  height: 400px;
 
   color: white;
-  background-color: #242424;
+  background-color: #222222;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }

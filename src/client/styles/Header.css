@@ -1,0 +1,10 @@
+Header {
+  height: 50px;
+  width: 100%;
+}
+
+#title {
+  font-family: "Hind", sans-serif;
+  font-size: 20px;
+  text-align: center;
+}
