@@ -66,7 +66,7 @@ export class ContextService {
     });
   }
 
-  public async addContext(context: Context): Promise<Context | undefined> {
+  public async addContext(context: Context): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
@@ -82,6 +82,42 @@ export class ContextService {
 
       putRequest.onerror = () => {
         reject(new Error(`Error adding context: ${putRequest.error}`));
+      };
+    });
+  }
+
+  public async putContext(context: Context): Promise<Context> {
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readwrite");
+      const objectStore = transaction.objectStore("contexts");
+      const putRequest = objectStore.put(context);
+
+      putRequest.onsuccess = () => {
+        resolve(context);
+      };
+
+      putRequest.onerror = () => {
+        reject(new Error(`Error updating context: ${putRequest.error}`));
+      };
+    });
+  }
+
+  public async deleteContext(id: number): Promise<void> {
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readwrite");
+      const objectStore = transaction.objectStore("contexts");
+      const deleteRequest = objectStore.delete(id);
+
+      deleteRequest.onsuccess = () => {
+        resolve();
+      };
+
+      deleteRequest.onerror = () => {
+        reject(new Error(`Error deleting context: ${deleteRequest.error}`));
       };
     });
   }
