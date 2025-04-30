@@ -34,7 +34,7 @@ export class ContextService {
     return new Promise((resolve, reject) => {
       const request = this.indexDb.open(dbName, version);
 
-      request.onupgradeneeded = (event) => {
+      request.onupgradeneeded = () => {
         this.createDatabase(request);
       };
 
