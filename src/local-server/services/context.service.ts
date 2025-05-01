@@ -1,12 +1,16 @@
 import { Context } from "../models/context.model";
+import { PagesService } from "./pages.service";
 
 export class ContextService {
   private static instance: ContextService;
+  private pagesService: PagesService;
   private indexDb = window.indexedDB;
   private dbName = "contexts";
   private dbVersion = 1;
 
-  private constructor() {}
+  private constructor() {
+    this.pagesService = PagesService.getInstance();
+  }
 
   public static getInstance(): ContextService {
     if (!ContextService.instance) {
@@ -118,6 +122,35 @@ export class ContextService {
 
       deleteRequest.onerror = () => {
         reject(new Error(`Error deleting context: ${deleteRequest.error}`));
+      };
+    });
+  }
+
+  public async assignPagesToContext(contextId: number): Promise<Context> {
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const pages = await this.pagesService.getAllOpenTabs();
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readwrite");
+      const objectStore = transaction.objectStore("contexts");
+      const getRequest = objectStore.get(contextId);
+
+      getRequest.onsuccess = () => {
+        const context = getRequest.result as Context;
+        context.pages = pages;
+        const putRequest = objectStore.put(context);
+
+        putRequest.onsuccess = () => {
+          resolve(context);
+        };
+
+        putRequest.onerror = () => {
+          reject(new Error(`Error updating context: ${putRequest.error}`));
+        };
+      };
+
+      getRequest.onerror = () => {
+        reject(new Error(`Error getting context: ${getRequest.error}`));
       };
     });
   }
