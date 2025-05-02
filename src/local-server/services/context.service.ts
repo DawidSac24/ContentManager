@@ -16,6 +16,10 @@ export class ContextService {
     return ContextService.instance;
   }
 
+  /**
+   * Creates a new IndexedDB database if it doesn't exist.
+   * @param request The IDBOpenDBRequest object for the database.
+   */
   private createDatabase(request: IDBOpenDBRequest): void {
     const db = request.result;
 
@@ -28,6 +32,13 @@ export class ContextService {
     }
   }
 
+  /**
+   * Opens the IndexedDB database.
+   * if the database doesn't exist, it will be created with this.createDatabase(request).
+   * @param dbName The name of the database.
+   * @param version The version of the database.
+   * @returns A promise that resolves to the opened IDBDatabase object.
+   */
   private async openDatabase(
     dbName: string,
     version: number
@@ -49,6 +60,10 @@ export class ContextService {
     });
   }
 
+  /**
+   * Retrieves all contexts from the database.
+   * @returns A promise that resolves to an array of Context objects.
+   */
   public async getAllContexts(): Promise<Context[]> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
@@ -67,7 +82,12 @@ export class ContextService {
     });
   }
 
-  public async getContextById(id: number): Promise<Context | undefined> {
+  /**
+   * Retrieves a context by its ID from the database.
+   * @param id The ID of the context to retrieve.
+   * @returns A promise that resolves to the Context object.
+   */
+  public async getContextById(id: number): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
@@ -85,6 +105,11 @@ export class ContextService {
     });
   }
 
+  /**
+   * Adds a new context to the database.
+   * @param context The Context object to add.
+   * @returns A promise that resolves to the added Context object with its ID.
+   */
   public async addContext(context: Context): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
@@ -105,13 +130,18 @@ export class ContextService {
     });
   }
 
+  /**
+   * Updates an existing context in the database.
+   * @param context The Context object to update.
+   * @returns A promise that resolves to the updated Context object.
+   */
   public async putContext(context: Context): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readwrite");
       const objectStore = transaction.objectStore("contexts");
-      const putRequest = objectStore.put(context);
+      const putRequest = objectStore.put(context, context.id);
 
       putRequest.onsuccess = () => {
         resolve(context);
@@ -123,6 +153,11 @@ export class ContextService {
     });
   }
 
+  /**
+   * Deletes a context by its ID from the database.
+   * @param id The ID of the context to delete.
+   * @returns A promise that resolves when the context is deleted.
+   */
   public async deleteContext(id: number): Promise<void> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
@@ -141,6 +176,12 @@ export class ContextService {
     });
   }
 
+  /**
+   * Assigns pages to a context by its ID.
+   * @param contextId The ID of the context to assign pages to.
+   * @param pages The array of Page objects to assign.
+   * @returns A promise that resolves to the updated Context object.
+   */
   public async assignPagesToContext(
     contextId: number,
     pages: Page[]

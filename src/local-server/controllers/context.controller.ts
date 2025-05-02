@@ -8,6 +8,7 @@ export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
   private pagesService: PagesService;
+  public selectedContext: ContextDTO | undefined;
 
   private constructor() {
     this.contextService = ContextService.getInstance();
@@ -84,15 +85,34 @@ export class ContextController {
     }
   }
 
-  public async deleteContext(id: number): Promise<void> {
-    LoggerService.info(`Delete context with id: ${id}`);
+  public async deleteContext(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.selectedContext) {
+        LoggerService.error("No context selected for deletion");
+        reject("No context selected for deletion");
+        return;
+      }
 
-    try {
-      await this.contextService.deleteContext(id);
-      LoggerService.info(`Context with id: ${id} deleted successfully`);
-    } catch (error) {
-      LoggerService.error(error);
-    }
+      if (!isIdentifier(this.selectedContext.id)) {
+        LoggerService.error("Invalid ID type");
+        reject("Invalid ID type");
+        return;
+      }
+      LoggerService.info(`Delete context: ${this.selectedContext.name}`);
+
+      try {
+        await this.contextService.deleteContext(this.selectedContext.id);
+        LoggerService.info(
+          `Context ${this.selectedContext.name} deleted successfully`
+        );
+
+        this.selectedContext = undefined;
+        resolve();
+      } catch (error) {
+        LoggerService.error(error);
+        reject(error);
+      }
+    });
   }
 
   public async assignPagesToContext(
@@ -148,37 +168,40 @@ export class ContextController {
   public async changeContext(contextId: number): Promise<ContextDTO> {
     LoggerService.info(`Open context with id: ${contextId}`);
 
-    if (!isIdentifier(contextId)) {
-      console.error("Invalid ID type:", contextId);
-      return Promise.reject("Invalid ID type");
-    }
-
-    try {
-      const context = await this.contextService.getContextById(contextId);
-
-      if (!isContext(context)) {
-        LoggerService.error(`Context with id: ${contextId} not found`);
-        return Promise.reject(`Context with id: ${contextId} not found`);
+    return new Promise(async (resolve, reject) => {
+      if (!isIdentifier(contextId)) {
+        console.error("Invalid ID type:", contextId);
+        reject("Invalid ID type");
       }
 
-      const tempPages = await this.pagesService.changeContext(context.pages);
+      try {
+        const context = await this.contextService.getContextById(contextId);
 
-      LoggerService.info(`old pages: ${tempPages}`);
+        if (!isContext(context)) {
+          LoggerService.error(`Context with id: ${contextId} not found`);
+          return Promise.reject(`Context with id: ${contextId} not found`);
+        }
 
-      const tempContext = await this.addContext({
-        name: `Temp Context ${contextId}`,
-        pages: tempPages,
-        isDeleted: false,
-      });
+        const tempPages = await this.pagesService.changeContext(context.pages);
 
-      LoggerService.info(`Temp context: ${tempContext}`);
+        LoggerService.info(`old pages: ${tempPages}`);
 
-      this.pagesService.openTabs(context.pages);
-      LoggerService.info(`Context with id: ${contextId} opened successfully`);
+        const tempContext = await this.addContext({
+          name: `Temp Context ${contextId}`,
+          pages: tempPages,
+          isDeleted: false,
+        });
 
-      return tempContext;
-    } catch (error) {
-      LoggerService.error(error);
-    }
+        LoggerService.info(`Temp context: ${tempContext}`);
+
+        this.pagesService.openTabs(context.pages);
+        LoggerService.info(`Context with id: ${contextId} opened successfully`);
+
+        resolve(tempContext);
+      } catch (error) {
+        LoggerService.error(error);
+        return Promise.reject(error);
+      }
+    });
   }
 }
