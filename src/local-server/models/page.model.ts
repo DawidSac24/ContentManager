@@ -8,3 +8,9 @@ export interface NewPage {
   title: string;
   url: string;
 }
+
+export interface PageDTO {
+  id?: number;
+  title: string;
+  url: string;
+}

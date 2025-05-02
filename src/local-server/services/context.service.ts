@@ -1,4 +1,6 @@
 import { Context } from "../models/context.model";
+import { Page } from "../models/page.model";
+import { isIdentifier } from "../utils/guards";
 import { PagesService } from "./pages.service";
 
 export class ContextService {
@@ -52,7 +54,7 @@ export class ContextService {
     });
   }
 
-  public async getContexts(): Promise<Context[]> {
+  public async getAllContexts(): Promise<Context[]> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
@@ -66,6 +68,24 @@ export class ContextService {
 
       getAllRequest.onerror = function () {
         reject(new Error(`Error getting contexts: ${getAllRequest.error}`));
+      };
+    });
+  }
+
+  public async getContextById(id: number): Promise<Context | undefined> {
+    const db = await this.openDatabase(this.dbName, this.dbVersion);
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contexts", "readonly");
+      const objectStore = transaction.objectStore("contexts");
+      const getRequest = objectStore.get(id);
+
+      getRequest.onsuccess = () => {
+        resolve(getRequest.result as Context);
+      };
+
+      getRequest.onerror = function () {
+        reject(new Error(`Error getting context: ${getRequest.error}`));
       };
     });
   }
@@ -126,9 +146,11 @@ export class ContextService {
     });
   }
 
-  public async assignPagesToContext(contextId: number): Promise<Context> {
+  public async assignPagesToContext(
+    contextId: number,
+    pages: Page[]
+  ): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
-    const pages = await this.pagesService.getAllOpenTabs();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readwrite");
