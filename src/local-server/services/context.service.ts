@@ -1,18 +1,13 @@
 import { Context } from "../models/context.model";
 import { Page } from "../models/page.model";
-import { isIdentifier } from "../utils/guards";
-import { PagesService } from "./pages.service";
 
 export class ContextService {
   private static instance: ContextService;
-  private pagesService: PagesService;
   private indexDb = window.indexedDB;
   private dbName = "contexts";
   private dbVersion = 1;
 
-  private constructor() {
-    this.pagesService = PagesService.getInstance();
-  }
+  private constructor() {}
 
   public static getInstance(): ContextService {
     if (!ContextService.instance) {
