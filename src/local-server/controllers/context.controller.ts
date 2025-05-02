@@ -3,7 +3,7 @@ import { PageDTO } from "../models/page.model";
 import { ContextService } from "../services/context.service";
 import { PagesService } from "../services/pages.service";
 import { LoggerService } from "../services/logger.service";
-import { isContext, isIdentifier } from "../utils/guards";
+import { isContext, isIdentifier, isNewContext } from "../utils/guards";
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
@@ -40,14 +40,24 @@ export class ContextController {
   }
 
   public async addContext(
-    context: NewContextDTO
-  ): Promise<ContextDTO | undefined> {
+    context: NewContextDTO | ContextDTO
+  ): Promise<ContextDTO> {
     LoggerService.info(`Add context: ${context.name}`);
-    const newContext: ContextDTO = {
-      name: context.name,
-      pages: [],
-      isDeleted: false,
-    };
+
+    let newContext: ContextDTO;
+    LoggerService.info(`Add context: ${context.name}`);
+    if (isNewContext(context)) {
+      newContext = {
+        name: context.name,
+        pages: [],
+        isDeleted: false,
+      };
+    } else if (isContext(context)) {
+      newContext = context;
+    } else {
+      LoggerService.error("Invalid context type");
+      return Promise.reject("Invalid context type");
+    }
 
     try {
       const added = await this.contextService.addContext(newContext);
@@ -55,7 +65,7 @@ export class ContextController {
       return added;
     } catch (error) {
       LoggerService.error(error);
-      return undefined;
+      return Promise.reject(error);
     }
   }
 
@@ -135,20 +145,38 @@ export class ContextController {
     });
   }
 
-  public async changeContext(contextId: number): Promise<void> {
+  public async changeContext(contextId: number): Promise<ContextDTO> {
     LoggerService.info(`Open context with id: ${contextId}`);
 
     if (!isIdentifier(contextId)) {
       console.error("Invalid ID type:", contextId);
-      return;
+      return Promise.reject("Invalid ID type");
     }
 
     try {
       const context = await this.contextService.getContextById(contextId);
+
       if (!isContext(context)) {
         LoggerService.error(`Context with id: ${contextId} not found`);
-        return;
+        return Promise.reject(`Context with id: ${contextId} not found`);
       }
+
+      const tempPages = await this.pagesService.changeContext(context.pages);
+
+      LoggerService.info(`old pages: ${tempPages}`);
+
+      const tempContext = await this.addContext({
+        name: `Temp Context ${contextId}`,
+        pages: tempPages,
+        isDeleted: false,
+      });
+
+      LoggerService.info(`Temp context: ${tempContext}`);
+
+      this.pagesService.openTabs(context.pages);
+      LoggerService.info(`Context with id: ${contextId} opened successfully`);
+
+      return tempContext;
     } catch (error) {
       LoggerService.error(error);
     }

@@ -33,29 +33,39 @@ export class PagesService {
     });
   }
 
-  public async closeAllTabs(): Promise<Page[]> {
-    const closedTabs: Page[] = await this.getAllOpenTabs();
+  public createPagesWithTabs(tabs: chrome.tabs.Tab[]): Page[] {
+    const pages: Page[] = tabs.map((tab) => ({
+      id: tab.id,
+      title: tab.title || "No Title",
+      url: tab.url || "No URL",
+    }));
 
-    return new Promise((resolve, reject) => {
-      try {
-        chrome.tabs.query({}, (tabs) => {
-          const tabIds = tabs
-            .map((tab) => tab.id)
-            .filter((id) => id !== undefined);
-          if (tabIds.length > 0) {
-            chrome.tabs.remove(tabIds, () => {
-              resolve(closedTabs);
-            });
-          } else {
-            LoggerService.info("No tabs to close.");
-            resolve(closedTabs);
-          }
-        });
-      } catch (err) {
-        LoggerService.error("Error closing tabs:" + err);
-        reject(err);
-      }
-    });
+    return pages;
+  }
+
+  public async closeAllTabs(): Promise<Page[]> {
+    LoggerService.info("Closing all tabs...");
+
+    // 1. Create a new blank Google tab
+    const newTab = await chrome.tabs.create({ url: "https://www.google.com" });
+
+    // 2. Get all the open tabs
+    const allTabs = await chrome.tabs.query({});
+
+    // 3. Filter out the newly created tab
+    const tabsToClose = allTabs.filter(
+      (tab) => tab.id !== newTab.id && tab.id !== undefined
+    );
+
+    const closedPages = this.createPagesWithTabs(tabsToClose);
+
+    // 4. Close the other tabs
+    const tabIdsToClose = tabsToClose.map((tab) => tab.id as number);
+    if (tabIdsToClose.length > 0) {
+      await chrome.tabs.remove(tabIdsToClose);
+    }
+
+    return closedPages;
   }
 
   public async openTabs(Pages: Page[]): Promise<void> {
@@ -72,5 +82,20 @@ export class PagesService {
     });
   }
 
-  public async changeContext(): Promise<void> {}
+  public async changeContext(newTabs: Page[]): Promise<Page[]> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Close all tabs
+        const closedTabs = await this.closeAllTabs();
+
+        // Open new tabs
+        await this.openTabs(newTabs);
+
+        resolve(closedTabs);
+      } catch (err) {
+        LoggerService.error("Error changing context:" + err);
+        reject(err);
+      }
+    });
+  }
 }
