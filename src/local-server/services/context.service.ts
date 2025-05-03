@@ -1,6 +1,11 @@
 import { Context } from "../models/context.model";
 import { Page } from "../models/page.model";
 
+/**
+ * Singleton service for managing contexts in IndexedDB.
+ * This service provides methods to create, read, update, and delete contexts,
+ * as well as assign pages to contexts.
+ */
 export class ContextService {
   private static instance: ContextService;
   private indexDb = window.indexedDB;
@@ -132,7 +137,7 @@ export class ContextService {
 
   /**
    * Updates an existing context in the database.
-   * @param context The Context object to update.
+   * @param context The Context object to update, creates one if it doesn't exist.
    * @returns A promise that resolves to the updated Context object.
    */
   public async putContext(context: Context): Promise<Context> {

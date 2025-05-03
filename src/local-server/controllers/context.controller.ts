@@ -4,6 +4,12 @@ import { ContextService } from "../services/context.service";
 import { PagesService } from "../services/pages.service";
 import { LoggerService } from "../services/logger.service";
 import { isContext, isIdentifier, isNewContext } from "../utils/guards";
+
+/**
+ * Controller for managing contexts.
+ * This singeleton class provides methods to interact with the ContextService and PagesService.
+ * Manage contexts and its pages.
+ */
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
@@ -22,81 +28,108 @@ export class ContextController {
     return ContextController.instance;
   }
 
-  public async getAll(): Promise<ContextDTO[]> {
+  /**
+   * Get all contexts from the ContextService.
+   * @returns A promise that resolves to an array of ContextDTO objects.
+   */
+  public getAll(): ContextDTO[] {
     LoggerService.info("Get all contexts");
 
-    try {
-      const contexts = await this.contextService.getAllContexts();
-      const result: ContextDTO[] = contexts.map((context) => ({
-        id: context.id,
-        name: context.name,
-        pages: context.pages,
-        isDeleted: context.isDeleted,
-      }));
-      return result;
-    } catch (error) {
-      LoggerService.error(error);
-      return [];
-    }
+    let contexts: ContextDTO[] = [];
+
+    this.contextService
+      .getAllContexts()
+      .then((value) => {
+        contexts = value;
+        LoggerService.info("contexts Loaded successfully: " + contexts);
+      })
+      .catch((error) => {
+        LoggerService.error(error);
+      });
+
+    return contexts;
   }
 
+  /**
+   * Add a new context.
+   * @param context The context to add, either a NewContextDTO or ContextDTO object.
+   *  - NewContextDTO: A new context object with a name and an empty pages array.
+   *  - ContextDTO: An existing context object to be added.
+   * @returns A promise that resolves to the updated ContextDTO object.
+   * @throws Error if the context cannot be added.
+   * @throws Error if the context is invalid.
+   */
   public async addContext(
     context: NewContextDTO | ContextDTO
   ): Promise<ContextDTO> {
     LoggerService.info(`Add context: ${context.name}`);
 
-    let newContext: ContextDTO;
-    LoggerService.info(`Add context: ${context.name}`);
-    if (isNewContext(context)) {
-      newContext = {
-        name: context.name,
-        pages: [],
-        isDeleted: false,
-      };
-    } else if (isContext(context)) {
-      newContext = context;
-    } else {
-      LoggerService.error("Invalid context type");
-      return Promise.reject("Invalid context type");
-    }
+    return new Promise(async (resolve, reject) => {
+      let newContext: ContextDTO;
+      LoggerService.info(`Add context: ${context.name}`);
 
-    try {
-      const added = await this.contextService.addContext(newContext);
-      LoggerService.info(`Context: ${context.name} added successfully`);
-      return added;
-    } catch (error) {
-      LoggerService.error(error);
-      return Promise.reject(error);
-    }
+      if (isNewContext(context)) {
+        newContext = {
+          name: context.name,
+          pages: [],
+          isDeleted: false,
+        };
+      } else if (isContext(context)) {
+        newContext = context;
+      } else {
+        LoggerService.error("Invalid context type");
+        return reject("Invalid context type");
+      }
+
+      try {
+        const added = await this.contextService.addContext(newContext);
+        LoggerService.info(`Context: ${context.name} added successfully`);
+        return resolve(added);
+      } catch (error) {
+        LoggerService.error(error);
+        return reject(error);
+      }
+    });
   }
 
-  public async putContext(
-    context: ContextDTO
-  ): Promise<ContextDTO | undefined> {
+  /**
+   * Edit an existing context, creates one if it doesn't exist.
+   * @param context The context to edit
+   * @returns A promise that resolves to the updated ContextDTO object.
+   * @throws Error if the context cannot be updated.
+   * @throws Error if the context is invalid.
+   */
+  public async putContext(context: ContextDTO): Promise<ContextDTO> {
     LoggerService.info(`Update context: ${context.name}`);
 
-    try {
-      const updated = await this.contextService.putContext(context);
-      LoggerService.info(`Context: ${context.name} updated successfully`);
-      return updated;
-    } catch (error) {
-      LoggerService.error(error);
-      return undefined;
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updated = await this.contextService.putContext(context);
+        LoggerService.info(`Context: ${context.name} updated successfully`);
+        return resolve(updated);
+      } catch (error) {
+        LoggerService.error(error);
+        return reject(error);
+      }
+    });
   }
 
+  /**
+   * Delete the selected context.
+   * @returns void
+   * @throws Error if no context is selected or if the ID type is invalid.
+   * @throws Error if the context cannot be deleted.
+   */
   public async deleteContext(): Promise<void> {
     return new Promise(async (resolve, reject) => {
       if (!this.selectedContext) {
         LoggerService.error("No context selected for deletion");
-        reject("No context selected for deletion");
-        return;
+        return reject("No context selected for deletion");
       }
 
       if (!isIdentifier(this.selectedContext.id)) {
         LoggerService.error("Invalid ID type");
-        reject("Invalid ID type");
-        return;
+        return reject("Invalid ID type");
       }
       LoggerService.info(`Delete context: ${this.selectedContext.name}`);
 
@@ -107,46 +140,69 @@ export class ContextController {
         );
 
         this.selectedContext = undefined;
-        resolve();
+        return resolve();
       } catch (error) {
         LoggerService.error(error);
-        reject(error);
+        return reject(error);
       }
     });
   }
 
-  public async assignPagesToContext(
-    contextId: number,
-    pages: PageDTO[]
-  ): Promise<ContextDTO | undefined> {
-    LoggerService.info(`Assign pages to context with id: ${contextId}`);
+  /**
+   * Assign pages to the selected context.
+   * @param pages The pages to assign to the context.
+   * @returns A promise that resolves to the updated ContextDTO object.
+   * @throws Error if no context is selected or if the ID type is invalid.
+   * @throws Error if the pages cannot be assigned.
+   */
+  public async assignPagesToContext(pages: PageDTO[]): Promise<ContextDTO> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.selectedContext) {
+        LoggerService.error("No context selected for assignment");
+        return reject("No context selected for assignment");
+      }
 
-    try {
-      const context = await this.contextService.assignPagesToContext(
-        contextId,
-        pages
-      );
+      if (!isIdentifier(this.selectedContext.id)) {
+        LoggerService.error("Invalid ID type of selected context");
+        return reject("Invalid ID type of selected context");
+      }
+
       LoggerService.info(
-        `Pages assigned to context with id: ${contextId} successfully`
+        `Assign pages to context: ${this.selectedContext.name}`
       );
-      return context;
-    } catch (error) {
-      LoggerService.error(error);
-      return undefined;
-    }
+
+      try {
+        const context = await this.contextService.assignPagesToContext(
+          this.selectedContext.id,
+          pages
+        );
+        LoggerService.info(
+          `Pages assigned to context: ${this.selectedContext.name} successfully`
+        );
+        return resolve(context);
+      } catch (error) {
+        LoggerService.error(error);
+        return reject(error);
+      }
+    });
   }
 
+  /**
+   * Assign all open pages to the context with the given ID.
+   * @param contextId The ID of the context to assign pages to.
+   * @returns A promise that resolves to the updated ContextDTO object.
+   * @throws Error if the context ID is undefined or if the assignment fails.
+   */
   public async assignOpenPagesToContext(
     contextId: number | undefined
   ): Promise<ContextDTO> {
     LoggerService.info(`Assign pages to context with id: ${contextId}`);
 
-    if (contextId === undefined) {
-      LoggerService.error("Context ID is undefined");
-      return Promise.reject("Context ID is undefined");
-    }
-
     return new Promise(async (resolve, reject) => {
+      if (contextId === undefined) {
+        LoggerService.error("Context ID is undefined");
+        return reject("Context ID is undefined");
+      }
       const pages = await this.pagesService.getAllOpenTabs();
 
       try {
@@ -157,21 +213,27 @@ export class ContextController {
         LoggerService.info(
           `Pages assigned to context with id: ${contextId} successfully`
         );
-        resolve(context);
+        return resolve(context);
       } catch (error) {
         LoggerService.error(error);
-        reject(error);
+        return reject(error);
       }
     });
   }
 
+  /**
+   * Change the context to the one with the given ID.
+   * @param contextId The ID of the context to change to.
+   * @returns A promise that resolves to the updated ContextDTO object.
+   * @throws Error if the context ID is invalid or if the context cannot be changed.
+   */
   public async changeContext(contextId: number): Promise<ContextDTO> {
     LoggerService.info(`Open context with id: ${contextId}`);
 
     return new Promise(async (resolve, reject) => {
       if (!isIdentifier(contextId)) {
         console.error("Invalid ID type:", contextId);
-        reject("Invalid ID type");
+        return reject("Invalid ID type");
       }
 
       try {
@@ -179,7 +241,7 @@ export class ContextController {
 
         if (!isContext(context)) {
           LoggerService.error(`Context with id: ${contextId} not found`);
-          return Promise.reject(`Context with id: ${contextId} not found`);
+          return reject(`Context with id: ${contextId} not found`);
         }
 
         const tempPages = await this.pagesService.changeContext(context.pages);
@@ -197,10 +259,10 @@ export class ContextController {
         this.pagesService.openTabs(context.pages);
         LoggerService.info(`Context with id: ${contextId} opened successfully`);
 
-        resolve(tempContext);
+        return resolve(tempContext);
       } catch (error) {
         LoggerService.error(error);
-        return Promise.reject(error);
+        return reject(error);
       }
     });
   }
