@@ -144,17 +144,27 @@ export class ContextService {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction("contexts", "readwrite");
-      const objectStore = transaction.objectStore("contexts");
-      const putRequest = objectStore.put(context, context.id);
+      try {
+        const transaction = db.transaction("contexts", "readwrite");
+        const objectStore = transaction.objectStore("contexts");
 
-      putRequest.onsuccess = () => {
-        resolve(context);
-      };
+        // This assumes your objectStore uses "id" as keyPath
+        const putRequest = objectStore.put(context);
 
-      putRequest.onerror = () => {
-        reject(new Error(`Error updating context: ${putRequest.error}`));
-      };
+        putRequest.onsuccess = () => {
+          resolve(context);
+        };
+
+        putRequest.onerror = () => {
+          console.error("Put request error", putRequest.error);
+          reject(
+            new Error(`Error updating context: ${putRequest.error?.message}`)
+          );
+        };
+      } catch (e) {
+        console.error("Transaction failed", e);
+        reject(e);
+      }
     });
   }
 

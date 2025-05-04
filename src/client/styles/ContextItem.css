@@ -1,0 +1,44 @@
+.selected-context {
+  background-color: #0c2749;
+}
+
+.opened-context {
+  /* Remove the button propriety */
+  all: unset;
+
+  border: 2px solid #333;
+}
+
+.context-edition-container {
+  width: 100%;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.context-input {
+  /* Remove the button propriety */
+  all: unset;
+
+  width: 115px;
+  height: 30px;
+
+  background-color: #0c2749;
+  border-radius: 10px;
+}
+
+.save-context {
+  /* Remove the button propriety */
+  all: unset;
+  cursor: pointer;
+
+  width: 50px;
+  height: 30px;
+
+  background-color: #0c2749;
+  border-radius: 10px;
+
+  text-align: center;
+}

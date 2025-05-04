@@ -1,5 +1,3 @@
-import { writeLogs } from "../utils/utils";
-
 export class LoggerService {
   /**
    * Private generic log function
@@ -44,10 +42,8 @@ export class LoggerService {
   static error(error: unknown): void {
     if (error instanceof Error) {
       this.log(error.message, "ERROR");
-      writeLogs("logs/error.log", error.message);
     } else if (typeof error === "string") {
       this.log(error, "ERROR");
-      writeLogs("logs/error.log", error);
     }
   }
 }
