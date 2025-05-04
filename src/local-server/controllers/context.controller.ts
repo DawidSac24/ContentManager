@@ -62,7 +62,9 @@ export class ContextController {
    * @throws Error if the context cannot be added.
    * @throws Error if the context is invalid.
    */
-  public async addContext(context: ContextDTO): Promise<ContextDTO> {
+  public async addContext(
+    context: ContextDTO | NewContextDTO
+  ): Promise<ContextDTO> {
     LoggerService.info(`Add context: ${context.name}`);
 
     let newContext: ContextDTO;
