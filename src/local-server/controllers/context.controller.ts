@@ -53,6 +53,23 @@ export class ContextController {
     }
   }
 
+  public async getById(id: number): Promise<ContextDTO> {
+    LoggerService.info("Get context by id");
+
+    if (!isIdentifier(id)) {
+      LoggerService.error("Invalid context id");
+      throw new Error("Invalid context id");
+    }
+
+    try {
+      const context = await this.contextService.getById(id);
+      return context;
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
+  }
+
   /**
    * Add a new context.
    * @param context The context to add, either a NewContextDTO or ContextDTO object.
@@ -99,7 +116,7 @@ export class ContextController {
    * @throws Error if the context cannot be updated.
    * @throws Error if the context is invalid.
    */
-  public async putContext(context: ContextDTO): Promise<ContextDTO> {
+  public async updateContext(context: ContextDTO): Promise<ContextDTO> {
     LoggerService.info(`Update context: ${context.name}`);
 
     try {
@@ -235,7 +252,7 @@ export class ContextController {
       }
 
       try {
-        const context = await this.contextService.getContextById(contextId);
+        const context = await this.contextService.getById(contextId);
 
         if (!isContext(context)) {
           LoggerService.error(`Context with id: ${contextId} not found`);

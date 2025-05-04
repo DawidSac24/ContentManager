@@ -92,7 +92,7 @@ export class ContextService {
    * @param id The ID of the context to retrieve.
    * @returns A promise that resolves to the Context object.
    */
-  public async getContextById(id: number): Promise<Context> {
+  public async getById(id: number): Promise<Context> {
     const db = await this.openDatabase(this.dbName, this.dbVersion);
 
     return new Promise((resolve, reject) => {
