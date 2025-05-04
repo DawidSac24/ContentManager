@@ -6,18 +6,16 @@ import { LoggerService } from "../../local-server/services/logger.service";
 const contextController = ContextController.getInstance();
 const pagesService = PagesService.getInstance();
 
-let selectedContext: ContextDTO | undefined = undefined;
+// export function loadContexts(): ContextDTO[] {
+//   let loadedContexts: ContextDTO[] = [];
+//   try {
+//     loadedContexts = contextController.getAll();
+//   } catch (error) {
+//     LoggerService.error(error);
+//   }
 
-export function loadContexts(): ContextDTO[] {
-  let loadedContexts: ContextDTO[] = [];
-  try {
-    loadedContexts = contextController.getAll();
-  } catch (error) {
-    LoggerService.error(error);
-  }
-
-  return loadedContexts;
-}
+//   return loadedContexts;
+// }
 
 export function closeAllTabs(): void {
   try {
@@ -33,5 +31,11 @@ export function closeAllTabs(): void {
 }
 
 export function testDatabase(): void {
-  contextController.addContext({ name: "context 1" });
+  const context1: ContextDTO = {
+    id: 1,
+    name: "Context 1",
+    pages: [],
+    isDeleted: false,
+  };
+  contextController.addContext(context1);
 }

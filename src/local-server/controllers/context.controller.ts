@@ -28,26 +28,29 @@ export class ContextController {
     return ContextController.instance;
   }
 
+  public selectContext(context: ContextDTO) {
+    this.selectedContext = context;
+  }
+
+  public isSelected(context: ContextDTO): boolean {
+    return this.selectedContext?.id === context.id;
+  }
+
   /**
    * Get all contexts from the ContextService.
    * @returns A promise that resolves to an array of ContextDTO objects.
    */
-  public getAll(): ContextDTO[] {
+  public async getAll(): Promise<ContextDTO[]> {
     LoggerService.info("Get all contexts");
 
-    let contexts: ContextDTO[] = [];
-
-    this.contextService
-      .getAllContexts()
-      .then((value) => {
-        contexts = value;
-        LoggerService.info("contexts Loaded successfully: " + contexts);
-      })
-      .catch((error) => {
-        LoggerService.error(error);
-      });
-
-    return contexts;
+    try {
+      const contexts = await this.contextService.getAllContexts();
+      LoggerService.info("Contexts loaded successfully");
+      return contexts;
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
   }
 
   /**
@@ -59,37 +62,32 @@ export class ContextController {
    * @throws Error if the context cannot be added.
    * @throws Error if the context is invalid.
    */
-  public async addContext(
-    context: NewContextDTO | ContextDTO
-  ): Promise<ContextDTO> {
+  public async addContext(context: ContextDTO): Promise<ContextDTO> {
     LoggerService.info(`Add context: ${context.name}`);
 
-    return new Promise(async (resolve, reject) => {
-      let newContext: ContextDTO;
-      LoggerService.info(`Add context: ${context.name}`);
+    let newContext: ContextDTO;
 
-      if (isNewContext(context)) {
-        newContext = {
-          name: context.name,
-          pages: [],
-          isDeleted: false,
-        };
-      } else if (isContext(context)) {
-        newContext = context;
-      } else {
-        LoggerService.error("Invalid context type");
-        return reject("Invalid context type");
-      }
+    if (isNewContext(context)) {
+      newContext = {
+        name: context.name,
+        pages: [],
+        isDeleted: false,
+      };
+    } else if (isContext(context)) {
+      newContext = context;
+    } else {
+      LoggerService.error("Invalid context type");
+      throw new Error("Invalid context type");
+    }
 
-      try {
-        const added = await this.contextService.addContext(newContext);
-        LoggerService.info(`Context: ${context.name} added successfully`);
-        return resolve(added);
-      } catch (error) {
-        LoggerService.error(error);
-        return reject(error);
-      }
-    });
+    try {
+      const added = await this.contextService.addContext(newContext);
+      LoggerService.info(`Context: ${context.name} added successfully`);
+      return added;
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
   }
 
   /**
@@ -102,16 +100,14 @@ export class ContextController {
   public async putContext(context: ContextDTO): Promise<ContextDTO> {
     LoggerService.info(`Update context: ${context.name}`);
 
-    return new Promise(async (resolve, reject) => {
-      try {
-        const updated = await this.contextService.putContext(context);
-        LoggerService.info(`Context: ${context.name} updated successfully`);
-        return resolve(updated);
-      } catch (error) {
-        LoggerService.error(error);
-        return reject(error);
-      }
-    });
+    try {
+      const updated = await this.contextService.putContext(context);
+      LoggerService.info(`Context: ${context.name} updated successfully`);
+      return updated;
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
   }
 
   /**
