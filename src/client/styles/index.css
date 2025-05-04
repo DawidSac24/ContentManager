@@ -1,5 +1,8 @@
-:root {
-  width: 250px;
+/* Ensure root elements stretch full height */
+html,
+body,
+#root {
+  width: 270px;
   height: 400px;
 
   color: white;
@@ -9,4 +12,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  margin: 0;
+  padding: 0;
 }
