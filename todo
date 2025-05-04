@@ -1,0 +1,5 @@
+- ? Change the variables SelectedContext and Opened context into a status ?
+- ? Correct the id situation ( is set to undefined ) ?
+  - maybe add with this a new model bc i need the id to be undefined bc of my service
+- Do some more styling
+- Correct the is Opened situation
