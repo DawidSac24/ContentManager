@@ -11,6 +11,7 @@ type Props = {
   onSelect: () => void;
   onChange: (name: string) => void;
   onSave: () => void;
+  onSavePages: () => void;
 };
 
 export default function ContextItem({
@@ -22,29 +23,16 @@ export default function ContextItem({
   onSelect,
   onChange,
   onSave,
+  onSavePages,
 }: Props) {
+  let buttonClassName: string = "contetext";
+  if (isSelected) if (!isEditing) buttonClassName += " selected-context";
+  if (isOpened) buttonClassName += " opened-context";
+
   return (
     <li>
-      <button
-        onClick={onSelect}
-        // className={
-        //   "context " + isSelected
-        //     ? isEditing
-        //       ? ""
-        //       : "selected-context "
-        //     : "" + isOpened
-        //     ? "opened-context"
-        //     : ""
-        // }
-        className={
-          isSelected
-            ? isEditing
-              ? "context"
-              : "context selected-context"
-            : "context"
-        }
-      >
-        {isEditing && isSelected ? (
+      <button onClick={onSelect} className={buttonClassName}>
+        {(isEditing && isSelected) || isOpened ? (
           <div className="context-edition-container">
             <input
               type="text"
@@ -52,7 +40,10 @@ export default function ContextItem({
               onChange={(e) => onChange(e.target.value)}
               className="context-input"
             />
-            <button className="save-context" onClick={onSave}>
+            <button
+              className="save-context"
+              onClick={isOpened ? onSavePages : onSave}
+            >
               SAVE
             </button>
           </div>

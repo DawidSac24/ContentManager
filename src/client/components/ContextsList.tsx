@@ -12,14 +12,14 @@ export default function ContextsList() {
     selectedContext,
     isEditing,
     editedName,
+    openContext,
     selectContext,
     addContext,
     updateContext,
     deleteContext,
+    savePages,
     setEditedName,
     setIsEditing,
-    loadPages,
-    savePages,
   } = useContexts();
 
   const handleSave = () => {
@@ -40,6 +40,7 @@ export default function ContextsList() {
             onSelect={() => selectContext(context)}
             onChange={setEditedName}
             onSave={handleSave}
+            onSavePages={() => savePages(context)}
           />
         ))}
         <li>
@@ -55,8 +56,7 @@ export default function ContextsList() {
       <ContextButtons
         onEdit={() => setIsEditing(!isEditing)}
         onDelete={deleteContext}
-        onLoadPages={loadPages}
-        onSavePages={savePages}
+        onOpen={openContext}
       />
     </div>
   );

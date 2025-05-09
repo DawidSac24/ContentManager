@@ -28,20 +28,57 @@ export function useContexts() {
   }, []);
 
   const selectContext = (context: ContextDTO) => {
-    contextController.selectContext(context);
     setSelectedContext(context);
     setEditedName(context.name); // Set the name for editing
   };
 
-  const openContext = (context: ContextDTO) => {
-    contextController.openContext(context);
-    setOpenedContext(context);
+  const openContext = async () => {
+    if (!selectedContext) {
+      LoggerService.alert("No Context Selected !");
+      return;
+    }
+
+    LoggerService.info(`opening the context: ${selectedContext.name}`);
+
+    try {
+      if (openedContext) {
+        contextController.storeOpenPages(openedContext);
+        LoggerService.info(`Saved pages in Context: ${selectedContext.name}`);
+      } else {
+        const result = confirm(
+          "No opened Context, do you wont to save the current pages in a new TEMP CONTEXT ?"
+        );
+        if (result) {
+          LoggerService.info("User clicked OK");
+
+          // Saving the opened pages in a new Context
+          const tempContext = await contextController.addContext({
+            name: "TEMP CONTEXT",
+          });
+
+          await contextController.storeOpenPages(tempContext);
+        } else {
+          LoggerService.info("User clicked Cancel");
+        }
+
+        // contextController.loadPages(selectedContext);
+      }
+
+      const result = await contextController.getAll();
+      setContexts(result);
+      setOpenedContext(selectedContext);
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
   };
 
   const addContext = async (newContext: NewContextDTO) => {
-    await contextController.addContext(newContext);
+    const addedContext = await contextController.addContext(newContext);
     const result = await contextController.getAll();
     setContexts(result);
+    setSelectedContext(addedContext);
+    setIsEditing(true);
   };
 
   const updateContext = async (name: string) => {
@@ -62,23 +99,13 @@ export function useContexts() {
       LoggerService.alert("No Context Selected !");
       return;
     }
-    await contextController.deleteContext();
+    await contextController.deleteContext(selectedContext);
     const result = await contextController.getAll();
     setContexts(result);
     setSelectedContext(null); // Reset selected context
   };
 
-  const loadPages = async () => {
-    if (!selectedContext) {
-      LoggerService.alert("No Context Selected !");
-      return;
-    }
-
-    const openedContext = await contextController.changeContext();
-    contextController.updateContext(openedContext);
-  };
-
-  const savePages = async () => {
+  const savePages = async (context: ContextDTO) => {
     if (!selectedContext) {
       LoggerService.alert("No Context Selected !");
       return;
@@ -96,9 +123,8 @@ export function useContexts() {
     addContext,
     updateContext,
     deleteContext,
+    savePages,
     setEditedName,
     setIsEditing,
-    loadPages,
-    savePages,
   };
 }

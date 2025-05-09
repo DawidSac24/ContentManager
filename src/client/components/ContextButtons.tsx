@@ -3,26 +3,18 @@ import "../styles/ContextButtons.css";
 type Props = {
   onEdit: () => void;
   onDelete: () => void;
-  onLoadPages: () => void;
-  onSavePages: () => void;
+  onOpen: () => void;
 };
 
-export default function ContextButtons({
-  onEdit,
-  onDelete,
-  onLoadPages: onLoad,
-  onSavePages: onSave,
-}: Props) {
+export default function ContextButtons({ onEdit, onDelete, onOpen }: Props) {
   return (
     <div className="component-buttons">
       <button className="component-button" onClick={onEdit}>
         EDIT
       </button>
-      <button className="component-button" onClick={onSave}>
-        SAVE
-      </button>
-      <button className="component-button" onClick={onLoad}>
-        LOAD
+
+      <button className="component-button" onClick={onOpen}>
+        OPEN
       </button>
       <button className="component-button" onClick={onDelete}>
         DELETE

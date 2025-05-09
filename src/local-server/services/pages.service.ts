@@ -43,7 +43,7 @@ export class PagesService {
     return pages;
   }
 
-  public async closeAllTabs(): Promise<Page[]> {
+  public async closeAllPages(): Promise<Page[]> {
     LoggerService.info("Closing all tabs...");
 
     // 1. Create a new blank Google tab
@@ -86,7 +86,7 @@ export class PagesService {
     return new Promise(async (resolve, reject) => {
       try {
         // Close all tabs
-        const closedTabs = await this.closeAllTabs();
+        const closedTabs = await this.closeAllPages();
 
         // Open new tabs
         await this.openTabs(newTabs);

@@ -4,7 +4,6 @@ export interface Context {
   id?: number;
   name: string;
   pages: Page[];
-  isDeleted: boolean;
 }
 
 export interface NewContext {
@@ -15,7 +14,6 @@ export interface ContextDTO {
   id?: number;
   name: string;
   pages: Page[];
-  isDeleted: boolean;
 }
 
 export interface NewContextDTO {

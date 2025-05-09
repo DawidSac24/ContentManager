@@ -14,8 +14,6 @@ export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
   private pagesService: PagesService;
-  public selectedContext: ContextDTO | undefined;
-  public openedContext: ContextDTO | undefined;
 
   private constructor() {
     this.contextService = ContextService.getInstance();
@@ -27,22 +25,6 @@ export class ContextController {
       ContextController.instance = new ContextController();
     }
     return ContextController.instance;
-  }
-
-  public selectContext(context: ContextDTO) {
-    this.selectedContext = context;
-  }
-
-  public isSelected(context: ContextDTO): boolean {
-    return this.selectedContext?.id === context.id;
-  }
-
-  public openContext(context: ContextDTO) {
-    this.openedContext = context;
-  }
-
-  public isOpen(context: ContextDTO): boolean {
-    return this.openedContext?.id === context.id;
   }
 
   /**
@@ -99,7 +81,6 @@ export class ContextController {
       newContext = {
         name: context.name,
         pages: [],
-        isDeleted: false,
       };
     } else if (isContext(context)) {
       newContext = context;
@@ -140,68 +121,23 @@ export class ContextController {
 
   /**
    * Delete the selected context.
+   * @param
    * @returns void
    * @throws Error if no context is selected or if the ID type is invalid.
    * @throws Error if the context cannot be deleted.
    */
-  public async deleteContext(): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      if (!this.selectedContext) {
-        LoggerService.error("No context selected for deletion");
-        return reject("No context selected for deletion");
-      }
-
-      if (!isIdentifier(this.selectedContext.id)) {
-        LoggerService.error("Invalid ID type");
-        return reject("Invalid ID type");
-      }
-      LoggerService.info(`Delete context: ${this.selectedContext.name}`);
-
-      try {
-        await this.contextService.deleteContext(this.selectedContext.id);
-        LoggerService.info(
-          `Context ${this.selectedContext.name} deleted successfully`
-        );
-
-        this.selectedContext = undefined;
-        return resolve();
-      } catch (error) {
-        LoggerService.error(error);
-        return reject(error);
-      }
-    });
-  }
-
-  /**
-   * Assign pages to the selected context.
-   * @param pages The pages to assign to the context.
-   * @returns A promise that resolves to the updated ContextDTO object.
-   * @throws Error if no context is selected or if the ID type is invalid.
-   * @throws Error if the pages cannot be assigned.
-   */
-  public async assignPagesToContext(pages: PageDTO[]): Promise<ContextDTO> {
-    if (!this.selectedContext) {
-      LoggerService.error("No context selected for assignment");
-      throw new Error("No context selected for assignment");
+  public async deleteContext(context: ContextDTO): Promise<void> {
+    if (!isIdentifier(context.id)) {
+      LoggerService.error("Invalid ID type");
+      throw new Error("Invalid ID type");
     }
-
-    if (!this.selectedContext.id) {
-      LoggerService.error("Invalid ID type of selected context");
-      throw new Error("Invalid ID type of selected context");
-    }
-
-    LoggerService.info(`Assign pages to context: ${this.selectedContext.name}`);
+    LoggerService.info(`Delete context: ${context.name}`);
 
     try {
-      const context = await this.contextService.assignPagesToContext(
-        this.selectedContext.id,
-        pages
-      );
-      LoggerService.info(
-        `Pages assigned to context: ${this.selectedContext.name} successfully`
-      );
-      this.openContext(this.selectedContext);
-      return context;
+      await this.contextService.deleteContext(context.id);
+      LoggerService.info(`Context ${context.name} deleted successfully`);
+
+      return;
     } catch (error) {
       LoggerService.error(error);
       throw error;
@@ -209,33 +145,24 @@ export class ContextController {
   }
 
   /**
-   * Assign all open pages to the context with the given ID.
-   * @param contextId The ID of the context to assign pages to.
-   * @returns A promise that resolves to the updated ContextDTO object.
-   * @throws Error if the context ID is undefined or if the assignment fails.
+   * Saves all the opened pages
+   * @param context The context where the pages will be stored
+   * @returns the edited Context
    */
-  public async assignOpenPagesToContext(): Promise<ContextDTO> {
-    if (!this.selectedContext) {
-      LoggerService.error("No context selected for assignment");
-      throw new Error("No context selected for assignment");
-    }
-
-    if (!this.selectedContext.id) {
-      LoggerService.error("Invalid ID type of selected context");
-      throw new Error("Invalid ID type of selected context");
-    }
-
-    LoggerService.info(`Assign pages to context: ${this.selectedContext.name}`);
+  public async storeOpenPages(context: ContextDTO): Promise<ContextDTO> {
+    LoggerService.info(`Storing all the pages on the context: ${context.name}`);
 
     try {
-      const pages = await this.pagesService.getAllOpenTabs();
+      const openedPages: PageDTO[] = await this.pagesService.closeAllPages();
+      const contextToEdit: ContextDTO = {
+        id: context.id,
+        name: context.name,
+        pages: openedPages,
+      };
+      const editedContext: ContextDTO = await this.updateContext(contextToEdit);
 
-      const context = await this.assignPagesToContext(pages);
-      LoggerService.info(
-        `Pages assigned to context: ${context.name} successfully`
-      );
-      this.openContext(context);
-      return context;
+      LoggerService.info("Pages stored successfully");
+      return editedContext;
     } catch (error) {
       LoggerService.error(error);
       throw error;
@@ -243,24 +170,22 @@ export class ContextController {
   }
 
   /**
-   * Change the context to the one with the given ID.
-   * @param contextId The ID of the context to change to.
-   * @returns A promise that resolves to the updated ContextDTO object.
-   * @throws Error if the context ID is invalid or if the context cannot be changed.
+   * Closes open pages and loads the pages from the context
+   * @param context with the pages we want to load
    */
-  public async changeContext(): Promise<ContextDTO> {
-    if (!this.selectedContext) {
-      throw new Error("No Selected Context !");
+  public async loadPages(context: ContextDTO): Promise<PageDTO[]> {
+    LoggerService.info(
+      `loading all the pages from the context: ${context.name}`
+    );
+
+    if (context.pages.length <= 0) {
+      LoggerService.error("The context must have at least one saved page");
+      throw new Error("The context must have at least one saved page");
     }
-    LoggerService.info(`Open context: ${this.selectedContext.name}`);
 
     try {
-      const closedPages = await this.pagesService.changeContext(
-        this.selectedContext.pages
-      );
-      this.assignPagesToContext(closedPages);
-      this.openContext(this.selectedContext);
-      return this.selectedContext;
+      const closedPages = this.pagesService.changeContext(context.pages);
+      return closedPages;
     } catch (error) {
       LoggerService.error(error);
       throw error;
