@@ -6,7 +6,7 @@ body,
   height: 400px;
 
   color: white;
-  background-color: #222222;
+  background-color: var(--background-color);
 
   display: flex;
   flex-direction: column;
@@ -15,4 +15,11 @@ body,
 
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --background-color: #222222;
+  --primary-color: #470a35;
+  --secondary-color: #151616;
+  --padding: 10px;
 }

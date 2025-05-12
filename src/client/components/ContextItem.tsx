@@ -25,9 +25,13 @@ export default function ContextItem({
   onSave,
   onSavePages,
 }: Props) {
-  let buttonClassName: string = "contetext";
-  if (isSelected) if (!isEditing) buttonClassName += " selected-context";
+  let buttonClassName: string = "";
+  if (isSelected) {
+    if (!isEditing) buttonClassName += " selected-context";
+  }
   if (isOpened) buttonClassName += " opened-context";
+
+  buttonClassName += " context";
 
   return (
     <li>

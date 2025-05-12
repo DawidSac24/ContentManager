@@ -43,17 +43,11 @@ export default function ContextsList() {
             onSavePages={() => savePages(context)}
           />
         ))}
-        <li>
-          <button
-            className="context add-context-button"
-            onClick={() => addContext({ name: "New Context" })}
-          >
-            <h3>Add Context</h3>
-          </button>
-        </li>
+        <li></li>
       </ul>
 
       <ContextButtons
+        onAdd={() => addContext({ name: "New Context" })}
         onEdit={() => setIsEditing(!isEditing)}
         onDelete={deleteContext}
         onOpen={openContext}

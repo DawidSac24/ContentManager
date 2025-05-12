@@ -1,5 +1,5 @@
 .selected-context {
-  background-color: #0c2749;
+  background-color: var(--primary-color);
 }
 
 .opened-context {
@@ -25,7 +25,7 @@
   width: 115px;
   height: 30px;
 
-  background-color: #0c2749;
+  background-color: var(--primary-color);
   border-radius: 10px;
 }
 
@@ -37,7 +37,7 @@
   width: 50px;
   height: 30px;
 
-  background-color: #0c2749;
+  background-color: var(--primary-color);
   border-radius: 10px;
 
   text-align: center;
