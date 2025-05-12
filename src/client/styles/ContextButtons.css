@@ -1,13 +1,23 @@
-.action-buttons {
+.component-buttons {
   position: fixed; /* Sticks to the window */
   bottom: 0;
   left: 0;
   z-index: 100; /* Ensure it's on top */
 
   width: 100%;
-  height: 15%;
+  height: 20%;
 
   background-color: var(--background-color);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-buttons{
+  width: 100%;
+  height: 35%;
 
   display: flex;
   align-items: center;
@@ -20,7 +30,7 @@
   cursor: pointer;
 
   width: 25%;
-  height: 50%;
+  height: 80%;
   border-radius: 7px;
 
   background-color: var(--primary-color);
@@ -30,7 +40,7 @@
 
 .add-context-button-container {
   width: 100%;
-  height: 100%;
+  height: 50%;
 
   display: flex;
   justify-content: center;
