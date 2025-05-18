@@ -1,31 +1,11 @@
 import "../styles/ContextsList.css";
 
-import { useContexts } from "../hooks/useContexts";
+import { useContextlist } from "../hooks/useContextList";
 
 import ContextItem from "./ContextItem";
 import AddContext from "./AddContext";
 
 export default function ContextsList() {
-  const {
-    contexts,
-    openedContext,
-    selectedContext,
-    isEditing,
-    editedName,
-    openContext,
-    selectContext,
-    addContext,
-    updateContext,
-    deleteContext,
-    savePages,
-    setEditedName,
-    setIsEditing,
-  } = useContexts();
-
-  const handleSave = () => {
-    updateContext(editedName);
-  };
-
   return (
     <div>
       <ul>
