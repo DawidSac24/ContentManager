@@ -6,7 +6,7 @@ import ContextItem from "./ContextItem";
 import AddContext from "./AddContext";
 
 export default function ContextsList() {
-  const { contexts } = useContextlist;
+  const { contexts, addContext } = useContextlist;
 
   return (
     <div>
@@ -17,7 +17,7 @@ export default function ContextsList() {
         <li></li>
       </ul>
 
-      <AddContext onAdd={() => addContext({ name: "New Context" })} />
+      <AddContext onAdd={addContext} />
     </div>
   );
 }

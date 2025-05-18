@@ -16,8 +16,15 @@ export function useContextlist() {
     loadContexts();
   }, []);
 
-  const addContext = () => {
-    const newContext = await contextController.addContext();
+  const addContext = async () => {
+    try {
+      await contextController.addContext();
+      const contexts = await contextController.getAll();
+      setContexts(contexts);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   };
 
   return {
