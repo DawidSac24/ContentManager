@@ -6,20 +6,13 @@ import ContextItem from "./ContextItem";
 import AddContext from "./AddContext";
 
 export default function ContextsList() {
+  const { contexts } = useContextlist;
+
   return (
     <div>
       <ul>
         {contexts.map((context) => (
-          <ContextItem
-            key={context.id}
-            context={context}
-            isSelected={selectedContext?.id === context.id}
-            isEditing={isEditing}
-            editedName={editedName}
-            onSelect={() => selectContext(context)}
-            onChange={setEditedName}
-            onSave={handleSave}
-          />
+          <ContextItem key={context.id} context={context} />
         ))}
         <li></li>
       </ul>

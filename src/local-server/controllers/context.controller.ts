@@ -64,34 +64,21 @@ export class ContextController {
   /**
    * Add a new context.
    * @param context The context to add, either a NewContextDTO or ContextDTO object.
-   *  - NewContextDTO: A new context object with a name and an empty pages array.
-   *  - ContextDTO: An existing context object to be added.
    * @returns A promise that resolves to the updated ContextDTO object.
    * @throws Error if the context cannot be added.
    * @throws Error if the context is invalid.
    */
-  public async addContext(
-    context: ContextDTO | NewContextDTO
-  ): Promise<ContextDTO> {
-    LoggerService.info(`Add context: ${context.name}`);
+  public async addContext(): Promise<ContextDTO> {
+    const newContext: ContextDTO = {
+      name: "New Context",
+      pages: [],
+    };
 
-    let newContext: ContextDTO;
-
-    if (isNewContext(context)) {
-      newContext = {
-        name: context.name,
-        pages: [],
-      };
-    } else if (isContext(context)) {
-      newContext = context;
-    } else {
-      LoggerService.error("Invalid context type");
-      throw new Error("Invalid context type");
-    }
+    LoggerService.info(`Add context: ${newContext.name}`);
 
     try {
       const added = await this.contextService.addContext(newContext);
-      LoggerService.info(`Context: ${context.name} added successfully`);
+      LoggerService.info(`Context: ${newContext.name} added successfully`);
       return added;
     } catch (error) {
       LoggerService.error(error);
