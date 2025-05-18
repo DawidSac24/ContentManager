@@ -3,7 +3,7 @@ import "../styles/ContextsList.css";
 import { useContexts } from "../hooks/useContexts";
 
 import ContextItem from "./ContextItem";
-import ContextButtons from "./ContextButtons";
+import AddContext from "./AddContext";
 
 export default function ContextsList() {
   const {
@@ -33,25 +33,18 @@ export default function ContextsList() {
           <ContextItem
             key={context.id}
             context={context}
-            isOpened={openedContext?.id === context.id}
             isSelected={selectedContext?.id === context.id}
             isEditing={isEditing}
             editedName={editedName}
             onSelect={() => selectContext(context)}
             onChange={setEditedName}
             onSave={handleSave}
-            onSavePages={() => savePages(context)}
           />
         ))}
         <li></li>
       </ul>
 
-      <ContextButtons
-        onAdd={() => addContext({ name: "New Context" })}
-        onEdit={() => setIsEditing(!isEditing)}
-        onDelete={deleteContext}
-        onOpen={openContext}
-      />
+      <AddContext onAdd={() => addContext({ name: "New Context" })} />
     </div>
   );
 }
