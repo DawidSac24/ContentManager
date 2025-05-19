@@ -19,10 +19,9 @@ export default function ContextsList() {
     <div>
       <ul>
         {contexts.map((context) => (
-          selectedContextId===context.id ?
-          <ContextItemhttps://open.spotify.com/track/4YFcGTdgmEuw8xTO4XrxbB
+          <ContextItem
             key={context.id}
-            context={context}https://open.spotify.com/track/0u5aO1GYsIhAWCPuXdwnak
+            context={context}
             isSelected={selectedContextId === context.id}
             setSelectedContextId={() => setSelectedContextId(context.id)}
             unselectContext={unselectContext}
