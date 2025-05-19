@@ -11,13 +11,19 @@ function Context({ context }: Props) {
   const generateContext = () => {
     switch (contextState) {
       case ContextState.default:
-        return <DefaultContext context={context} />;
+        return (
+          <DefaultContext
+            context={context}
+            selectContext={() => setContextState(ContextState.selection)}
+          />
+        );
 
       case ContextState.selection:
         return (
           <SelectedContext
             context={context}
-            setContextState={setContextState}
+            unselectContext={() => setContextState(ContextState.default)}
+            onOutsideClick={() => setContextState(ContextState.default)}
           />
         );
 

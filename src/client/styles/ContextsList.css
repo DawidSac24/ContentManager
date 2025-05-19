@@ -33,3 +33,7 @@ li {
 
   text-align: center;
 }
+
+.selected-context {
+  background-color: var(--primary-color);
+}

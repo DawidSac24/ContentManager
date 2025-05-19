@@ -1,8 +1,8 @@
-import { Props } from "../../Props";
+import { DefaultContextProps } from "../../Props";
 
-function DefaultContext({ context }: Props) {
+function DefaultContext({ context, selectContext }: DefaultContextProps) {
   return (
-    <button className="context">
+    <button className="context" onClick={selectContext}>
       <h3>{context.name}</h3>
     </button>
   );
