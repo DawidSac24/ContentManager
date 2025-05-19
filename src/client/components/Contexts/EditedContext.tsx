@@ -1,4 +1,6 @@
-function ContextEdition() {
+import { ContextProps } from "../../Props";
+
+function ContextEdition({ context }: ContextProps) {
   return (
     <div className="context-edition-container">
       {/* <input
