@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 import { ContextDTO } from "../../local-server/models/context.model";
 import { ContextController } from "../../local-server/controllers/context.controller";
@@ -7,28 +7,65 @@ const contextController = ContextController.getInstance();
 
 export function useContextlist() {
   const [contexts, setContexts] = useState<ContextDTO[]>([]);
+  const [selectedContextId, setSelectedContextId] = useState<
+    number | undefined
+  >();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedName, setEditedName] = useState<string>("");
 
-  useEffect(() => {
-    const loadContexts = async () => {
+  const loadContexts = async () => {
+    try {
       const result = await contextController.getAll();
       setContexts(result);
-    };
-    loadContexts();
-  }, []);
-
-  const addContext = async () => {
-    try {
-      await contextController.addContext();
-      const contexts = await contextController.getAll();
-      setContexts(contexts);
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
 
+  useEffect(() => {
+    loadContexts();
+  }, []);
+
+  const addContext = async () => {
+    try {
+      await contextController.addContext();
+      loadContexts();
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  const unselectContext = async () => {
+    setSelectedContextId(undefined);
+    if (selectedContextId) {
+      const contextToUpdate = await contextController.getById(
+        selectedContextId
+      );
+      contextToUpdate.name = editedName;
+      editContext(contextToUpdate);
+    }
+
+    setIsEditing(false);
+    setEditedName("");
+  };
+
+  const editContext = async (contextToUpdate: ContextDTO) => {
+    try {
+      await contextController.updateContext(contextToUpdate);
+      loadContexts();
+    } catch (error) {}
+  };
+
   return {
     contexts,
+    selectedContextId,
+    isEditing,
     addContext,
+    setSelectedContextId,
+    unselectContext,
+    setIsEditing,
+    editContext,
   };
 }

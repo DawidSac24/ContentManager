@@ -4,25 +4,26 @@ import Context from "./Context";
 import ContextEdition from "./ContextEdition";
 
 import { ContextDTO } from "../../local-server/models/context.model";
+import { useState } from "react";
 
 type Props = {
   context: ContextDTO;
   isSelected: boolean;
   isEditing: boolean;
-  editedName: string;
-  onSelect: () => void;
-  onChange: (name: string) => void;
-  onSave: () => void;
+  setSelectedContextId: (id: number | undefined) => void;
+  unselectContext: () => void;
+  setIsEditing: (state: boolean) => void;
+  editContext: (context: ContextDTO) => void;
 };
 
 export default function ContextItem({
   context,
   isSelected,
   isEditing,
-  editedName,
-  onSelect,
-  onChange,
-  onSave,
+  setSelectedContextId,
+  unselectContext,
+  setIsEditing,
+  editContext,
 }: Props) {
   return (
     <li>
@@ -32,7 +33,9 @@ export default function ContextItem({
         <Context
           context={context}
           isSelected={isSelected}
-          onSelect={onSelect}
+          setSelectedContextId={setSelectedContextId}
+          unselectContext={unselectContext}
+          setIsEditing={setIsEditing}
         />
       )}
     </li>
