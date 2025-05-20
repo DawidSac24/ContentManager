@@ -11,6 +11,13 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 - **Personal Context**: Social media, news sites, and personal projects
 - **Study Context**: Educational resources, research papers, and learning platforms
 
+## 🚀 Install the Extension
+
+1. Download or clone this repo.
+2. Go to `chrome://extensions` in your browser.
+3. Enable **Developer mode**.
+4. Click **Load unpacked** and select the `dist/` folder.
+
 ## How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons
@@ -48,6 +55,7 @@ Context Manager consists of:
 This project is currently in active development. Features and functionality may change as development progresses.
 
 ## TODO
+
 - [ ] Add a drop-down list of the context's pages
 - [ ] Change the fonts
 - [ ] Change the front-end to back-end communication (currently accessing directly the context controller by a hook, may need to do a chrome messaging system, simulating the Express.js communcication system)
