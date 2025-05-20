@@ -1,3 +1,5 @@
+import "../../styles/EditedContext.css";
+
 import { ContextProps } from "../../Props";
 import { useState } from "react";
 
@@ -16,7 +18,7 @@ function ContextEdition({ context }: ContextProps) {
   };
 
   return (
-    <div className="context-edition-container">
+    <div className="context context-edition-container">
       <input
         type="text"
         className="context-input"
