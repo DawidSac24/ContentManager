@@ -13,10 +13,16 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 
 ## 🚀 Install the Extension
 
-1. Download or clone this repo.
-2. Go to `chrome://extensions` in your browser.
-3. Enable **Developer mode**.
-4. Click **Load unpacked** and select the `dist/` folder.
+You can download the latest ready-to-use version here:
+
+👉 [GitHub Releases](https://github.com/your-username/your-repo/releases)
+
+Then follow these steps:
+1. Extract the ZIP
+2. Go to `chrome://extensions`
+3. Enable Developer Mode
+4. Click "Load Unpacked"
+5. Select the extracted folder
 
 ## How It Works
 
