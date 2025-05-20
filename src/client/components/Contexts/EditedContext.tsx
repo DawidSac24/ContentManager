@@ -10,6 +10,7 @@ import { useContextActions } from "../../hooks/useContextActions";
 
 function ContextEdition({
   context,
+  isOpened,
   loadContexts,
   setContextState,
   onOutsideClick,
@@ -41,8 +42,11 @@ function ContextEdition({
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, onOutsideClick);
 
+  let className = "context context-edition-container";
+  if (isOpened) className += " opened-context";
+
   return (
-    <div ref={ref} className="context context-edition-container">
+    <div ref={ref} className={className}>
       <input
         type="text"
         className="context-input"

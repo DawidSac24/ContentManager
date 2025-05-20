@@ -13,19 +13,22 @@ export type ContextProps = {
 
 export type DefaultContextProps = {
   context: ContextDTO;
-  loadContexts: () => void;
+  isOpened: boolean;
   selectContext: () => void;
 };
 
 export type SelectedContextProps = {
   context: ContextDTO;
+  isOpened: boolean;
   loadContexts: () => void;
+  setIsOpened: (state: boolean) => void;
   setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
 };
 
 export type EditedContextProps = {
   context: ContextDTO;
+  isOpened: boolean;
   loadContexts: () => void;
   setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
@@ -34,5 +37,6 @@ export type EditedContextProps = {
 export type DropDownPros = {
   context: ContextDTO;
   loadContexts: () => void;
+  setIsOpened: (state: boolean) => void;
   setContextState: (state: ContextState) => void;
 };

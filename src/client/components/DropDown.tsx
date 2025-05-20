@@ -5,8 +5,28 @@ import { ContextState } from "../hooks/useContextState";
 
 import { useContextActions } from "../hooks/useContextActions";
 
-function DropDown({ context, loadContexts, setContextState }: DropDownPros) {
-  const { deleteContext } = useContextActions();
+function DropDown({
+  context,
+  loadContexts,
+  setIsOpened,
+  setContextState,
+}: DropDownPros) {
+  const { saveContext, deleteContext } = useContextActions();
+
+  const unselectContext = () => {
+    loadContexts();
+    setContextState(ContextState.default);
+  };
+
+  const handleLoad = () => {
+    setIsOpened(true);
+    unselectContext;
+  };
+
+  const handleSave = () => {
+    saveContext(context);
+    unselectContext;
+  };
 
   const handleDelete = () => {
     if (!context.id) {
@@ -15,10 +35,7 @@ function DropDown({ context, loadContexts, setContextState }: DropDownPros) {
     }
 
     deleteContext(context.id);
-
-    loadContexts();
-
-    setContextState(ContextState.default);
+    unselectContext;
   };
 
   return (
@@ -32,10 +49,14 @@ function DropDown({ context, loadContexts, setContextState }: DropDownPros) {
         </button>
       </li>
       <li>
-        <button className="button">OPEN</button>
+        <button className="button" onClick={handleLoad}>
+          LOAD
+        </button>
       </li>
       <li>
-        <button className="button">SAVE</button>
+        <button className="button" onClick={handleSave}>
+          SAVE
+        </button>
       </li>
       <li>
         <button className="button" onClick={handleDelete}>

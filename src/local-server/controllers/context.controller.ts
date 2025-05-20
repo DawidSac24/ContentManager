@@ -137,13 +137,20 @@ export class ContextController {
     LoggerService.info(`Storing all the pages on the context: ${context.name}`);
 
     try {
-      const openedPages: PageDTO[] = await this.pagesService.closeAllPages();
-      const contextToEdit: ContextDTO = {
-        id: context.id,
-        name: context.name,
-        pages: openedPages,
-      };
-      const editedContext: ContextDTO = await this.updateContext(contextToEdit);
+      const contextToUpdate = await this.pagesService
+        .getAllOpenTabs()
+        .then((openedPages) => {
+          console.log("assigning pages");
+          return {
+            id: context.id,
+            name: context.name,
+            pages: openedPages,
+          };
+        });
+
+      const editedContext: ContextDTO = await this.updateContext(
+        contextToUpdate
+      );
 
       LoggerService.info("Pages stored successfully");
       return editedContext;
