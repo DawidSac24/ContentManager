@@ -47,3 +47,8 @@ Context Manager consists of:
 ## Development Status
 
 This project is currently in active development. Features and functionality may change as development progresses.
+
+## TODO
+- [ ] Add a drop-down list of the context's pages
+- [ ] Change the fonts
+- [ ] Change the front-end to back-end communication ( currently accessing directly the context controller by a hook, may need to do a chrome messaging system, simulating the Express.js communcication system)
