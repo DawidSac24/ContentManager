@@ -14,8 +14,8 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 ## How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons
-2. **Add Pages**: Add your frequently visited pages to each context or add them automatically to your context
-3. **Switch Contexts**: With a single click, switch between contexts:
+2. **Save Your Context**: Add your currently open pages to your selected context
+3. **Switch Contexts**: With a single click, switch between contexts: (by clicking on load context)
    - The extension will close your current tabs (and save the unsaved pages inside of a temporary context)
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
@@ -25,7 +25,6 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
 - **Quick Switching**: Instantly switch between different browsing environments
-- **Custom Icons**: Assign custom icons to each context for easy identification
 - **Persistence**: Your contexts and pages are saved between browser sessions
 
 ## Use Cases
@@ -40,9 +39,9 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 
 Context Manager consists of:
 
-- A Chrome extension frontend built with **Vite** and **React**
-- A Node.js backend server
-- SQLite database for storing contexts and pages
+- A Chrome extension frontend built with **Vite** and **React TypeScript**
+- A local server with back-end implemantation inside of Vite
+- A **IndexedDV** local datavase
 
 ## Development Status
 
