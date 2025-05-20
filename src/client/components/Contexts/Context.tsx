@@ -5,7 +5,7 @@ import EditedContext from "./EditedContext";
 import { useContextState, ContextState } from "../../hooks/useContextState";
 import { Props } from "../../Props";
 
-function Context({ context }: Props) {
+function Context({ context, loadContexts }: Props) {
   const { contextState, setContextState } = useContextState();
 
   const generateContext = () => {
@@ -14,6 +14,7 @@ function Context({ context }: Props) {
         return (
           <DefaultContext
             context={context}
+            loadContexts={loadContexts}
             selectContext={() => setContextState(ContextState.selection)}
           />
         );
@@ -22,6 +23,7 @@ function Context({ context }: Props) {
         return (
           <SelectedContext
             context={context}
+            loadContexts={loadContexts}
             setContextState={setContextState}
             onOutsideClick={() => setContextState(ContextState.default)}
           />
@@ -29,12 +31,21 @@ function Context({ context }: Props) {
 
       case ContextState.edition:
         return (
-          <EditedContext context={context} setContextState={setContextState} />
+          <EditedContext
+            context={context}
+            loadContexts={loadContexts}
+            setContextState={setContextState}
+            onOutsideClick={() => setContextState(ContextState.default)}
+          />
         );
 
       default:
         return (
-          <EditedContext context={context} setContextState={setContextState} />
+          <DefaultContext
+            context={context}
+            loadContexts={loadContexts}
+            selectContext={() => setContextState(ContextState.selection)}
+          />
         );
     }
   };

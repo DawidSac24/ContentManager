@@ -7,6 +7,7 @@ import DropDown from "../DropDown";
 
 function SelectedContext({
   context,
+  loadContexts,
   setContextState,
   onOutsideClick,
 }: SelectedContextProps) {
@@ -18,12 +19,6 @@ function SelectedContext({
   const toggleDropDown = () => {
     setShowDropDown(!showDropDown);
   };
-  /**
-   * Hide the drop down menu if click occurs
-   * outside of the drop-down element.
-   *
-   * @param event  The mouse event
-   */
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,7 +30,11 @@ function SelectedContext({
         <h3>{context.name}</h3>
       </button>
       {showDropDown && (
-        <DropDown context={context} setContextState={setContextState} />
+        <DropDown
+          context={context}
+          loadContexts={loadContexts}
+          setContextState={setContextState}
+        />
       )}
     </div>
   );

@@ -113,17 +113,14 @@ export class ContextController {
    * @throws Error if no context is selected or if the ID type is invalid.
    * @throws Error if the context cannot be deleted.
    */
-  public async deleteContext(context: ContextDTO): Promise<void> {
-    if (!isIdentifier(context.id)) {
+  public async deleteContext(contextId: number): Promise<void> {
+    if (!isIdentifier(contextId)) {
       LoggerService.error("Invalid ID type");
       throw new Error("Invalid ID type");
     }
-    LoggerService.info(`Delete context: ${context.name}`);
 
     try {
-      await this.contextService.deleteContext(context.id);
-      LoggerService.info(`Context ${context.name} deleted successfully`);
-
+      await this.contextService.deleteContext(contextId);
       return;
     } catch (error) {
       LoggerService.error(error);

@@ -62,6 +62,7 @@ export function useContextlist() {
     contexts,
     selectedContextId,
     isEditing,
+    loadContexts,
     addContext,
     setSelectedContextId,
     unselectContext,
