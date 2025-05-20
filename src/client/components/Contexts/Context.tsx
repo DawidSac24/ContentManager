@@ -2,14 +2,11 @@ import SelectedContext from "../Contexts/SelectedContext";
 import DefaultContext from "./DefaultContext";
 import EditedContext from "./EditedContext";
 
-import { useState } from "react";
-
 import { useContextState, ContextState } from "../../hooks/useContextState";
 import { Props } from "../../Props";
 
-function Context({ context, loadContexts }: Props) {
+function Context({ context, isOpened, loadContexts, openContext }: Props) {
   const { contextState, setContextState } = useContextState();
-  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const generateContext = () => {
     switch (contextState) {
@@ -19,7 +16,7 @@ function Context({ context, loadContexts }: Props) {
             context={context}
             isOpened={isOpened}
             loadContexts={loadContexts}
-            setIsOpened={setIsOpened}
+            openContext={openContext}
             setContextState={setContextState}
             onOutsideClick={() => setContextState(ContextState.default)}
           />

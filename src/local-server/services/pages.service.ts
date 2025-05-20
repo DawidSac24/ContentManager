@@ -19,7 +19,7 @@ export class PagesService {
   public async getAllOpenTabs(): Promise<Page[]> {
     return new Promise((resolve, reject) => {
       try {
-        chrome.tabs.query({}, (tabs) => {
+        chrome.tabs.query({ currentWindow: true }, (tabs) => {
           const pages: Page[] = tabs.map((tab) => ({
             id: tab.id,
             title: tab.title || "No Title",
@@ -33,69 +33,71 @@ export class PagesService {
     });
   }
 
-  public createPagesWithTabs(tabs: chrome.tabs.Tab[]): Page[] {
-    const pages: Page[] = tabs.map((tab) => ({
-      id: tab.id,
-      title: tab.title || "No Title",
-      url: tab.url || "No URL",
-    }));
+  public async loadPages(pages: Page[]): Promise<Page[]> {
+    try {
+      // Close all tabs except one
+      const tabToClose = await this.closeAllTabs();
 
-    return pages;
-  }
+      // Open all pages in new tabs
+      const openedTabs = await this.openTabs(pages);
 
-  public async closeAllPages(): Promise<Page[]> {
-    LoggerService.info("Closing all tabs...");
+      // Close the last remaining tab
+      if (tabToClose.id !== undefined) {
+        chrome.tabs.remove(tabToClose.id);
+      }
 
-    // 1. Create a new blank Google tab
-    const newTab = await chrome.tabs.create({ url: "https://www.google.com" });
-
-    // 2. Get all the open tabs
-    const allTabs = await chrome.tabs.query({});
-
-    // 3. Filter out the newly created tab
-    const tabsToClose = allTabs.filter(
-      (tab) => tab.id !== newTab.id && tab.id !== undefined
-    );
-
-    const closedPages = this.createPagesWithTabs(tabsToClose);
-
-    // 4. Close the other tabs
-    const tabIdsToClose = tabsToClose.map((tab) => tab.id as number);
-    if (tabIdsToClose.length > 0) {
-      await chrome.tabs.remove(tabIdsToClose);
+      // Return the opened pages
+      return openedTabs.map((tab) => ({
+        id: tab.id || undefined,
+        url: tab.url || "",
+        title: tab.title || "",
+      }));
+    } catch (error) {
+      return Promise.reject(error);
     }
-
-    return closedPages;
   }
 
-  public async openTabs(Pages: Page[]): Promise<void> {
+  private closeAllTabs(): Promise<chrome.tabs.Tab> {
     return new Promise((resolve, reject) => {
-      try {
-        const urls = Pages.map((page) => page.url);
-        chrome.tabs.create({ url: urls.join(",") }, () => {
-          resolve();
+      chrome.tabs.query({ currentWindow: true }, (tabs) => {
+        if (chrome.runtime.lastError) {
+          return reject(chrome.runtime.lastError);
+        }
+
+        if (tabs.length <= 1) {
+          return resolve(tabs[0]); // Only one tab, nothing to close
+        }
+
+        const tabToKeep = tabs[0];
+
+        const tabsToClose = tabs
+          .filter((tab) => tab.id !== tabToKeep.id)
+          .map((tab) => tab.id!)
+          .filter((id) => id !== undefined);
+
+        chrome.tabs.remove(tabsToClose, () => {
+          if (chrome.runtime.lastError) {
+            return reject(chrome.runtime.lastError);
+          }
+          resolve(tabToKeep);
         });
-      } catch (err) {
-        LoggerService.error("Error opening tabs:" + err);
-        reject(err);
-      }
+      });
     });
   }
 
-  public async changeContext(newTabs: Page[]): Promise<Page[]> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        // Close all tabs
-        const closedTabs = await this.closeAllPages();
-
-        // Open new tabs
-        await this.openTabs(newTabs);
-
-        resolve(closedTabs);
-      } catch (err) {
-        LoggerService.error("Error changing context:" + err);
-        reject(err);
-      }
-    });
+  private openTabs(pages: Page[]) {
+    return Promise.all(
+      pages.map(
+        (page) =>
+          new Promise<chrome.tabs.Tab>((resolve, reject) => {
+            chrome.tabs.create({ url: page.url, active: false }, (tab) => {
+              if (chrome.runtime.lastError || !tab) {
+                return reject(chrome.runtime.lastError);
+              }
+              resolve(tab);
+            });
+          })
+      )
+    );
   }
 }

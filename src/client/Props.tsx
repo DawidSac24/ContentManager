@@ -3,7 +3,9 @@ import { ContextState } from "./hooks/useContextState";
 
 export type Props = {
   context: ContextDTO;
+  isOpened: boolean;
   loadContexts: () => void;
+  openContext: () => void;
 };
 
 export type ContextProps = {
@@ -21,7 +23,7 @@ export type SelectedContextProps = {
   context: ContextDTO;
   isOpened: boolean;
   loadContexts: () => void;
-  setIsOpened: (state: boolean) => void;
+  openContext: () => void;
   setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
 };
@@ -37,6 +39,6 @@ export type EditedContextProps = {
 export type DropDownPros = {
   context: ContextDTO;
   loadContexts: () => void;
-  setIsOpened: (state: boolean) => void;
+  openContext: () => void;
   setContextState: (state: ContextState) => void;
 };

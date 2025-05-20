@@ -10,7 +10,7 @@ function SelectedContext({
   context,
   isOpened,
   loadContexts,
-  setIsOpened,
+  openContext,
   setContextState,
   onOutsideClick,
 }: SelectedContextProps) {
@@ -31,8 +31,8 @@ function SelectedContext({
   if (isOpened) className += " opened-context";
 
   return (
-    <div ref={ref} className="context selected-context">
-      <button className={className} onClick={toggleDropDown}>
+    <div ref={ref} className={className}>
+      <button className="selected-context-button" onClick={toggleDropDown}>
         <h3>{context.name}</h3>
       </button>
       {showDropDown && (
@@ -40,7 +40,7 @@ function SelectedContext({
           context={context}
           loadContexts={loadContexts}
           setContextState={setContextState}
-          setIsOpened={setIsOpened}
+          openContext={openContext}
         />
       )}
     </div>

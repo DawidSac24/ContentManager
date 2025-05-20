@@ -164,19 +164,21 @@ export class ContextController {
    * Closes open pages and loads the pages from the context
    * @param context with the pages we want to load
    */
-  public async loadPages(context: ContextDTO): Promise<PageDTO[]> {
+  public async loadPages(context: ContextDTO): Promise<void> {
     LoggerService.info(
       `loading all the pages from the context: ${context.name}`
     );
 
+    if (context.pages.length == 0) {
+      alert("No pages saved on this context !");
+    }
     if (context.pages.length <= 0) {
       LoggerService.error("The context must have at least one saved page");
       throw new Error("The context must have at least one saved page");
     }
 
     try {
-      const closedPages = this.pagesService.changeContext(context.pages);
-      return closedPages;
+      this.pagesService.loadPages(context.pages);
     } catch (error) {
       LoggerService.error(error);
       throw error;

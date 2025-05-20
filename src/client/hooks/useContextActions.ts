@@ -13,6 +13,14 @@ export function useContextActions() {
     }
   };
 
+  const loadContext = async (context: ContextDTO) => {
+    try {
+      await contextController.loadPages(context);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const saveContext = async (context: ContextDTO) => {
     try {
       await contextController.storeOpenPages(context);
@@ -29,5 +37,5 @@ export function useContextActions() {
     }
   };
 
-  return { editContext, saveContext, deleteContext };
+  return { editContext, loadContext, saveContext, deleteContext };
 }

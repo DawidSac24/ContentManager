@@ -8,10 +8,10 @@ import { useContextActions } from "../hooks/useContextActions";
 function DropDown({
   context,
   loadContexts,
-  setIsOpened,
+  openContext,
   setContextState,
 }: DropDownPros) {
-  const { saveContext, deleteContext } = useContextActions();
+  const { loadContext, saveContext, deleteContext } = useContextActions();
 
   const unselectContext = () => {
     loadContexts();
@@ -19,13 +19,14 @@ function DropDown({
   };
 
   const handleLoad = () => {
-    setIsOpened(true);
-    unselectContext;
+    loadContext(context);
+    openContext();
+    unselectContext();
   };
 
   const handleSave = () => {
     saveContext(context);
-    unselectContext;
+    unselectContext();
   };
 
   const handleDelete = () => {
@@ -35,7 +36,7 @@ function DropDown({
     }
 
     deleteContext(context.id);
-    unselectContext;
+    unselectContext();
   };
 
   return (
