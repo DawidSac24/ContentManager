@@ -10,7 +10,7 @@ export default function ContextsList() {
 
   return (
     <div>
-      <ul>
+      <ul className="context-list">
         {contexts.map((context) => (
           <Context context={context} />
         ))}

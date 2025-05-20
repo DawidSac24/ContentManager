@@ -17,6 +17,11 @@ export type DefaultContextProps = {
 
 export type SelectedContextProps = {
   context: ContextDTO;
-  unselectContext: () => void;
+  setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
+};
+
+export type DropDownPros = {
+  context: ContextDTO;
+  setContextState: (state: ContextState) => void;
 };

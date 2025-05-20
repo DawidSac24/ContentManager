@@ -22,7 +22,7 @@ function Context({ context }: Props) {
         return (
           <SelectedContext
             context={context}
-            unselectContext={() => setContextState(ContextState.default)}
+            setContextState={setContextState}
             onOutsideClick={() => setContextState(ContextState.default)}
           />
         );

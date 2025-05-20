@@ -19,6 +19,11 @@ li {
   align-items: center;
 }
 
+.context-list {
+  width: 100%;
+  height: 75%;
+}
+
 .context {
   /* Remove the button propriety */
   all: unset;

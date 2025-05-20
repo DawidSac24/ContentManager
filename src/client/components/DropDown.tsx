@@ -1,19 +1,16 @@
 import "../styles/DropDown.css";
 
-type Props = {
-  setSelectedContextId: (id: number | undefined) => void;
-  setIsEditing: (state: boolean) => void;
-};
+import { DropDownPros } from "../Props";
+import { ContextState } from "../hooks/useContextState";
 
-function DropDown({ setIsEditing }: Props) {
-  const enableEdition = () => {
-    setIsEditing(true);
-  };
-
+function DropDown({ context, setContextState }: DropDownPros) {
   return (
     <ul className="drop-down">
       <li>
-        <button className="button" onClick={enableEdition}>
+        <button
+          className="button"
+          onClick={() => setContextState(ContextState.edition)}
+        >
           EDIT
         </button>
       </li>

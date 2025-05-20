@@ -1,6 +1,6 @@
 import { useEffect, RefObject } from "react";
 
-function useOutsideClick(
+export function useOutsideClick(
   ref: RefObject<HTMLElement | null>,
   callback: () => void
 ): void {
@@ -17,5 +17,3 @@ function useOutsideClick(
     };
   }, [ref, callback]);
 }
-
-export default useOutsideClick;
