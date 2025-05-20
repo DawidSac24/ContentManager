@@ -15,7 +15,7 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 
 You can download the latest ready-to-use version here:
 
-👉 [GitHub Releases](https://github.com/your-username/your-repo/releases)
+👉 [GitHub Releases](https://github.com/DawidSac24/ContextManager/releases)
 
 Then follow these steps:
 1. Extract the ZIP
