@@ -35,6 +35,7 @@ function SelectedContext({
       <button className="selected-context-button" onClick={toggleDropDown}>
         <h3>{context.name}</h3>
       </button>
+
       {showDropDown && (
         <DropDown
           context={context}
