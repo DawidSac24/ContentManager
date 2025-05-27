@@ -1,3 +1,10 @@
+.list-container {
+  height: 65vh;
+
+  overflow-y: scroll; /* Always show scrollbar */
+  scrollbar-gutter: stable;
+}
+
 ul {
   list-style: none;
   padding-left: 0; /* Optional: removes left indentation */
@@ -48,4 +55,22 @@ li {
 .opened-context {
   outline: 4px solid var(--primary-color);
   outline-offset: 2px; /* Controls the distance from the element */
+}
+
+/* Simple custom scrollbar */
+.list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 999px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
 }

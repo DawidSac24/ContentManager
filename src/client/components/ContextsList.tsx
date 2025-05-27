@@ -15,16 +15,18 @@ export default function ContextsList() {
 
   return (
     <div>
-      <ul>
-        {contexts.map((context) => (
-          <Context
-            context={context}
-            isOpened={openedContext === context.id}
-            loadContexts={loadContexts}
-            openContext={() => setOpenedContext(context.id)}
-          />
-        ))}
-      </ul>
+      <div className="list-container">
+        <ul>
+          {contexts.map((context) => (
+            <Context
+              context={context}
+              isOpened={openedContext === context.id}
+              loadContexts={loadContexts}
+              openContext={() => setOpenedContext(context.id)}
+            />
+          ))}
+        </ul>
+      </div>
 
       <AddContext onAdd={addContext} />
     </div>
