@@ -5,7 +5,7 @@ import EditedContext from "./EditedContext";
 import { useContextState, ContextState } from "../../hooks/useContextState";
 import { Props } from "../../Props";
 
-function Context({ context, isOpened, loadContexts, openContext }: Props) {
+function Context({ context, loadContexts }: Props) {
   const { contextState, setContextState } = useContextState();
 
   const generateContext = () => {
@@ -14,9 +14,7 @@ function Context({ context, isOpened, loadContexts, openContext }: Props) {
         return (
           <SelectedContext
             context={context}
-            isOpened={isOpened}
             loadContexts={loadContexts}
-            openContext={openContext}
             setContextState={setContextState}
             onOutsideClick={() => setContextState(ContextState.default)}
           />
@@ -26,7 +24,6 @@ function Context({ context, isOpened, loadContexts, openContext }: Props) {
         return (
           <EditedContext
             context={context}
-            isOpened={isOpened}
             loadContexts={loadContexts}
             setContextState={setContextState}
             onOutsideClick={() => setContextState(ContextState.default)}
@@ -37,7 +34,6 @@ function Context({ context, isOpened, loadContexts, openContext }: Props) {
         return (
           <DefaultContext
             context={context}
-            isOpened={isOpened}
             selectContext={() => setContextState(ContextState.selection)}
           />
         );

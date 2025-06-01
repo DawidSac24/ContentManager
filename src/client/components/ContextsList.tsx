@@ -9,21 +9,14 @@ import Context from "./Contexts/Context";
 
 export default function ContextsList() {
   const { contexts, loadContexts, addContext } = useContextlist();
-  const [openedContext, setOpenedContext] = useState<number | undefined>(
-    undefined
-  );
+  undefined;
 
   return (
     <div>
       <div className="list-container">
         <ul>
           {contexts.map((context) => (
-            <Context
-              context={context}
-              isOpened={openedContext === context.id}
-              loadContexts={loadContexts}
-              openContext={() => setOpenedContext(context.id)}
-            />
+            <Context context={context} loadContexts={loadContexts} />
           ))}
         </ul>
       </div>

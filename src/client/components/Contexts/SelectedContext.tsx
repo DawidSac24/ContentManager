@@ -1,49 +1,33 @@
 import { useRef } from "react";
 import { SelectedContextProps } from "../../Props";
 
-import { useDropDown } from "../../hooks/useDropDown";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 
-import DropDown from "../DropDown";
+import ContextButtons from "../ContextButtons";
 
 function SelectedContext({
   context,
-  isOpened,
   loadContexts,
-  openContext,
   setContextState,
   onOutsideClick,
 }: SelectedContextProps) {
-  const { showDropDown, setShowDropDown } = useDropDown();
-
-  /**
-   * Toggle the drop down menu
-   */
-  const toggleDropDown = () => {
-    setShowDropDown(!showDropDown);
-  };
-
   // For outside click detection
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, onOutsideClick);
 
-  let className = "context selected-context";
-  if (isOpened) className += " opened-context";
+  let contextContainerClass = "context selected-context";
 
   return (
-    <div ref={ref} className={className}>
-      <button className="selected-context-button" onClick={toggleDropDown}>
+    <div ref={ref} className={contextContainerClass}>
+      <div className="selected-context-button">
         <h3>{context.name}</h3>
-      </button>
-
-      {showDropDown && (
-        <DropDown
-          context={context}
-          loadContexts={loadContexts}
-          setContextState={setContextState}
-          openContext={openContext}
-        />
-      )}
+      </div>
+      SHOW CONTEXT LIST
+      <ContextButtons
+        context={context}
+        loadContexts={loadContexts}
+        setContextState={setContextState}
+      />
     </div>
   );
 }

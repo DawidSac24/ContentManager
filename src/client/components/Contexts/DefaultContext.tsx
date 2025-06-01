@@ -1,15 +1,8 @@
 import { DefaultContextProps } from "../../Props";
 
-function DefaultContext({
-  context,
-  isOpened,
-  selectContext,
-}: DefaultContextProps) {
-  let className = "context";
-  if (isOpened) className += " opened-context";
-
+function DefaultContext({ context, selectContext }: DefaultContextProps) {
   return (
-    <button className={className} onClick={selectContext}>
+    <button className="context" onClick={selectContext}>
       <h3>{context.name}</h3>
     </button>
   );

@@ -1,14 +1,13 @@
-import "../styles/DropDown.css";
+import "../styles/ContextButtons.css";
 
 import { DropDownPros } from "../Props";
 import { ContextState } from "../hooks/useContextState";
 
 import { useContextActions } from "../hooks/useContextActions";
 
-function DropDown({
+function ContextButtons({
   context,
   loadContexts,
-  openContext,
   setContextState,
 }: DropDownPros) {
   const { loadContext, saveContext, deleteContext } = useContextActions();
@@ -20,7 +19,6 @@ function DropDown({
 
   const handleLoad = () => {
     loadContext(context);
-    openContext();
     unselectContext();
   };
 
@@ -40,32 +38,24 @@ function DropDown({
   };
 
   return (
-    <ul className="drop-down">
-      <li>
-        <button
-          className="button"
-          onClick={() => setContextState(ContextState.edition)}
-        >
-          EDIT
-        </button>
-      </li>
-      <li>
-        <button className="button" onClick={handleLoad}>
-          LOAD
-        </button>
-      </li>
-      <li>
-        <button className="button" onClick={handleSave}>
-          SAVE
-        </button>
-      </li>
-      <li>
-        <button className="button" onClick={handleDelete}>
-          DELETE
-        </button>
-      </li>
-    </ul>
+    <div className="drop-down">
+      <button
+        className="button"
+        onClick={() => setContextState(ContextState.edition)}
+      >
+        EDIT
+      </button>
+      <button className="button" onClick={handleLoad}>
+        LOAD
+      </button>
+      <button className="button" onClick={handleSave}>
+        SAVE
+      </button>
+      <button className="button" onClick={handleDelete}>
+        DELETE
+      </button>
+    </div>
   );
 }
 
-export default DropDown;
+export default ContextButtons;

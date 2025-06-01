@@ -29,7 +29,6 @@ li {
 .context {
   /* Remove the button propriety */
   all: unset;
-  cursor: pointer;
 
   width: 80%;
   height: 50px;
@@ -42,14 +41,29 @@ li {
 }
 
 .selected-context {
-  background-color: var(--primary-color);
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .selected-context-button {
   all: unset;
-  cursor: pointer;
+
   width: 100%;
-  height: 100%;
+  height: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  text-align: center;
+
+  background-color: var(--primary-color);
+}
+
+.context-dropdown {
+  background-color: red;
 }
 
 .opened-context {
@@ -73,4 +87,8 @@ li {
 
 .list-container::-webkit-scrollbar-thumb:hover {
   background-color: #666;
+}
+
+.how-dropdown {
+  height: 100px;
 }

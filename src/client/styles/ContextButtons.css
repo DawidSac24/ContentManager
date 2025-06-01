@@ -1,12 +1,10 @@
 .drop-down {
-  position: absolute;
-  z-index: 9999;
-  background-color: #363636;
+  width: 90%;
+  height: 30%;
 
-  width: 75px;
-  height: 100px;
-  gap: 0;
-  right: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .button {
