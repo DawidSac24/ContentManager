@@ -20,7 +20,7 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
     <button onClick={setShowPageList} className="page-list-container">
       {showPageList ? (
         <ul className="page-list">
-          pageTitle
+          {pageTitle}
           {context.pages.map((page) => (
             <li className="page">{shortenString(page.title)}</li>
           ))}
