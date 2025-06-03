@@ -1,9 +1,8 @@
-import { ContextDTO, NewContextDTO } from "../models/context.model";
-import { PageDTO } from "../models/page.model";
+import { ContextDTO } from "../models/context.model";
 import { ContextService } from "../services/context.service";
 import { PagesService } from "../services/pages.service";
 import { LoggerService } from "../services/logger.service";
-import { isContext, isIdentifier, isNewContext } from "../utils/guards";
+import { isIdentifier } from "../utils/guards";
 
 /**
  * Controller for managing contexts.

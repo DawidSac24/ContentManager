@@ -1,8 +1,11 @@
+import "../../styles/SelectedContext.css";
+
 import { useRef } from "react";
 import { SelectedContextProps } from "../../Props";
 
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 
+import PagesList from "../PagesList";
 import ContextButtons from "../ContextButtons";
 
 function SelectedContext({
@@ -15,14 +18,14 @@ function SelectedContext({
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, onOutsideClick);
 
-  let contextContainerClass = "context selected-context";
+  const contextContainerClass = "context selected-context";
 
   return (
     <div ref={ref} className={contextContainerClass}>
       <div className="selected-context-button">
         <h3>{context.name}</h3>
       </div>
-      SHOW CONTEXT LIST
+      <PagesList />
       <ContextButtons
         context={context}
         loadContexts={loadContexts}

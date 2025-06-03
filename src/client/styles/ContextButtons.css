@@ -7,7 +7,7 @@
   justify-content: space-evenly;
 }
 
-.button {
+button {
   all: unset;
   cursor: pointer;
   width: 100%;
