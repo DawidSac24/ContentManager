@@ -30,8 +30,14 @@ export type EditedContextProps = {
   onOutsideClick: () => void;
 };
 
-export type DropDownPros = {
+export type DropDownProps = {
   context: ContextDTO;
   loadContexts: () => void;
   setContextState: (state: ContextState) => void;
+};
+
+export type PageListProps = {
+  context: ContextDTO;
+  showPageList: boolean;
+  setShowPageList: () => void;
 };

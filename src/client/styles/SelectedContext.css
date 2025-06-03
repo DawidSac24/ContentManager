@@ -19,3 +19,8 @@
 
   background-color: var(--primary-color);
 }
+
+.extended-page-list {
+  height: auto;
+  max-height: 320px;
+}

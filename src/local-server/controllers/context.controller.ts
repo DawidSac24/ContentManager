@@ -168,12 +168,8 @@ export class ContextController {
       `loading all the pages from the context: ${context.name}`
     );
 
-    if (context.pages.length == 0) {
-      alert("No pages saved on this context !");
-    }
     if (context.pages.length <= 0) {
-      LoggerService.error("The context must have at least one saved page");
-      throw new Error("The context must have at least one saved page");
+      alert("No pages saved on this context !");
     }
 
     try {

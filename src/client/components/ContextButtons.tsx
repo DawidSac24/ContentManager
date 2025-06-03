@@ -1,6 +1,6 @@
 import "../styles/ContextButtons.css";
 
-import { DropDownPros } from "../Props";
+import { DropDownProps } from "../Props";
 import { ContextState } from "../hooks/useContextState";
 
 import { useContextActions } from "../hooks/useContextActions";
@@ -9,7 +9,7 @@ function ContextButtons({
   context,
   loadContexts,
   setContextState,
-}: DropDownPros) {
+}: DropDownProps) {
   const { loadContext, saveContext, deleteContext } = useContextActions();
 
   const unselectContext = () => {
