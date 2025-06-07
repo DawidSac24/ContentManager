@@ -1,5 +1,5 @@
 /* Ensure root elements stretch full height */
-html,
+/* html,
 body,
 #root {
   width: 270px;
@@ -22,4 +22,5 @@ body,
   --primary-color: #470a35;
   --secondary-color: #151616;
   --padding: 10px;
-}
+} */
+@import "tailwindcss";

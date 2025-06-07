@@ -5,7 +5,11 @@ import ContextsList from "./ContextsList";
 
 function App() {
   return (
-    <div className="app-container">
+    <div
+      className="w-64 h-80
+      flex-row justify-around items-center
+      bg-"
+    >
       <Header />
       <div className="main-content">
         <ContextsList />

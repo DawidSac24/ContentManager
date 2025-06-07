@@ -2,9 +2,9 @@ import "../styles/Header.css";
 
 function Header() {
   return (
-    <header>
+    <div>
       <h1 id="title">Context Manager</h1>
-    </header>
+    </div>
   );
 }
 
