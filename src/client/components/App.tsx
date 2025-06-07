@@ -8,7 +8,7 @@ function App() {
     <div
       className="w-64 h-80
       flex-row justify-around items-center
-      bg-"
+      bg-neutral-800"
     >
       <Header />
       <div className="main-content">

@@ -23,4 +23,34 @@ body,
   --secondary-color: #151616;
   --padding: 10px;
 } */
+
 @import "tailwindcss";
+
+.context-tail {
+  @apply w-48 h-12
+  flex items-center justify-center
+  bg-neutral-900 text-white rounded-lg;
+}
+
+.selected {
+  @apply w-48 max-h-36
+  bg-neutral-900 text-white;
+}
+
+/* Simple custom scrollbar */
+.list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 999px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}

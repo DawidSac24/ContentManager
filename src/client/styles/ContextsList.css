@@ -40,24 +40,6 @@ li {
   text-align: center;
 }
 
-/* Simple custom scrollbar */
-.list-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.list-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.list-container::-webkit-scrollbar-thumb {
-  background-color: #444;
-  border-radius: 999px;
-}
-
-.list-container::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
-}
-
 .how-dropdown {
   height: 100px;
 }

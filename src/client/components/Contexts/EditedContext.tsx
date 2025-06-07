@@ -10,7 +10,6 @@ import { useContextActions } from "../../hooks/useContextActions";
 
 function ContextEdition({
   context,
-  isOpened,
   loadContexts,
   setContextState,
   onOutsideClick,
@@ -28,7 +27,7 @@ function ContextEdition({
     }
 
     setContextState(ContextState.default);
-    loadContexts;
+    loadContexts();
   };
 
   // SAVE the context after pressing ENTER
@@ -42,20 +41,21 @@ function ContextEdition({
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, onOutsideClick);
 
-  let className = "context context-edition-container";
-  if (isOpened) className += " opened-context";
-
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className="context-tail !justify-evenly">
       <input
         type="text"
-        className="context-input"
+        className="h-[30px] w-[115px]"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={context.name}
       />
-      <button className="save-context" onClick={handleSave}>
+      <button
+        className="!h-[30px] !w-[50px]
+      !text-center"
+        onClick={handleSave}
+      >
         SAVE
       </button>
     </div>

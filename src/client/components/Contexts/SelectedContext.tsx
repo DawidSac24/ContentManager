@@ -22,7 +22,7 @@ function SelectedContext({
 
   const [showPageList, setShowPageList] = useState<boolean>(false);
 
-  let contextContainerClass = "context selected-context";
+  let contextContainerClass = "selected";
   if (showPageList) contextContainerClass += " extended-page-list";
 
   return (
