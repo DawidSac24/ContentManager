@@ -1,5 +1,3 @@
-import "../../styles/SelectedContext.css";
-
 import { useRef } from "react";
 import { useState } from "react";
 
@@ -9,6 +7,7 @@ import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 import PagesList from "../PagesList";
 import ContextButtons from "../ContextButtons";
+import { ContextState } from "../../hooks/useContextState";
 
 function SelectedContext({
   context,
@@ -22,12 +21,12 @@ function SelectedContext({
 
   const [showPageList, setShowPageList] = useState<boolean>(false);
 
-  let contextContainerClass = "selected";
-  if (showPageList) contextContainerClass += " extended-page-list";
-
   return (
-    <div ref={ref} className={contextContainerClass}>
-      <div className="selected-context-button">
+    <div ref={ref} className="selected-tail">
+      <div
+        className="context-tail !bg-fuchsia-900 cursor-pointer"
+        onClick={() => setContextState(ContextState.default)}
+      >
         <h3>{context.name}</h3>
       </div>
       <PagesList

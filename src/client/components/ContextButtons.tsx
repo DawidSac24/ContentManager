@@ -1,5 +1,3 @@
-import "../styles/ContextButtons.css";
-
 import { DropDownProps } from "../Props";
 import { ContextState } from "../hooks/useContextState";
 
@@ -38,7 +36,7 @@ function ContextButtons({
   };
 
   return (
-    <div className="drop-down">
+    <div className="h-8 w-40 flex items-center justify-evenly">
       <button
         className="button"
         onClick={() => setContextState(ContextState.edition)}

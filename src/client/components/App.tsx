@@ -1,17 +1,15 @@
-import "../styles/App.css";
-
 import Header from "./Header";
 import ContextsList from "./ContextsList";
 
 function App() {
   return (
     <div
-      className="w-64 h-80
-      flex-row justify-around items-center
+      className="
+      flex flex-col justify-around items-center
       bg-neutral-800"
     >
       <Header />
-      <div className="main-content">
+      <div className="h-64 flex flex-col items-center justify-between">
         <ContextsList />
       </div>
     </div>

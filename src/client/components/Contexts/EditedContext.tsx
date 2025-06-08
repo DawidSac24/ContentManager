@@ -1,5 +1,3 @@
-import "../../styles/EditedContext.css";
-
 import { useRef } from "react";
 import { EditedContextProps } from "../../Props";
 import { useState } from "react";
@@ -45,19 +43,22 @@ function ContextEdition({
     <div ref={ref} className="context-tail !justify-evenly">
       <input
         type="text"
-        className="h-[30px] w-[115px]"
+        className="h-[30px] w-[115px]
+        text-center
+        bg-neutral-800 rounded-lg"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={context.name}
       />
-      <button
-        className="!h-[30px] !w-[50px]
-      !text-center"
+      <div
+        className="h-[30px] w-[50px]
+      flex items-center justify-center rounded-lg
+      bg-fuchsia-900"
         onClick={handleSave}
       >
         SAVE
-      </button>
+      </div>
     </div>
   );
 }

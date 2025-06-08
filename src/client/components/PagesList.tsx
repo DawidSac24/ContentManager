@@ -1,34 +1,34 @@
-import "../styles/PagesList.css";
-
 import { PageListProps } from "../Props";
 
 function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
   function shortenString(input: string): string {
-    return input.length > 30 ? input.slice(0, 27) + "..." : input;
+    return input.length > 22 ? input.slice(0, 19) + "..." : input;
   }
 
   const pageTitle = (
-    <div className="show-pages-button">
-      <h3 className="page-list-tittle">
-        {showPageList ? "pages list" : "show pages list"}
-      </h3>
-      <img className="arrow-img" src="/images/arrow.png" alt="" />
+    <div className="h-12 w-40 flex flex-row items-center justify-evenly cursor-pointer">
+      <h3 className="">{showPageList ? "pages list" : "show pages list"}</h3>
+      <img className="h-6 w-6" src="/images/arrow.png" alt="" />
     </div>
   );
 
   return (
-    <button onClick={setShowPageList} className="page-list-container">
+    <div
+      onClick={setShowPageList}
+      className="max-h-36 overflow-auto
+    flex flex-col items-center justify-evenly"
+    >
+      {pageTitle}
       {showPageList ? (
-        <ul className="page-list">
-          {pageTitle}
+        <ul className="list-container min-h-12 !max-h-48 !w-40 flex flex-col justify-evenly !overflow-auto gap-2">
           {context.pages.map((page) => (
-            <li className="page">{shortenString(page.title)}</li>
+            <li className="!h-3 p-2">{shortenString(page.title)}</li>
           ))}
         </ul>
       ) : (
-        pageTitle
+        ""
       )}
-    </button>
+    </div>
   );
 }
 export default PagesList;

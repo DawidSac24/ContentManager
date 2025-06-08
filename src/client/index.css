@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+#root {
+  @apply h-96 w-64 
+  flex flex-col items-center justify-between
+  m-0 p-0
+  bg-neutral-800 text-white;
+}
+
+.context-tail {
+  @apply w-48 h-12
+  flex items-center justify-center
+  bg-neutral-900 text-white rounded-lg;
+}
+
+.selected-tail {
+  @apply w-48 min-h-32 max-h-80
+  flex flex-col items-center justify-between
+  bg-neutral-900 text-white rounded-lg;
+}
+
+/* Simple custom scrollbar */
+.list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 999px;
+}
+
+.list-container::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}

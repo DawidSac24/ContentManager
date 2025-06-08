@@ -1,5 +1,3 @@
-import "../styles/ContextsList.css";
-
 import { useContextlist } from "../hooks/useContextList";
 
 import AddContext from "./AddContext";
@@ -10,8 +8,8 @@ export default function ContextsList() {
 
   return (
     <div>
-      <div className="list-container">
-        <ul>
+      <div className="list-container h-60 overflow-y-scroll">
+        <ul className="flex flex-col items-center justify-between gap-2">
           {contexts.map((context) => (
             <Context context={context} loadContexts={loadContexts} />
           ))}
