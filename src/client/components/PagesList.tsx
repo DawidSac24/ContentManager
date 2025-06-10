@@ -15,7 +15,7 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
       className="max-h-36 flex flex-col items-center justify-evenly"
     >
       <div className="h-12 w-40 flex flex-row items-center justify-evenly cursor-pointer">
-        <h3 className="font-(family-name:--modernist-bold)">
+        <h3 className="font-(family-name:--modernist)">
           {showPageList ? "hide page list" : "show page list"}
         </h3>
         <img className={imgClass} src="/assets/images/arrow.png" alt="" />
@@ -23,12 +23,15 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
 
       <div
         className={`transition-all duration-500 ease-in-out ${
-          showPageList ? "max-h-48" : "max-h-0"
+          showPageList ? "h-32" : "h-0"
         } overflow-hidden w-40`}
       >
         <ul className="list-container min-h-12 max-h-48 overflow-auto flex flex-col justify-evenly gap-2">
           {context.pages.map((page, index) => (
-            <li key={index} className="h-3 p-2">
+            <li
+              key={index}
+              className="h-3 p-2 text-sm font-(family-name:--modernist)"
+            >
               {shortenString(page.title)}
             </li>
           ))}

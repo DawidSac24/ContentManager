@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { SelectedContextProps } from "../../Props";
 
@@ -22,7 +21,15 @@ function SelectedContext({
   const [showPageList, setShowPageList] = useState<boolean>(false);
 
   return (
-    <div ref={ref} className="selected">
+    <div
+      ref={ref}
+      className={`w-48 min-h-32 max-h-80
+        flex flex-col items-center justify-between
+        bg-neutral-900 text-white rounded-lg
+        font-[var(--modernist-bold)]
+        overflow-hidden
+        ${showPageList ? "h-64" : "h-32"}`}
+    >
       <div
         className="context !bg-fuchsia-900 cursor-pointer"
         onClick={() => setContextState(ContextState.default)}

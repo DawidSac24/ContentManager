@@ -40,7 +40,7 @@ function ContextEdition({
   useOutsideClick(ref, onOutsideClick);
 
   return (
-    <div ref={ref} className="context-tail !justify-evenly">
+    <div ref={ref} className="context !justify-evenly">
       <input
         type="text"
         className="h-[30px] w-[115px]
