@@ -22,9 +22,9 @@ function SelectedContext({
   const [showPageList, setShowPageList] = useState<boolean>(false);
 
   return (
-    <div ref={ref} className="selected-tail">
+    <div ref={ref} className="selected">
       <div
-        className="context-tail !bg-fuchsia-900 cursor-pointer"
+        className="context !bg-fuchsia-900 cursor-pointer"
         onClick={() => setContextState(ContextState.default)}
       >
         <h3>{context.name}</h3>

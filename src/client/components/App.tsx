@@ -4,12 +4,12 @@ import ContextsList from "./ContextsList";
 function App() {
   return (
     <div
-      className="
+      className=" w-[83%]
       flex flex-col justify-around items-center
       bg-neutral-800"
     >
       <Header />
-      <div className="h-64 flex flex-col items-center justify-between">
+      <div className="h-64 w-[100%] flex flex-col items-center justify-between">
         <ContextsList />
       </div>
     </div>

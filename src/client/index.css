@@ -1,22 +1,56 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "modernist";
+  src: url("/assets/Sk-Modernist/Sk-Modernist-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "modernist-bold";
+  src: url("/assets/Sk-Modernist/Sk-Modernist-Bold.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+}
+
 #root {
   @apply h-96 w-64 
   flex flex-col items-center justify-between
   m-0 p-0
   bg-neutral-800 text-white;
+
+  font-family: "modernist-bold";
 }
 
-.context-tail {
+body {
+  font-family: "modernist-bold";
+}
+
+.context {
   @apply w-48 h-12
   flex items-center justify-center
-  bg-neutral-900 text-white rounded-lg;
+  bg-neutral-900 text-white rounded-lg
+  font-(family-name:--modernist-bold)
+  border-transparent
+  border-2
+  transition duration-300 ease-in-out
+  hover:border-white
+  cursor-pointer;
 }
 
-.selected-tail {
+.selected {
   @apply w-48 min-h-32 max-h-80
   flex flex-col items-center justify-between
-  bg-neutral-900 text-white rounded-lg;
+  bg-neutral-900 text-white rounded-lg
+  font-(family-name:--modernist-bold);
+}
+
+.button {
+  @apply p-1 rounded-sm 
+  bg-neutral-900 font-(family-name:--modernist) hover:bg-fuchsia-900
+  font-thin text-[11px]
+  transition !duration-150 !ease-in-out;
 }
 
 /* Simple custom scrollbar */

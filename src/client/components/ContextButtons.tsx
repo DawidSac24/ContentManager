@@ -36,7 +36,10 @@ function ContextButtons({
   };
 
   return (
-    <div className="h-8 w-40 flex items-center justify-evenly">
+    <div
+      className="h-8 w-40 gap-[6px]
+     flex items-center justify-between"
+    >
       <button
         className="button"
         onClick={() => setContextState(ContextState.edition)}
