@@ -1,11 +1,11 @@
 
-# 🧠 Context Manager Chrome Extension
+# 🧠 Content Manager Chrome Extension
 
-Context Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+Content Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
 
 ## 🎯 Purpose
 
-The main purpose of Context Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
+The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
 - **Work Context**: All the tabs you need for your job (email, project management, documentation)
 - **Development Context**: Your coding environment, GitHub, Stack Overflow, and other developer tools
@@ -16,7 +16,7 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 
 You can download the latest ready-to-use version here:
 
-👉 [GitHub Releases](https://github.com/DawidSac24/ContextManager/releases)
+👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
 
 Then follow these steps:
 1. Extract the ZIP
@@ -51,7 +51,7 @@ Then follow these steps:
 
 ## 🛠️ Technical Details
 
-Context Manager consists of:
+Content Manager consists of:
 
 - A Chrome extension frontend built with **Vite** and **React TypeScript**
 - A local server with back-end implementation inside of Vite
