@@ -50,7 +50,8 @@ body {
   @apply p-1 rounded-sm 
   bg-neutral-900 font-(family-name:--modernist) hover:bg-fuchsia-900
   font-thin text-[11px]
-  transition !duration-150 !ease-in-out;
+  transition !duration-150 !ease-in-out
+  cursor-pointer;
 }
 
 /* Simple custom scrollbar */

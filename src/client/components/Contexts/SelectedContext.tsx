@@ -28,6 +28,7 @@ function SelectedContext({
         bg-neutral-900 text-white rounded-lg
         font-[var(--modernist-bold)]
         overflow-hidden
+        transition-all duration-500 ease-in-out
         ${showPageList ? "h-64" : "h-32"}`}
     >
       <div

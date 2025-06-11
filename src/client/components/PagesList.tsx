@@ -26,7 +26,11 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
           showPageList ? "h-32" : "h-0"
         } overflow-hidden w-40`}
       >
-        <ul className="list-container min-h-12 max-h-48 overflow-auto flex flex-col justify-evenly gap-2">
+        <ul
+          className="list-container min-h-12 max-h-48 
+        flex flex-col justify-evenly gap-2
+        overflow-auto "
+        >
           {context.pages.map((page, index) => (
             <li
               key={index}
