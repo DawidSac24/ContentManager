@@ -8,6 +8,19 @@ import { Props } from "../../Props";
 function Context({ context, loadContexts }: Props) {
   const { contextState, setContextState } = useContextState();
 
+  const setContextClass = () => {
+    let contextClass = "w-48 transition-all duration-500 ease-in-out";
+
+    switch (contextState) {
+      case ContextState.selection:
+        contextClass += " min-h-32 max-h-80";
+        break;
+      default:
+        contextClass += " h-12";
+    }
+    return contextClass;
+  };
+
   const generateContext = () => {
     switch (contextState) {
       case ContextState.selection:
@@ -40,7 +53,7 @@ function Context({ context, loadContexts }: Props) {
     }
   };
 
-  return generateContext();
+  return <div className={setContextClass()}>{generateContext()}</div>;
 }
 
 export default Context;

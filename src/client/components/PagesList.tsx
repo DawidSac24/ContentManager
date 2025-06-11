@@ -27,14 +27,14 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
         } overflow-hidden w-40`}
       >
         <ul
-          className="list-container min-h-12 max-h-48 
+          className="list-container h-full
         flex flex-col justify-evenly gap-2
-        overflow-auto "
+        bg-zinc-800 overflow-auto cursor-default"
         >
           {context.pages.map((page, index) => (
             <li
               key={index}
-              className="h-3 p-2 text-sm font-(family-name:--modernist)"
+              className="h-3 p-2 text-sm font-(family-name:--modernist) cursor-default"
             >
               {shortenString(page.title)}
             </li>
