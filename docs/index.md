@@ -65,4 +65,4 @@ We may update this policy if the extension’s functionality changes. Any update
 ### 8. **Contact**
 
 If you have any questions or concerns about this policy, please contact us at:  
-📧 [your-email@example.com]
+📧 [dawidsac24@gmail.com]
