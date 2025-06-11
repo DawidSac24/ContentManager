@@ -1,11 +1,10 @@
+# 🧠 Content Manager Chrome Extension
 
-# 🧠 Context Manager Chrome Extension
-
-Context Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+Content Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
 
 ## 🎯 Purpose
 
-The main purpose of Context Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
+The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
 - **Work Context**: All the tabs you need for your job (email, project management, documentation)
 - **Development Context**: Your coding environment, GitHub, Stack Overflow, and other developer tools
@@ -16,9 +15,10 @@ The main purpose of Context Manager is to help you maintain focus and productivi
 
 You can download the latest ready-to-use version here:
 
-👉 [GitHub Releases](https://github.com/DawidSac24/ContextManager/releases)
+👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
 
-Then follow these steps:
+Follow these steps to install it:
+
 1. Extract the ZIP
 2. Go to `chrome://extensions`
 3. Enable Developer Mode
@@ -30,7 +30,6 @@ Then follow these steps:
 1. **Create Contexts**: Define different contexts with custom names and icons
 2. **Save Your Context**: Add your currently open pages to your selected context
 3. **Switch Contexts**: With a single click, switch between contexts:
-   - The extension will close your current tabs (and save the unsaved pages inside of a temporary context)
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
 
@@ -51,7 +50,7 @@ Then follow these steps:
 
 ## 🛠️ Technical Details
 
-Context Manager consists of:
+Content Manager consists of:
 
 - A Chrome extension frontend built with **Vite** and **React TypeScript**
 - A local server with back-end implementation inside of Vite
@@ -61,8 +60,8 @@ Context Manager consists of:
 
 This project is currently in active development. Features and functionality may change as development progresses.
 
-## 📋 TODO
+# TODO
 
-- [ ] Add a drop-down list of the context's pages
-- [ ] Change the fonts
-- [ ] Change the front-end to back-end communication (currently accessing directly the context controller by a hook, may need to do a chrome messaging system, simulating the Express.js communication system)
+- [ ] Set up IPC for backend-frontend communication
+- [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
+- [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
