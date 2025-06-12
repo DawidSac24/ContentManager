@@ -62,6 +62,5 @@ This project is currently in active development. Features and functionality may 
 
 # TODO
 
-- [ ] Set up IPC for backend-frontend communication
 - [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
 - [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
