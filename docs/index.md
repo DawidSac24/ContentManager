@@ -42,7 +42,6 @@ We **do not share** any user data with third parties. All data remains private a
 
 The extension requests the following Chrome permissions:
 
-- `storage`: To save your contexts and tab data locally
 - `tabs`: To read and manage your open tabs
 - `activeTab`: To interact with the currently active tab
 
