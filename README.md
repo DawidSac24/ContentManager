@@ -1,6 +1,6 @@
 # 🧠 Content Manager Chrome Extension
 
-Content Manager is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+[Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
 
 ## 🎯 Purpose
 
@@ -13,7 +13,9 @@ The main purpose of Content Manager is to help you maintain focus and productivi
 
 ## 🚀 Install the Extension
 
-You can download the latest ready-to-use version here:
+You can install it on the [Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)
+
+OR you can manually download the latest ready-to-use version here:
 
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
 
