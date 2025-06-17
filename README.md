@@ -39,6 +39,8 @@ Follow these steps to use it:
 
 ## ✨ Features
 
+![Content Manager second presentation page][presentation-page-2]
+
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
 - **Quick Switching**: Instantly switch between different browsing environments
@@ -71,3 +73,4 @@ This project is currently is mostly finished. Some major futures are planned to 
 
 [logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-48px.png "Content Manager Logo"
 [presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg "Content Manager presentation page"
+[presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg "Content Manager second presentation page"
