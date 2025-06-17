@@ -19,7 +19,7 @@ OR you can manually download the latest ready-to-use version here:
 
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
 
-Follow these steps to install it:
+Follow these steps to use it:
 
 1. Extract the ZIP
 2. Go to `chrome://extensions`
@@ -60,7 +60,7 @@ Content Manager consists of:
 
 ## 🚧 Development Status
 
-This project is currently in active development. Features and functionality may change as development progresses.
+This project is currently is mostly finished. Some major futures are planned to be added.
 
 # TODO
 
