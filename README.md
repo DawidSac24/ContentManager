@@ -1,8 +1,8 @@
 # ![Content Manager Logo][logo] Content Manager Chrome Extension
 
-![Content Manager presentation page][presentation-page]
-
 [Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+
+![Content Manager presentation page][presentation-page]
 
 ## 🎯 Purpose
 
@@ -39,12 +39,12 @@ Follow these steps to use it:
 
 ## ✨ Features
 
-![Content Manager second presentation page][presentation-page-2]
-
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
 - **Quick Switching**: Instantly switch between different browsing environments
 - **Persistence**: Your contexts and pages are saved between browser sessions
+
+![Content Manager second presentation page][presentation-page-2]
 
 ## 💡 Use Cases
 
