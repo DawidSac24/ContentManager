@@ -1,4 +1,6 @@
-# ![alt text][logo] Content Manager Chrome Extension
+# ![Content Manager Logo][logo] Content Manager Chrome Extension
+
+![Content Manager presentation page][presentation-page]
 
 [Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
 
@@ -68,3 +70,4 @@ This project is currently is mostly finished. Some major futures are planned to 
 - [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
 
 [logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-48px.png "Content Manager Logo"
+[presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg "Content Manager presentation page"
