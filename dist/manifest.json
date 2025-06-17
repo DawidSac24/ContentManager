@@ -15,5 +15,10 @@
   "action": {
     "default_title": "Content Manager",
     "default_popup": "./index.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "content-manager@example.com"
+    }
   }
 }

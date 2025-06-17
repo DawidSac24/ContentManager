@@ -29,6 +29,14 @@ Follow these steps to use it:
 4. Click "Load Unpacked"
 5. Select the extracted folder
 
+How to Compile the project :
+
+1. run "npm run build"
+2. Go to `chrome://extensions`
+3. Enable Developer Mode
+4. Click "Load Unpacked"
+5. Select the "dist" folder
+
 ## ⚙️ How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons

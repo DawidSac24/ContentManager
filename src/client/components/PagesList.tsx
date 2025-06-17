@@ -18,7 +18,11 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
         <h3 className="font-(family-name:--modernist)">
           {showPageList ? "hide page list" : "show page list"}
         </h3>
-        <img className={imgClass} src="/assets/images/arrow.png" alt="" />
+        <img
+          className={imgClass}
+          src="/assets/images/dropdown-logo.png"
+          alt=""
+        />
       </div>
 
       <div
