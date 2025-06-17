@@ -2,7 +2,7 @@
   "name": "Content Manager",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Content Manager helps you organize and manage your browsing sessions by creating and switching between different contexts.",
+  "description": "Tab Grouping & Context Switching Made Easy",
   "icons": {
     "16": "assets/images/logo-16px.png",
     "48": "assets/images/logo-48px.png",
