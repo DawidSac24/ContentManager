@@ -71,4 +71,4 @@ This project is currently is mostly finished. Some major futures are planned to 
 - [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
 - [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
 
-[logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-128px.png "Logo Title Text 2"
+[logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-48px.png "Content Manager Logo"
