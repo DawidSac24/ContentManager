@@ -10,28 +10,28 @@ function ContextButtons({
 }: DropDownProps) {
   const { loadContext, saveContext, deleteContext } = useContextActions();
 
-  const unselectContext = () => {
-    loadContexts();
+  const unselectContext = async () => {
+    await loadContexts();
     setContextState(ContextState.default);
   };
 
-  const handleLoad = () => {
-    loadContext(context);
+  const handleLoad = async () => {
+    await loadContext(context);
     unselectContext();
   };
 
-  const handleSave = () => {
-    saveContext(context);
+  const handleSave = async () => {
+    await saveContext(context);
     unselectContext();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!context.id) {
       console.log("no context id");
       throw new Error("no context id");
     }
 
-    deleteContext(context.id);
+    await deleteContext(context.id);
     unselectContext();
   };
 

@@ -18,7 +18,7 @@
   @apply h-96 w-64 
   flex flex-col items-center justify-between
   m-0 p-0
-  bg-neutral-800 text-white;
+  bg-neutral-900 text-white;
 
   font-family: "modernist";
 }
@@ -30,12 +30,23 @@ body {
 .context {
   @apply w-48 h-12
   flex items-center justify-center
-  bg-neutral-900 text-white rounded-lg
+  bg-neutral-800 text-white rounded-lg
   font-(family-name:--modernist-bold)
   border-transparent
   border-2
   transition duration-300 ease-in-out
   hover:border-white
+  cursor-pointer;
+}
+
+.edited-context {
+  @apply w-48 h-12
+  flex items-center justify-evenly
+  bg-neutral-800 text-white rounded-lg
+  font-(family-name:--modernist-bold)
+  border-transparent
+  border-2
+  transition duration-300 ease-in-out
   cursor-pointer;
 }
 
@@ -48,7 +59,7 @@ body {
 
 .button {
   @apply p-1 rounded-sm 
-  bg-neutral-900 font-(family-name:--modernist) hover:bg-fuchsia-900
+  bg-neutral-800 font-(family-name:--modernist) hover:bg-fuchsia-900
   font-thin text-[11px]
   transition !duration-150 !ease-in-out
   cursor-pointer;

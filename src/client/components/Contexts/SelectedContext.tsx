@@ -23,9 +23,9 @@ function SelectedContext({
   return (
     <div
       ref={ref}
-      className={`w-48 min-h-32 max-h-80
+      className={`w-48 min-h-32 max-h-60
         flex flex-col items-center justify-between
-        bg-neutral-900 text-white rounded-lg
+        bg-neutral-800 text-white rounded-lg
         font-[var(--modernist-bold)]
         overflow-hidden
         transition-all duration-500 ease-in-out

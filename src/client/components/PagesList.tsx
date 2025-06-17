@@ -22,19 +22,22 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
       </div>
 
       <div
-        className={`transition-all duration-500 ease-in-out ${
-          showPageList ? "h-32" : "h-0"
-        } overflow-hidden w-40`}
+        className={`${showPageList ? "h-32" : "h-0"} w-40
+        bg-neutral-900 rounded-lg
+        transition-all duration-500 ease-in-out 
+        overflow-hidden`}
       >
         <ul
-          className="list-container h-full
-        flex flex-col justify-evenly gap-2
-        bg-zinc-800 overflow-auto cursor-default"
+          className="list-container h-full w-[97%]
+        flex flex-col gap-2
+        overflow-auto cursor-default"
         >
           {context.pages.map((page, index) => (
             <li
               key={index}
-              className="h-3 p-2 text-sm font-(family-name:--modernist) cursor-default"
+              className="h-[22px] w-fit pl-4 pt-2 pb-2
+              text-sm font-(family-name:--modernist) 
+              cursor-default"
             >
               {shortenString(page.title)}
             </li>

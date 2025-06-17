@@ -1,5 +1,4 @@
 import { Page } from "../models/page.model";
-import { LoggerService } from "./logger.service";
 
 export class PagesService {
   private static instance: PagesService;

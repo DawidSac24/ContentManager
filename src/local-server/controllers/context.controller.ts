@@ -170,6 +170,7 @@ export class ContextController {
 
     if (context.pages.length <= 0) {
       alert("No pages saved on this context !");
+      return;
     }
 
     try {
