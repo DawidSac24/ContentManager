@@ -5,14 +5,14 @@
 [Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together
 
 ## Summary
-- [Purpose](#🎯-Purpose)
+- [Purpose](#Purpose)
 - [How to install ?](#Install-the-Extension)
 - [How It Works](#How-It-Works)
 - [Features](#Features)
 - [Use Cases](Use-Cases)
 - [Development Details](#Development-Details)
 
-## 🎯 Purpose
+## Purpose
 ![Content Manager presentation page][presentation-page]
 The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
@@ -21,7 +21,7 @@ The main purpose of Content Manager is to help you maintain focus and productivi
 - **Personal Context**: Social media, news sites, and personal projects
 - **Study Context**: Educational resources, research papers, and learning platforms
 
-## 🚀 Install the Extension
+## Install the Extension
 You can install it on the [Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)
 OR you can manually download the latest ready-to-use version here:
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
@@ -33,14 +33,14 @@ Follow these steps to use it:
 4. Click "Load Unpacked"
 5. Select the extracted folder
 
-## ⚙️ How It Works
+## How It Works
 1. **Create Contexts**: Define different contexts with custom names and icons
 2. **Save Your Context**: Add your currently open pages to your selected context
 3. **Switch Contexts**: With a single click, switch between contexts:
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
 
-## ✨ Features
+## Features
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
 - **Quick Switching**: Instantly switch between different browsing environments
@@ -48,21 +48,21 @@ Follow these steps to use it:
 
 ![Content Manager second presentation page][presentation-page-2]
 
-## 💡 Use Cases
+## Use Cases
 - **Work-Life Balance**: Keep your work and personal browsing separate
 - **Project Management**: Create contexts for different projects
 - **Learning**: Organize educational resources by subject or course
 - **Research**: Group research materials by topic
 - **Development**: Switch between different development environments
 
-## 🛠️ Technical Details
+## Technical Details
 Content Manager consists of:
 
 - A Chrome extension frontend built with **Vite** and **React TypeScript**
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
-## 🚧 Development Status
+## Development Status
 This project is currently is mostly finished. Some major futures are planned to be added.
 
 # TODO
