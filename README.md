@@ -10,7 +10,7 @@
 - [How It Works](#How-It-Works)
 - [Features](#Features)
 - [Use Cases](Use-Cases)
-- [Development Details](#Development-Details)
+- [Development Status](#Development-Status)
 
 ## Purpose
 ![Content Manager presentation page][presentation-page]
@@ -55,17 +55,18 @@ Follow these steps to use it:
 - **Research**: Group research materials by topic
 - **Development**: Switch between different development environments
 
-## Technical Details
+
+## Development Status
+This project is currently is mostly finished. Some major futures are planned to be added.
+
+### Technical Details
 Content Manager consists of:
 
 - A Chrome extension frontend built with **Vite** and **React TypeScript**
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
-## Development Status
-This project is currently is mostly finished. Some major futures are planned to be added.
-
-# TODO
+### TODO
 - [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
 - [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
 
