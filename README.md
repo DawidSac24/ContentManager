@@ -2,12 +2,18 @@
 
 ![Context manager banner][banner]
 
-[Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+[Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together
 
-![Content Manager presentation page][presentation-page]
+## Summary
+- [Purpose](#Purpose)
+- [How to install ?](#Install-the-Extension)
+- [How It Works](#How-It-Works)
+- [Features](#Features)
+- [Use Cases](Use-Cases)
+- [Development Details](#Development-Details)
 
 ## 🎯 Purpose
-
+![Content Manager presentation page][presentation-page]
 The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
 - **Work Context**: All the tabs you need for your job (email, project management, documentation)
