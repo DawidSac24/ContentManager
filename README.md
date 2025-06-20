@@ -5,7 +5,7 @@
 [Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together
 
 ## Summary
-- [Purpose](##Purpose)
+- [Purpose](#Purpose)
 - [How to install ?](#Install-the-Extension)
 - [How It Works](#How-It-Works)
 - [Features](#Features)
