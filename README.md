@@ -23,8 +23,8 @@ The main purpose of Content Manager is to help you maintain focus and productivi
 
 ## Install the Extension
 You can install it on the 
-👉[Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) or 
-👉[in the mozzilla firefox add-ons](https://addons.mozilla.org/pl/firefox/addon/content-manager/)  
+👉[Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)  
+or 👉[in the mozzilla firefox add-ons](https://addons.mozilla.org/pl/firefox/addon/content-manager/)  
 
 OR you can manually download the latest ready-to-use version here:
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
