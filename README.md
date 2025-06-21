@@ -29,7 +29,6 @@ You can install it on the
 OR you can manually download the latest ready-to-use version here:
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
 Follow these steps to use it:
-
 1. Extract the ZIP
 2. Go to `chrome://extensions`
 3. Enable Developer Mode
