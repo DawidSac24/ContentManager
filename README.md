@@ -76,6 +76,10 @@ Content Manager consists of:
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
+### The Project Database Diagram
+![Project Database Diagram][DSD]
+
+
 ### Encountered Development Errors
 
 - I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
@@ -89,3 +93,4 @@ Content Manager consists of:
 [banner]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-banner.jpg
 [presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg
 [presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg
+[DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
