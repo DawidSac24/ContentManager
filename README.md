@@ -1,11 +1,21 @@
 # ![Content Manager Logo][logo] Content Manager Chrome Extension
 
-[Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together.
+![Context manager banner][banner]
+
+[Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together
+
+## Summary
+
+- [Purpose](#Purpose)
+- [How to install ?](#Install-the-Extension)
+- [How It Works](#How-It-Works)
+- [Features](#Features)
+- [Use Cases](Use-Cases)
+- [Development Status](#Development-Status)
+
+## Purpose
 
 ![Content Manager presentation page][presentation-page]
-
-## 🎯 Purpose
-
 The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
 
 - **Work Context**: All the tabs you need for your job (email, project management, documentation)
@@ -13,14 +23,14 @@ The main purpose of Content Manager is to help you maintain focus and productivi
 - **Personal Context**: Social media, news sites, and personal projects
 - **Study Context**: Educational resources, research papers, and learning platforms
 
-## 🚀 Install the Extension
+## Install the Extension
 
-You can install it on the [Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)
+You can install it on the
+👉[Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)  
+or 👉[in the mozzilla firefox add-ons](https://addons.mozilla.org/pl/firefox/addon/content-manager/)
 
-OR you can manually download the latest ready-to-use version here:
-
+You can also manually download the latest ready-to-use version here:
 👉 [GitHub Releases](https://github.com/DawidSac24/ContentManager/releases)
-
 Follow these steps to use it:
 
 1. Extract the ZIP
@@ -29,15 +39,7 @@ Follow these steps to use it:
 4. Click "Load Unpacked"
 5. Select the extracted folder
 
-How to Compile the project :
-
-1. run "npm run build"
-2. Go to `chrome://extensions`
-3. Enable Developer Mode
-4. Click "Load Unpacked"
-5. Select the "dist" folder
-
-## ⚙️ How It Works
+## How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons
 2. **Save Your Context**: Add your currently open pages to your selected context
@@ -45,7 +47,7 @@ How to Compile the project :
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
 
-## ✨ Features
+## Features
 
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
@@ -54,7 +56,7 @@ How to Compile the project :
 
 ![Content Manager second presentation page][presentation-page-2]
 
-## 💡 Use Cases
+## Use Cases
 
 - **Work-Life Balance**: Keep your work and personal browsing separate
 - **Project Management**: Create contexts for different projects
@@ -62,7 +64,11 @@ How to Compile the project :
 - **Research**: Group research materials by topic
 - **Development**: Switch between different development environments
 
-## 🛠️ Technical Details
+## Development Status
+
+This project is currently is mostly finished. Some major futures are planned to be added.
+
+### Technical Details
 
 Content Manager consists of:
 
@@ -70,15 +76,16 @@ Content Manager consists of:
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
-## 🚧 Development Status
+### Encountered Development Errors
 
-This project is currently is mostly finished. Some major futures are planned to be added.
+- I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
 
-# TODO
+### TODO
 
 - [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
-- [ ] Set up a server to allow user synchronization between devices OR add encryption/database conversion to generate a sync code
+- [ ] Set up a server to allow user synchronization between devices
 
-[logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-48px.png "Content Manager Logo"
-[presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg "Content Manager presentation page"
-[presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg "Content Manager second presentation page"
+[logo]: https://github.com/DawidSac24/ContentManager/blob/main/assets/logo-48px.png
+[banner]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-banner.jpg
+[presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg
+[presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg

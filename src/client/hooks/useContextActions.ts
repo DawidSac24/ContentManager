@@ -1,4 +1,4 @@
-import { ContextController } from "../../local-server/controllers/context.controller";
+import { ContextController } from "../../local-server/controllers/contexts.controller";
 import { ContextDTO } from "../../local-server/models/context.model";
 
 const contextController = ContextController.getInstance();

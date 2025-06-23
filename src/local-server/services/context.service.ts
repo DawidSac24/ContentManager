@@ -1,5 +1,4 @@
 import { Context } from "../models/context.model";
-import { Page } from "../models/page.model";
 
 /**
  * Singleton service for managing contexts in IndexedDB.
@@ -10,7 +9,7 @@ export class ContextService {
   private static instance: ContextService;
   private indexDb = window.indexedDB;
   private dbName = "contexts";
-  private dbVersion = 1;
+  private dbVersion = 2;
 
   private constructor() {}
 
@@ -187,43 +186,6 @@ export class ContextService {
 
       deleteRequest.onerror = () => {
         reject(new Error(`Error deleting context: ${deleteRequest.error}`));
-      };
-    });
-  }
-
-  /**
-   * Assigns pages to a context by its ID.
-   * @param contextId The ID of the context to assign pages to.
-   * @param pages The array of Page objects to assign.
-   * @returns A promise that resolves to the updated Context object.
-   */
-  public async assignPagesToContext(
-    contextId: number,
-    pages: Page[]
-  ): Promise<Context> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
-
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction("contexts", "readwrite");
-      const objectStore = transaction.objectStore("contexts");
-      const getRequest = objectStore.get(contextId);
-
-      getRequest.onsuccess = () => {
-        const context = getRequest.result as Context;
-        context.pages = pages;
-        const putRequest = objectStore.put(context);
-
-        putRequest.onsuccess = () => {
-          resolve(context);
-        };
-
-        putRequest.onerror = () => {
-          reject(new Error(`Error updating context: ${putRequest.error}`));
-        };
-      };
-
-      getRequest.onerror = () => {
-        reject(new Error(`Error getting context: ${getRequest.error}`));
       };
     });
   }

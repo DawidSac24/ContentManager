@@ -3,7 +3,7 @@ import { Page } from "./page.model";
 export interface Context {
   id?: number;
   name: string;
-  pages: Page[];
+  pages: number;
 }
 
 export interface NewContext {
@@ -13,9 +13,15 @@ export interface NewContext {
 export interface ContextDTO {
   id?: number;
   name: string;
-  pages: Page[];
+  pages: number;
 }
 
 export interface NewContextDTO {
   name: string;
+}
+
+export interface ContextFullDTO {
+  id?: number;
+  name: string;
+  pages: Page[];
 }

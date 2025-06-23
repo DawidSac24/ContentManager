@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { ContextDTO } from "../../local-server/models/context.model";
-import { ContextController } from "../../local-server/controllers/context.controller";
+import { ContextController } from "../../local-server/controllers/contexts.controller";
 import { LoggerService } from "../../local-server/services/logger.service";
 
 const contextController = ContextController.getInstance();
