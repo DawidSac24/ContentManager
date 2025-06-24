@@ -95,9 +95,6 @@ Content Manager consists of:
 [presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg
 [DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
 
----
-
-## 🗃️ Diagram Type: Data Flow (React ↔ IndexedDB ↔ Browser)
 flowchart LR
 
 A[Hard] -->|Text| B(Round)
