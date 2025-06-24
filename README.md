@@ -78,7 +78,22 @@ Content Manager consists of:
 
 ### The Project Diagrams
 
-![Project Database Diagram][DSD]
+```mermaid
+erDiagram
+    contexts {
+        number context_id PK
+        string name 
+    }
+
+    pages {
+        number page_id PK
+        string title
+        string url
+        number context FK
+    }
+
+    contexts ||--o{ pages : has
+```
 
 ### Encountered Development Errors
 
@@ -94,21 +109,3 @@ Content Manager consists of:
 [presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg
 [presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg
 [DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
-
-```mermaid
-erDiagram
-    WebPage {
-        string id PK
-        string url
-        string title
-        datetime openedAt
-        datetime lastActive
-    }
-
-    User {
-        string id PK
-        string name
-    }
-
-    User ||--o{ WebPage : owns
-```
