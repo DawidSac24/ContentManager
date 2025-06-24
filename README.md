@@ -95,9 +95,11 @@ Content Manager consists of:
 [presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg
 [DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
 
+```mermaid
 flowchart LR
 
 A[Hard] -->|Text| B(Round)
 B --> C{Decision}
 C -->|One| D[Result 1]
 C -->|Two| E[Result 2]
+```
