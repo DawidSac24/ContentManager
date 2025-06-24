@@ -11,7 +11,7 @@
 - [How It Works](#How-It-Works)
 - [Features](#Features)
 - [Use Cases](Use-Cases)
-- [Development Status](#Development-Status)
+- [Development](#Development)
 
 ## Purpose
 
@@ -64,7 +64,7 @@ Follow these steps to use it:
 - **Research**: Group research materials by topic
 - **Development**: Switch between different development environments
 
-## Development Status
+## Development
 
 This project is currently is mostly finished. Some major futures are planned to be added.
 
@@ -76,7 +76,7 @@ Content Manager consists of:
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
-### The Project Database Diagram
+### The Project Diagrams
 
 ![Project Database Diagram][DSD]
 
@@ -96,10 +96,19 @@ Content Manager consists of:
 [DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
 
 ```mermaid
-flowchart LR
+erDiagram
+    WebPage {
+        string id PK
+        string url
+        string title
+        datetime openedAt
+        datetime lastActive
+    }
 
-A[Hard] -->|Text| B(Round)
-B --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
+    User {
+        string id PK
+        string name
+    }
+
+    User ||--o{ WebPage : owns
 ```
