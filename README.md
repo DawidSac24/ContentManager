@@ -98,14 +98,9 @@ Content Manager consists of:
 ---
 
 ## 🗃️ Diagram Type: Data Flow (React ↔ IndexedDB ↔ Browser)
-
-````markdown
-```mermaid
 flowchart LR
-    A[Browser Page Open] --> B[React Tracker Component]
-    B --> C[Build Page Metadata]
-    C --> D[IndexedDB (pages store)]
-    D --> E[Local React State]
-    E --> F[UI Update (List of Open Pages)]
-```
-````
+
+A[Hard] -->|Text| B(Round)
+B --> C{Decision}
+C -->|One| D[Result 1]
+C -->|Two| E[Result 2]
