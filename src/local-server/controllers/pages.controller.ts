@@ -1,4 +1,3 @@
-import { ContextDTO } from "../models/context.model";
 import { PagesService } from "../services/pages.service";
 import { LoggerService } from "../services/logger.service";
 import { isIdentifier } from "../utils/guards";
@@ -44,7 +43,7 @@ export class PageController {
    * @param contextId The context where the pages will be stored
    * @returns the edited Context
    */
-  public async storeOpenPages(id: number): Promise<Page[]> {
+  public async saveOpenPages(id: number): Promise<Page[]> {
     try {
       if (!isIdentifier(id)) {
         LoggerService.error("Invalid context ID");

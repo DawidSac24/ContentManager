@@ -77,8 +77,8 @@ Content Manager consists of:
 - A **IndexedDB** local database
 
 ### The Project Database Diagram
-![Project Database Diagram][DSD]
 
+![Project Database Diagram][DSD]
 
 ### Encountered Development Errors
 
@@ -94,3 +94,18 @@ Content Manager consists of:
 [presentation-page]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss1.jpg
 [presentation-page-2]: https://github.com/DawidSac24/ContentManager/blob/main/assets/cm-ss2.jpg
 [DSD]: https://github.com/DawidSac24/ContentManager/blob/main/assets/DSD.png
+
+---
+
+## 🗃️ Diagram Type: Data Flow (React ↔ IndexedDB ↔ Browser)
+
+````markdown
+```mermaid
+flowchart LR
+    A[Browser Page Open] --> B[React Tracker Component]
+    B --> C[Build Page Metadata]
+    C --> D[IndexedDB (pages store)]
+    D --> E[Local React State]
+    E --> F[UI Update (List of Open Pages)]
+```
+````

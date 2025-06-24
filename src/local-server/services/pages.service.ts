@@ -1,10 +1,8 @@
 import { Page } from "../models/page.model";
+import { openDatabase } from "./db.service";
 
 export class PagesService {
   private static instance: PagesService;
-  private indexDb = window.indexedDB;
-  private dbName = "pages";
-  private dbVersion = 1;
 
   private constructor() {}
 
@@ -15,52 +13,8 @@ export class PagesService {
     return PagesService.instance;
   }
 
-  /**
-   * Creates a new IndexedDB database if it doesn't exist.
-   * @param request The IDBOpenDBRequest object for the database.
-   */
-  private createDatabase(request: IDBOpenDBRequest): void {
-    const db = request.result;
-
-    if (!db.objectStoreNames.contains(this.dbName)) {
-      // Create an object store for contexts if it doesn't exist
-      db.createObjectStore(this.dbName, {
-        keyPath: "id",
-        autoIncrement: true,
-      });
-    }
-  }
-
-  /**
-   * Opens the IndexedDB database.
-   * if the database doesn't exist, it will be created with this.createDatabase(request).
-   * @param dbName The name of the database.
-   * @param version The version of the database.
-   * @returns A promise that resolves to the opened IDBDatabase object.
-   */
-  private async openDatabase(
-    dbName: string,
-    version: number
-  ): Promise<IDBDatabase> {
-    return new Promise((resolve, reject) => {
-      const request = this.indexDb.open(dbName, version);
-
-      request.onupgradeneeded = () => {
-        this.createDatabase(request);
-      };
-
-      request.onsuccess = function () {
-        resolve(request.result);
-      };
-
-      request.onerror = function () {
-        reject(new Error(`Error opening database: ${request.error}`));
-      };
-    });
-  }
-
   public async getById(id: number): Promise<Page> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("pages", "readonly");
@@ -77,30 +31,52 @@ export class PagesService {
     });
   }
 
-  public async getAllOpenPages(): Promise<Page[]> {
+  public async getAllByContextId(contextId: number): Promise<Page[]> {
+    const db = await openDatabase();
+
     return new Promise((resolve, reject) => {
-      try {
-        chrome.tabs.query({ currentWindow: true }, (tabs) => {
+      const transaction = db.transaction("pages", "readonly");
+      const objectStore = transaction.objectStore("pages");
+      const index = objectStore.index("contextId");
+      const getAllRequest = index.getAll(contextId);
+
+      getAllRequest.onsuccess = () => {
+        resolve(getAllRequest.result as Page[]);
+      };
+
+      getAllRequest.onerror = function () {
+        reject(
+          new Error(`Error getting pages by context ID: ${getAllRequest.error}`)
+        );
+      };
+    });
+  }
+
+  public async saveOpenPages(contextId: number): Promise<Page[]> {
+    return new Promise((resolve, reject) => {
+      chrome.tabs.query({ currentWindow: true }, (tabs) => {
+        try {
           const pages: Page[] = tabs.map((tab) => ({
             id: tab.id,
             title: tab.title || "No Title",
             url: tab.url || "No URL",
+            contextId: contextId, // Assign the provided context ID
           }));
           resolve(pages);
-        });
-      } catch (err) {
-        reject(err);
-      }
+        } catch (err) {
+          reject(err);
+        }
+      });
     });
   }
 
-  public async loadPages(pages: Page[]): Promise<Page[]> {
+  public async load(pages: Page[]): Promise<Page[]> {
     try {
       // Close all tabs except one
       const tabToClose = await this.closeAllPages();
 
       // Open all pages in new tabs
-      const openedTabs = await this.openPages(pages);
+      const openedPages = await this.openPages(pages);
 
       // Close the last remaining tab
       if (tabToClose.id !== undefined) {
@@ -108,10 +84,11 @@ export class PagesService {
       }
 
       // Return the opened pages
-      return openedTabs.map((tab) => ({
+      return openedPages.map((tab) => ({
         id: tab.id || undefined,
         url: tab.url || "",
         title: tab.title || "",
+        contextId: pages[0].contextId, // Assuming all pages have the same contextId
       }));
     } catch (error) {
       return Promise.reject(error);

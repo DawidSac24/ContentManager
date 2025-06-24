@@ -1,9 +1,8 @@
 import { Page } from "./page.model";
 
 export interface Context {
-  id?: number;
+  id: number;
   name: string;
-  pages: number;
 }
 
 export interface NewContext {
@@ -11,9 +10,8 @@ export interface NewContext {
 }
 
 export interface ContextDTO {
-  id?: number;
+  id: number;
   name: string;
-  pages: number;
 }
 
 export interface NewContextDTO {
@@ -21,7 +19,7 @@ export interface NewContextDTO {
 }
 
 export interface ContextFullDTO {
-  id?: number;
+  id: number;
   name: string;
   pages: Page[];
 }

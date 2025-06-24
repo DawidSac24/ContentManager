@@ -1,4 +1,5 @@
 import { Context } from "../models/context.model";
+import { openDatabase } from "./db.service";
 
 /**
  * Singleton service for managing contexts in IndexedDB.
@@ -7,9 +8,6 @@ import { Context } from "../models/context.model";
  */
 export class ContextService {
   private static instance: ContextService;
-  private indexDb = window.indexedDB;
-  private dbName = "contexts";
-  private dbVersion = 2;
 
   private constructor() {}
 
@@ -21,55 +19,11 @@ export class ContextService {
   }
 
   /**
-   * Creates a new IndexedDB database if it doesn't exist.
-   * @param request The IDBOpenDBRequest object for the database.
-   */
-  private createDatabase(request: IDBOpenDBRequest): void {
-    const db = request.result;
-
-    if (!db.objectStoreNames.contains(this.dbName)) {
-      // Create an object store for contexts if it doesn't exist
-      db.createObjectStore(this.dbName, {
-        keyPath: "id",
-        autoIncrement: true,
-      });
-    }
-  }
-
-  /**
-   * Opens the IndexedDB database.
-   * if the database doesn't exist, it will be created with this.createDatabase(request).
-   * @param dbName The name of the database.
-   * @param version The version of the database.
-   * @returns A promise that resolves to the opened IDBDatabase object.
-   */
-  private async openDatabase(
-    dbName: string,
-    version: number
-  ): Promise<IDBDatabase> {
-    return new Promise((resolve, reject) => {
-      const request = this.indexDb.open(dbName, version);
-
-      request.onupgradeneeded = () => {
-        this.createDatabase(request);
-      };
-
-      request.onsuccess = function () {
-        resolve(request.result);
-      };
-
-      request.onerror = function () {
-        reject(new Error(`Error opening database: ${request.error}`));
-      };
-    });
-  }
-
-  /**
    * Retrieves all contexts from the database.
    * @returns A promise that resolves to an array of Context objects.
    */
   public async getAllContexts(): Promise<Context[]> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readonly");
@@ -92,7 +46,7 @@ export class ContextService {
    * @returns A promise that resolves to the Context object.
    */
   public async getById(id: number): Promise<Context> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readonly");
@@ -115,7 +69,7 @@ export class ContextService {
    * @returns A promise that resolves to the added Context object with its ID.
    */
   public async addContext(context: Context): Promise<Context> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readwrite");
@@ -140,7 +94,7 @@ export class ContextService {
    * @returns A promise that resolves to the updated Context object.
    */
   public async putContext(context: Context): Promise<Context> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       try {
@@ -173,7 +127,7 @@ export class ContextService {
    * @returns A promise that resolves when the context is deleted.
    */
   public async deleteContext(id: number): Promise<void> {
-    const db = await this.openDatabase(this.dbName, this.dbVersion);
+    const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readwrite");
