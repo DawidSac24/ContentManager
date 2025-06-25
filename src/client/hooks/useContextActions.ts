@@ -1,7 +1,9 @@
 import { ContextController } from "../../local-server/controllers/contexts.controller";
+import { PageController } from "../../local-server/controllers/pages.controller";
 import { ContextDTO } from "../../local-server/models/context.model";
 
 const contextController = ContextController.getInstance();
+const pageController = PageController.getInstance();
 
 export function useContextActions() {
   const editContext = async (context: ContextDTO, newContextName: string) => {
@@ -9,12 +11,12 @@ export function useContextActions() {
     await contextController.updateContext(context);
   };
 
-  const loadContext = async (context: ContextDTO) => {
-    await contextController.loadPages(context);
+  const loadContext = async (contextId: number) => {
+    await pageController.loadPages(contextId);
   };
 
-  const saveContext = async (context: ContextDTO) => {
-    await contextController.storeOpenPages(context);
+  const saveContext = async (contextId: number) => {
+    await pageController.saveOpenPages(contextId);
   };
 
   const deleteContext = async (contextId: number) => {

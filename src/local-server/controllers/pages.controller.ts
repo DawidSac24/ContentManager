@@ -38,21 +38,52 @@ export class PageController {
     }
   }
 
+  public async getByContextId(contextId: number | undefined): Promise<Page[]> {
+    if (!isIdentifier(contextId)) {
+      LoggerService.error("Invalid context ID");
+      throw new Error("Invalid context ID");
+    }
+    try {
+      const pages = await this.pagesService.getAllByContextId(contextId);
+      return pages;
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
+  }
+
+  public async addPages(pages: Page[]): Promise<void> {
+    if (!Array.isArray(pages) || pages.length === 0) {
+      LoggerService.error("Invalid pages array");
+      throw new Error("Invalid pages array");
+    }
+    try {
+      await this.pagesService.addPages(pages);
+      LoggerService.info("Pages added successfully");
+    } catch (error) {
+      LoggerService.error(error);
+      throw error;
+    }
+  }
+
   /**
    * Saves all the opened pages
    * @param contextId The context where the pages will be stored
    * @returns the edited Context
    */
-  public async saveOpenPages(id: number): Promise<Page[]> {
+  public async saveOpenPages(contextId: number): Promise<Page[]> {
     try {
-      if (!isIdentifier(id)) {
-        LoggerService.error("Invalid context ID");
+      if (!isIdentifier(contextId)) {
+        LoggerService.error("Invalid context ID ( pages.controller.ts )");
         throw new Error("Invalid context ID");
       }
 
-      const pages = await this.pagesService.getById(id);
-
-      const openedPages = await this.pagesService.getAllOpenPages();
+      const openedPages = await this.pagesService
+        .saveOpenPages(contextId)
+        .then((pages) => {
+          this.addPages(pages);
+          return pages;
+        });
 
       LoggerService.info("Pages stored successfully");
       return openedPages;
@@ -72,15 +103,12 @@ export class PageController {
       throw new Error("Invalid context ID");
     }
 
-    const context = await this.getById(contextId);
-
-    if (context.pages.length <= 0) {
-      alert("No pages saved on this context !");
-      return;
-    }
-
     try {
-      this.pagesService.loadPages(context.pages);
+      const pages: Page[] = await this.pagesService.getAllByContextId(
+        contextId
+      );
+
+      this.pagesService.load(pages);
     } catch (error) {
       LoggerService.error(error);
       throw error;

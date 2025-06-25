@@ -52,6 +52,30 @@ export class PagesService {
     });
   }
 
+  public async addPages(pages: Page[]): Promise<void> {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("pages", "readwrite");
+      const objectStore = transaction.objectStore("pages");
+
+      pages.forEach((page) => {
+        const request = objectStore.put(page);
+        request.onerror = function () {
+          reject(new Error(`Error adding page: ${request.error}`));
+        };
+      });
+
+      transaction.oncomplete = () => {
+        resolve();
+      };
+
+      transaction.onerror = function () {
+        reject(new Error(`Transaction error: ${transaction.error}`));
+      };
+    });
+  }
+
   public async saveOpenPages(contextId: number): Promise<Page[]> {
     return new Promise((resolve, reject) => {
       chrome.tabs.query({ currentWindow: true }, (tabs) => {

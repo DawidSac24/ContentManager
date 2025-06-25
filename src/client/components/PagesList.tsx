@@ -1,6 +1,15 @@
+import { useEffect } from "react";
 import { PageListProps } from "../Props";
 
+import { usePageList } from "../hooks/usePageList";
+
 function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
+  const { pages, loadPages } = usePageList(context.id);
+
+  useEffect(() => {
+    loadPages();
+  }, []);
+
   function shortenString(input: string): string {
     return input.length > 22 ? input.slice(0, 19) + "..." : input;
   }
@@ -36,7 +45,7 @@ function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
         flex flex-col gap-2
         overflow-auto cursor-default"
         >
-          {context.pages.map((page, index) => (
+          {pages.map((page, index) => (
             <li
               key={index}
               className="h-[22px] w-fit pl-4 pt-2 pb-2

@@ -1,20 +1,15 @@
 import { Page } from "./page.model";
 
-export interface Context {
-  id: number;
-  name: string;
-}
-
 export interface NewContext {
   name: string;
 }
 
-export interface ContextDTO {
+export interface Context extends NewContext {
   id: number;
-  name: string;
 }
 
-export interface NewContextDTO {
+export interface ContextDTO {
+  id: number;
   name: string;
 }
 

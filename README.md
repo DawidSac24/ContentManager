@@ -76,24 +76,33 @@ Content Manager consists of:
 - A local server with back-end implementation inside of Vite
 - A **IndexedDB** local database
 
-### The Project Diagrams
+### The Project Diagram
 
 ```mermaid
 erDiagram
     contexts {
         number context_id PK
-        string name 
+        string name
+    }
+
+    contextPageLinks {
+        number id PK
+        number contextId FK
+        number PageId FK
     }
 
     pages {
         number page_id PK
         string title
         string url
-        number context FK
     }
 
-    contexts ||--o{ pages : has
+    contexts ||--o{ contextPageLinks : has
+    pages ||--o{ contextPageLinks : has
 ```
+
+> [!NOTE]  
+> This database diagram should not have an id in the contextPageLinks table. Since it isn't possible to define a composed primary key, i had to add a id to this table and make the contextId and pageId only Foreign Keys.
 
 ### Encountered Development Errors
 

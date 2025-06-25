@@ -1,4 +1,4 @@
-import { Context } from "../models/context.model";
+import { NewContext, Context } from "../models/context.model";
 import { openDatabase } from "./db.service";
 
 /**
@@ -68,17 +68,17 @@ export class ContextService {
    * @param context The Context object to add.
    * @returns A promise that resolves to the added Context object with its ID.
    */
-  public async addContext(context: Context): Promise<Context> {
+  public async addContext(context: NewContext): Promise<Context> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contexts", "readwrite");
       const objectStore = transaction.objectStore("contexts");
-      const putRequest = objectStore.put(context);
+      const putRequest = objectStore.add(context); // use `add` instead of `put` for new entries
 
       putRequest.onsuccess = () => {
         const resultId = putRequest.result as number;
-        const result = { ...context, id: resultId };
+        const result: Context = { ...context, id: resultId };
         resolve(result);
       };
 

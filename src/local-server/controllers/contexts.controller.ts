@@ -1,6 +1,5 @@
-import { ContextDTO } from "../models/context.model";
+import { ContextDTO, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
-import { PagesService } from "../services/pages.service";
 import { LoggerService } from "../services/logger.service";
 import { isIdentifier } from "../utils/guards";
 
@@ -12,11 +11,9 @@ import { isIdentifier } from "../utils/guards";
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
-  private pagesService: PagesService;
 
   private constructor() {
     this.contextService = ContextService.getInstance();
-    this.pagesService = PagesService.getInstance();
   }
 
   public static getInstance(): ContextController {
@@ -68,9 +65,8 @@ export class ContextController {
    * @throws Error if the context is invalid.
    */
   public async addContext(): Promise<ContextDTO> {
-    const newContext: ContextDTO = {
+    const newContext: NewContext = {
       name: "New Context",
-      pages: [],
     };
 
     LoggerService.info(`Add context: ${newContext.name}`);

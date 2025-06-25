@@ -16,12 +16,12 @@ function ContextButtons({
   };
 
   const handleLoad = async () => {
-    await loadContext(context);
+    await loadContext(context.id);
     unselectContext();
   };
 
   const handleSave = async () => {
-    await saveContext(context);
+    await saveContext(context.id);
     unselectContext();
   };
 
