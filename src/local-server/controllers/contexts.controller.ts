@@ -2,7 +2,7 @@ import { ContextDTO, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
 import { LoggerService } from "../services/logger.service";
-import { isIdentifier } from "../utils/guards";
+import { isContext, isIdentifier } from "../utils/guards";
 
 /**
  * Controller for managing contexts.
@@ -94,6 +94,11 @@ export class ContextController {
   public async updateContext(context: ContextDTO): Promise<ContextDTO> {
     LoggerService.info(`Update context: ${context.name}`);
 
+    if (!isContext(context)) {
+      LoggerService.error("Invalid context id");
+      throw new Error("Invalid context id");
+    }
+
     try {
       const updated = await this.contextService.putContext(context);
       LoggerService.info(`Context: ${context.name} updated successfully`);
@@ -103,24 +108,24 @@ export class ContextController {
       throw error;
     }
   }
-
   /**
-   * Delete the selected context.
-   * @param
-   * @returns void
-   * @throws Error if no context is selected or if the ID type is invalid.
-   * @throws Error if the context cannot be deleted.
+   * Delete a context by its ID.
+   * This method will also delete all associated page links.
+   * @param contextId The ID of the context to delete.
+   * @returns A promise that resolves when the context is deleted.
+   * @throws Error if the context ID is invalid or if deletion fails.
    */
   public async deleteContext(contextId: number): Promise<void> {
+    LoggerService.info(`delete context: ${contextId}`);
+
     if (!isIdentifier(contextId)) {
       LoggerService.error("Invalid ID type");
       throw new Error("Invalid ID type");
     }
 
     try {
-      await this.contextService.deleteContext(contextId).then(() => {
-        this.contextPageLinkService.deleteByContextId(contextId);
-      });
+      await this.contextService.deleteContext(contextId);
+      this.contextPageLinkService.deleteByContextId(contextId);
       return;
     } catch (error) {
       LoggerService.error(error);

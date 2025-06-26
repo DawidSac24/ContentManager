@@ -31,7 +31,7 @@ export class PagesService {
     });
   }
 
-  public async addPages(pages: NewPage[]): Promise<Page[]> {
+  public async add(pages: NewPage[]): Promise<Page[]> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
@@ -62,12 +62,11 @@ export class PagesService {
     });
   }
 
-  public async getOpenPages(): Promise<Page[]> {
+  public async getOpenPages(): Promise<NewPage[]> {
     return new Promise((resolve, reject) => {
       chrome.tabs.query({ currentWindow: true }, (tabs) => {
         try {
-          const pages: Page[] = tabs.map((tab) => ({
-            id: tab.id || 0, // Use 0 if id is undefined
+          const pages: NewPage[] = tabs.map((tab) => ({
             title: tab.title || "No Title",
             url: tab.url || "No URL",
           }));

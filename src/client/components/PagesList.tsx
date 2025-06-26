@@ -1,11 +1,12 @@
-import { useEffect } from "react";
 import { PageListProps } from "../Props";
+import { useEffect } from "react";
 
-import { usePageList } from "../hooks/usePageList";
-
-function PagesList({ context, showPageList, setShowPageList }: PageListProps) {
-  const { pages, loadPages } = usePageList(context.id);
-
+function PagesList({
+  pages,
+  showPageList,
+  loadPages,
+  setShowPageList,
+}: PageListProps) {
   useEffect(() => {
     loadPages();
   }, []);

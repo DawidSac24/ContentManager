@@ -1,4 +1,5 @@
 import { ContextDTO } from "../local-server/models/context.model";
+import { PageDTO } from "../local-server/models/page.model";
 import { ContextState } from "./hooks/useContextState";
 
 export type Props = {
@@ -30,14 +31,16 @@ export type EditedContextProps = {
   onOutsideClick: () => void;
 };
 
-export type DropDownProps = {
+export type ContextButtonsProps = {
   context: ContextDTO;
   loadContexts: () => void;
+  loadPages: () => void;
   setContextState: (state: ContextState) => void;
 };
 
 export type PageListProps = {
-  context: ContextDTO;
+  pages: PageDTO[];
   showPageList: boolean;
   setShowPageList: () => void;
+  loadPages: () => void;
 };

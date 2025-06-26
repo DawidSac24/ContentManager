@@ -1,4 +1,4 @@
-import { DropDownProps } from "../Props";
+import { ContextButtonsProps as ContextButtonsProps } from "../Props";
 import { ContextState } from "../hooks/useContextState";
 
 import { useContextActions } from "../hooks/useContextActions";
@@ -6,8 +6,9 @@ import { useContextActions } from "../hooks/useContextActions";
 function ContextButtons({
   context,
   loadContexts,
+  loadPages,
   setContextState,
-}: DropDownProps) {
+}: ContextButtonsProps) {
   const { loadContext, saveContext, deleteContext } = useContextActions();
 
   const unselectContext = async () => {
@@ -22,7 +23,7 @@ function ContextButtons({
 
   const handleSave = async () => {
     await saveContext(context.id);
-    unselectContext();
+    await loadPages();
   };
 
   const handleDelete = async () => {

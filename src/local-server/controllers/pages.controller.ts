@@ -34,7 +34,7 @@ export class PageController {
     }
 
     try {
-      const page = await this.pagesService.getById(id);
+      const page: Page = await this.pagesService.getById(id);
       return page;
     } catch (error) {
       LoggerService.error(error);
@@ -42,6 +42,13 @@ export class PageController {
     }
   }
 
+  /**
+   * Retrieves all pages associated with a specific context ID.
+   * This method fetches the context-page links for the given context ID,
+   * then retrieves the corresponding Page objects for each link.
+   * @param contextId The ID of the context to retrieve pages for.
+   * @returns A promise that resolves to an array of Page objects.
+   */
   public async getByContextId(contextId: number): Promise<Page[]> {
     if (!isIdentifier(contextId)) {
       LoggerService.error("Invalid context ID");
@@ -49,9 +56,10 @@ export class PageController {
     }
     try {
       const links: ContextPageLinks[] =
-        await this.contextPageLinkService.getAllByContextId(contextId);
+        await this.contextPageLinkService.getByContextId(contextId);
 
       const pages: Page[] = [];
+
       for (const link of links) {
         if (!isIdentifier(link.pageId)) {
           LoggerService.error("Invalid page ID in context-page link");
@@ -68,7 +76,14 @@ export class PageController {
     }
   }
 
-  public async addPages(pages: NewPage[], contextId: number): Promise<void> {
+  /**
+   * Adds new pages to the database and links them to a specific context
+   * by adding the context-page-links.
+   * @param pages An array of NewPage objects to be added.
+   * @param contextId The ID of the context to link the pages to.
+   * @returns A promise that resolves to an array of added Page objects.
+   */
+  public async add(pages: NewPage[], contextId: number): Promise<Page[]> {
     if (!isIdentifier(contextId)) {
       LoggerService.error("Invalid context ID");
       throw new Error("Invalid context ID");
@@ -80,9 +95,12 @@ export class PageController {
     }
 
     try {
-      const addedPages: Page[] = await this.pagesService.addPages(pages);
+      console.log("Adding pages:", pages, "to context ID:", contextId);
+      const addedPages: Page[] = await this.pagesService.add(pages);
+      console.log("Added pages:", addedPages);
       await this.contextPageLinkService.add(addedPages, contextId);
       LoggerService.info("Pages added successfully");
+      return addedPages;
     } catch (error) {
       LoggerService.error(error);
       throw error;
@@ -101,14 +119,20 @@ export class PageController {
         throw new Error("Invalid context ID");
       }
 
+      console.log("Saving open pages...");
+
       await this.pagesService.deleteByContextId(contextId);
 
-      const openedPages = await this.pagesService.getOpenPages();
+      console.log("cleared pages by context ID");
 
-      this.addPages(openedPages, contextId);
+      const openedPages: NewPage[] = await this.pagesService.getOpenPages();
+
+      console.log("retrieved open pages", openedPages);
+
+      const result: Page[] = await this.add(openedPages, contextId);
 
       LoggerService.info("Pages stored successfully");
-      return openedPages;
+      return result;
     } catch (error) {
       LoggerService.error(error);
       throw error;

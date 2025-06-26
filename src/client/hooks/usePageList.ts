@@ -5,7 +5,7 @@ import { PageController } from "../../local-server/controllers/pages.controller"
 
 const pageController = PageController.getInstance();
 
-export function usePageList(contextId: number | undefined) {
+export function usePageList(contextId: number) {
   const [pages, setPages] = useState<PageDTO[]>([]);
 
   const loadPages = async () => {

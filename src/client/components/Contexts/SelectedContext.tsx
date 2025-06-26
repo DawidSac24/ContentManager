@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 
-import { SelectedContextProps } from "../../Props";
-
-import { useOutsideClick } from "../../hooks/useOutsideClick";
-
 import PagesList from "../PagesList";
 import ContextButtons from "../ContextButtons";
+
 import { ContextState } from "../../hooks/useContextState";
+import { usePageList } from "../../hooks/usePageList";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { SelectedContextProps } from "../../Props";
 
 function SelectedContext({
   context,
@@ -14,6 +14,8 @@ function SelectedContext({
   setContextState,
   onOutsideClick,
 }: SelectedContextProps) {
+  const { pages, loadPages } = usePageList(context.id);
+
   // For outside click detection
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick(ref, onOutsideClick);
@@ -38,13 +40,15 @@ function SelectedContext({
         <h3>{context.name}</h3>
       </div>
       <PagesList
-        context={context}
+        pages={pages}
         showPageList={showPageList}
         setShowPageList={() => setShowPageList(!showPageList)}
+        loadPages={loadPages}
       />
       <ContextButtons
         context={context}
         loadContexts={loadContexts}
+        loadPages={loadPages}
         setContextState={setContextState}
       />
     </div>

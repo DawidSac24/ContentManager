@@ -3,7 +3,6 @@ import {
   ContextPageLinks,
 } from "../models/context-page.links.model";
 import { Page } from "../models/page.model";
-import { isIdentifier } from "../utils/guards";
 import { openDatabase } from "./db.service";
 
 export class ContextPageLinkService {
@@ -18,9 +17,7 @@ export class ContextPageLinkService {
     return ContextPageLinkService.instance;
   }
 
-  public async getAllByContextId(
-    contextId: number
-  ): Promise<ContextPageLinks[]> {
+  public async getByContextId(contextId: number): Promise<ContextPageLinks[]> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
@@ -47,24 +44,12 @@ export class ContextPageLinkService {
   ): Promise<ContextPageLinks[]> {
     const db = await openDatabase();
 
-    if (!pages || pages.length === 0) {
-      throw new Error("No pages provided to add to context.");
-    }
-
-    if (!isIdentifier(contextId)) {
-      console.error("Invalid context ID provided:", contextId);
-      throw new Error("Invalid context ID provided.");
-    }
-
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("contextPageLinks", "readwrite");
       const objectStore = transaction.objectStore("contextPageLinks");
       const uniqueIndex = objectStore.index("context_page_unique");
 
       const result: ContextPageLinks[] = [];
-      let remaining = pages.length;
-      let hasError = false;
-
       pages.forEach((page) => {
         const key = [contextId, page.id];
         const getRequest = uniqueIndex.getKey(key);
@@ -84,28 +69,25 @@ export class ContextPageLinkService {
                 ...newLink,
                 id: addRequest.result as number,
               });
-              if (--remaining === 0 && !hasError) resolve(result);
             };
 
             addRequest.onerror = () => {
-              hasError = true;
               reject(
                 new Error(`Error adding context page link: ${addRequest.error}`)
               );
             };
-          } else {
-            // Link already exists — skip
-            if (--remaining === 0 && !hasError) resolve(result);
           }
         };
-
         getRequest.onerror = () => {
-          hasError = true;
           reject(
             new Error(`Error checking existing link: ${getRequest.error}`)
           );
         };
       });
+
+      transaction.oncomplete = () => {
+        resolve(result);
+      };
 
       transaction.onerror = () => {
         reject(new Error(`Transaction error: ${transaction.error}`));
