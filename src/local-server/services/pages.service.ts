@@ -1,4 +1,4 @@
-import { Page } from "../models/page.model";
+import { NewPage, Page } from "../models/page.model";
 import { openDatabase } from "./db.service";
 
 export class PagesService {
@@ -31,60 +31,45 @@ export class PagesService {
     });
   }
 
-  public async getAllByContextId(contextId: number): Promise<Page[]> {
-    const db = await openDatabase();
-
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction("pages", "readonly");
-      const objectStore = transaction.objectStore("pages");
-      const index = objectStore.index("contextId");
-      const getAllRequest = index.getAll(contextId);
-
-      getAllRequest.onsuccess = () => {
-        resolve(getAllRequest.result as Page[]);
-      };
-
-      getAllRequest.onerror = function () {
-        reject(
-          new Error(`Error getting pages by context ID: ${getAllRequest.error}`)
-        );
-      };
-    });
-  }
-
-  public async addPages(pages: Page[]): Promise<void> {
+  public async addPages(pages: NewPage[]): Promise<Page[]> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction("pages", "readwrite");
       const objectStore = transaction.objectStore("pages");
 
+      const result: Page[] = [];
+
       pages.forEach((page) => {
-        const request = objectStore.put(page);
-        request.onerror = function () {
-          reject(new Error(`Error adding page: ${request.error}`));
+        const addRequest = objectStore.put(page);
+
+        addRequest.onsuccess = () => {
+          result.push({ ...page, id: addRequest.result as number });
+        };
+
+        addRequest.onerror = () => {
+          reject(new Error(`Error adding page: ${addRequest.error}`));
         };
       });
 
       transaction.oncomplete = () => {
-        resolve();
+        resolve(result);
       };
 
-      transaction.onerror = function () {
+      transaction.onerror = () => {
         reject(new Error(`Transaction error: ${transaction.error}`));
       };
     });
   }
 
-  public async saveOpenPages(contextId: number): Promise<Page[]> {
+  public async getOpenPages(): Promise<Page[]> {
     return new Promise((resolve, reject) => {
       chrome.tabs.query({ currentWindow: true }, (tabs) => {
         try {
           const pages: Page[] = tabs.map((tab) => ({
-            id: tab.id,
+            id: tab.id || 0, // Use 0 if id is undefined
             title: tab.title || "No Title",
             url: tab.url || "No URL",
-            contextId: contextId, // Assign the provided context ID
           }));
           resolve(pages);
         } catch (err) {
@@ -109,10 +94,9 @@ export class PagesService {
 
       // Return the opened pages
       return openedPages.map((tab) => ({
-        id: tab.id || undefined,
+        id: tab.id || 0, // Use 0 if id is undefined
         url: tab.url || "",
         title: tab.title || "",
-        contextId: pages[0].contextId, // Assuming all pages have the same contextId
       }));
     } catch (error) {
       return Promise.reject(error);
@@ -161,5 +145,53 @@ export class PagesService {
           })
       )
     );
+  }
+
+  public async deleteByContextId(contextId: number): Promise<void> {
+    const db = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction("contextPageLinks", "readwrite");
+      const objectStore = transaction.objectStore("contextPageLinks");
+      const index = objectStore.index("contextId");
+
+      const getRequest = index.getAll(contextId);
+
+      getRequest.onsuccess = () => {
+        const links = getRequest.result as { id: number }[];
+
+        if (links.length === 0) {
+          resolve();
+          return;
+        }
+
+        let remaining = links.length;
+        let hasError = false;
+
+        links.forEach((link) => {
+          const deleteRequest = objectStore.delete(link.id);
+
+          deleteRequest.onsuccess = () => {
+            remaining--;
+            if (remaining === 0 && !hasError) {
+              resolve();
+            }
+          };
+
+          deleteRequest.onerror = () => {
+            hasError = true;
+            reject(new Error(`Error deleting link with ID ${link.id}`));
+          };
+        });
+      };
+
+      getRequest.onerror = () => {
+        reject(
+          new Error(
+            `Error getting links for context ID ${contextId}: ${getRequest.error}`
+          )
+        );
+      };
+    });
   }
 }

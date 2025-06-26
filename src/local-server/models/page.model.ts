@@ -1,13 +1,12 @@
-export interface Page {
-  id?: number;
+export interface NewPage {
   title: string;
   url: string;
-  contextId: number;
 }
 
-export interface PageDTO {
-  id?: number;
-  title: string;
-  url: string;
-  contextId: number;
+export interface Page extends NewPage {
+  id: number;
+}
+
+export interface PageDTO extends NewPage {
+  id: number;
 }

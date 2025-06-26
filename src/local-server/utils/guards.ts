@@ -152,3 +152,7 @@ export function isPage(data: unknown): data is Page {
     isString(data.url)
   );
 }
+
+export function isPagesArray(data: unknown): data is Page[] {
+  return isArray(data) && data.length > 0;
+}

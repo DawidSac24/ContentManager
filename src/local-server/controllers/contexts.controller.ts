@@ -1,5 +1,6 @@
 import { ContextDTO, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
+import { ContextPageLinkService } from "../services/context-page.link.service";
 import { LoggerService } from "../services/logger.service";
 import { isIdentifier } from "../utils/guards";
 
@@ -11,9 +12,11 @@ import { isIdentifier } from "../utils/guards";
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
+  private contextPageLinkService: ContextPageLinkService;
 
   private constructor() {
     this.contextService = ContextService.getInstance();
+    this.contextPageLinkService = ContextPageLinkService.getInstance();
   }
 
   public static getInstance(): ContextController {
@@ -115,7 +118,9 @@ export class ContextController {
     }
 
     try {
-      await this.contextService.deleteContext(contextId);
+      await this.contextService.deleteContext(contextId).then(() => {
+        this.contextPageLinkService.deleteByContextId(contextId);
+      });
       return;
     } catch (error) {
       LoggerService.error(error);

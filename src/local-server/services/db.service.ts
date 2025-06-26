@@ -1,9 +1,10 @@
 const DB_NAME = "contexts";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 export function createDatabase(request: IDBOpenDBRequest): void {
   const db = request.result;
 
+  // Contexts store
   if (!db.objectStoreNames.contains("contexts")) {
     db.createObjectStore("contexts", {
       keyPath: "id",
@@ -11,12 +12,29 @@ export function createDatabase(request: IDBOpenDBRequest): void {
     });
   }
 
+  // Pages store
   if (!db.objectStoreNames.contains("pages")) {
-    const pagesStore = db.createObjectStore("pages", {
+    db.createObjectStore("pages", {
       keyPath: "id",
       autoIncrement: true,
     });
-    pagesStore.createIndex("contextId", "contextId", { multiEntry: true });
+  }
+
+  // Join table: contextPageLinks
+  if (!db.objectStoreNames.contains("contextPageLinks")) {
+    const linkStore = db.createObjectStore("contextPageLinks", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+
+    // Indexes for querying
+    linkStore.createIndex("contextId", "contextId", { unique: false });
+    linkStore.createIndex("pageId", "pageId", { unique: false });
+
+    // Unique index for contextId and pageId combination
+    linkStore.createIndex("context_page_unique", ["contextId", "pageId"], {
+      unique: true,
+    });
   }
 }
 

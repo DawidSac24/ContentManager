@@ -1,7 +1,9 @@
 import { PagesService } from "../services/pages.service";
+import { ContextPageLinkService } from "../services/context-page.link.service";
 import { LoggerService } from "../services/logger.service";
-import { isIdentifier } from "../utils/guards";
-import { Page } from "../models/page.model";
+import { isIdentifier, isPagesArray } from "../utils/guards";
+import { NewPage, Page } from "../models/page.model";
+import { ContextPageLinks } from "../models/context-page.links.model";
 
 /**
  * Controller for managing pages.
@@ -11,9 +13,11 @@ import { Page } from "../models/page.model";
 export class PageController {
   private static instance: PageController;
   private pagesService: PagesService;
+  private contextPageLinkService: ContextPageLinkService;
 
   private constructor() {
     this.pagesService = PagesService.getInstance();
+    this.contextPageLinkService = ContextPageLinkService.getInstance();
   }
 
   public static getInstance(): PageController {
@@ -38,13 +42,25 @@ export class PageController {
     }
   }
 
-  public async getByContextId(contextId: number | undefined): Promise<Page[]> {
+  public async getByContextId(contextId: number): Promise<Page[]> {
     if (!isIdentifier(contextId)) {
       LoggerService.error("Invalid context ID");
       throw new Error("Invalid context ID");
     }
     try {
-      const pages = await this.pagesService.getAllByContextId(contextId);
+      const links: ContextPageLinks[] =
+        await this.contextPageLinkService.getAllByContextId(contextId);
+
+      const pages: Page[] = [];
+      for (const link of links) {
+        if (!isIdentifier(link.pageId)) {
+          LoggerService.error("Invalid page ID in context-page link");
+          throw new Error("Invalid page ID in context-page link");
+        }
+        const page: Page = await this.pagesService.getById(link.pageId);
+        pages.push(page);
+      }
+
       return pages;
     } catch (error) {
       LoggerService.error(error);
@@ -52,13 +68,20 @@ export class PageController {
     }
   }
 
-  public async addPages(pages: Page[]): Promise<void> {
-    if (!Array.isArray(pages) || pages.length === 0) {
+  public async addPages(pages: NewPage[], contextId: number): Promise<void> {
+    if (!isIdentifier(contextId)) {
+      LoggerService.error("Invalid context ID");
+      throw new Error("Invalid context ID");
+    }
+
+    if (!isPagesArray(pages)) {
       LoggerService.error("Invalid pages array");
       throw new Error("Invalid pages array");
     }
+
     try {
-      await this.pagesService.addPages(pages);
+      const addedPages: Page[] = await this.pagesService.addPages(pages);
+      await this.contextPageLinkService.add(addedPages, contextId);
       LoggerService.info("Pages added successfully");
     } catch (error) {
       LoggerService.error(error);
@@ -78,12 +101,11 @@ export class PageController {
         throw new Error("Invalid context ID");
       }
 
-      const openedPages = await this.pagesService
-        .saveOpenPages(contextId)
-        .then((pages) => {
-          this.addPages(pages);
-          return pages;
-        });
+      await this.pagesService.deleteByContextId(contextId);
+
+      const openedPages = await this.pagesService.getOpenPages();
+
+      this.addPages(openedPages, contextId);
 
       LoggerService.info("Pages stored successfully");
       return openedPages;
@@ -104,9 +126,7 @@ export class PageController {
     }
 
     try {
-      const pages: Page[] = await this.pagesService.getAllByContextId(
-        contextId
-      );
+      const pages: Page[] = await this.getByContextId(contextId);
 
       this.pagesService.load(pages);
     } catch (error) {
