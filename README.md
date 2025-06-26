@@ -4,7 +4,7 @@
 
 [Content Manager](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic) is a powerful Chrome extension that helps you organize and manage your browsing sessions by creating and switching between different contexts. Each context represents a group of related web pages that you frequently access together
 
-## Summary
+# Summary
 
 - [Purpose](#Purpose)
 - [How to install ?](#Install-the-Extension)
@@ -12,8 +12,9 @@
 - [Features](#Features)
 - [Use Cases](Use-Cases)
 - [Development](#Development)
+  - [Technical Details](#Technical-Details)
 
-## Purpose
+# Purpose
 
 ![Content Manager presentation page][presentation-page]
 The main purpose of Content Manager is to help you maintain focus and productivity by organizing your browsing sessions into logical groups. For example:
@@ -23,7 +24,7 @@ The main purpose of Content Manager is to help you maintain focus and productivi
 - **Personal Context**: Social media, news sites, and personal projects
 - **Study Context**: Educational resources, research papers, and learning platforms
 
-## Install the Extension
+# Install the Extension
 
 You can install it on the
 👉[Chrome web store](https://chromewebstore.google.com/detail/content-manager/lobbohngjkkghmganebnahlfajlahkic)  
@@ -39,7 +40,7 @@ Follow these steps to use it:
 4. Click "Load Unpacked"
 5. Select the extracted folder
 
-## How It Works
+# How It Works
 
 1. **Create Contexts**: Define different contexts with custom names and icons
 2. **Save Your Context**: Add your currently open pages to your selected context
@@ -47,7 +48,7 @@ Follow these steps to use it:
    - Open all the pages associated with your selected context
    - You can instantly shift your focus from work to study, or from personal to development
 
-## Features
+# Features
 
 - **Context Management**: Create, edit, and delete contexts
 - **Page Organization**: Group related pages into contexts
@@ -56,7 +57,7 @@ Follow these steps to use it:
 
 ![Content Manager second presentation page][presentation-page-2]
 
-## Use Cases
+# Use Cases
 
 - **Work-Life Balance**: Keep your work and personal browsing separate
 - **Project Management**: Create contexts for different projects
@@ -64,11 +65,11 @@ Follow these steps to use it:
 - **Research**: Group research materials by topic
 - **Development**: Switch between different development environments
 
-## Development
+# Development
 
 This project is currently is mostly finished. Some major futures are planned to be added.
 
-### Technical Details
+## Technical Details
 
 Content Manager consists of:
 
@@ -104,12 +105,15 @@ erDiagram
 > [!NOTE]  
 > This database diagram should not have an id in the contextPageLinks table. Since it isn't possible to define a composed primary key, i had to add a id to this table and make the contextId and pageId only Foreign Keys.
 
-### Encountered Development Errors
+## Encountered Development Errors
 
 - I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
 
-### TODO
+## Why did i make this project ?
 
+## TODO List
+
+- [ ] add test files
 - [ ] Add a settings option that opens a web page for better context management, more settings, and customization (e.g., deleting selected pages from a context)
 - [ ] Set up a server to allow user synchronization between devices
 
