@@ -110,7 +110,7 @@ erDiagram
 
 ## Encountered Development Errors
 
-- I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
+I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
 
 ## Why did i make this project ?
 
