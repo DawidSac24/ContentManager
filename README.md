@@ -13,6 +13,9 @@
 - [Use Cases](Use-Cases)
 - [Development](#Development)
   - [Technical Details](#Technical-Details)
+  - [Encountered Development Errors](#Encountered-Development-Errors)
+  - [Why did i make this project ?](#Why-did-i-make-this-project-?)
+  - [TODO List](#TODO-List)
 
 # Purpose
 
