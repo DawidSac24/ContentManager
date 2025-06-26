@@ -113,6 +113,9 @@ erDiagram
 - I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
 
 ## Why did i make this project ?
+I decided to make this project mainly to try to apply the things that i learned in school on a real project. This helped me to have a better idea of how the real world web developpement might look and what are the general problemes that i may encounter and find a solution for. This project made me decide and make some important architechture and developement decisions and learn about the different flaws/compromises of each implementation choice that i made.
+I also wanted to learn some new technologies and develop some that i arleady knew.  
+Developping a project made me acquire experiance that i would not have by only going to school and, most importantly, it was a lot of fun!
 
 ## TODO List
 
