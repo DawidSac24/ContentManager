@@ -13,7 +13,7 @@
 - [Use Cases](Use-Cases)
 - [Development](#Development)
   - [Technical Details](#Technical-Details)
-  - [Encountered Development Errors](#Encountered-Development-Errors)
+  - [Errors made during developpement](#Errors-made-during-developpements)
   - [Why did i make this project ?](#Why-did-i-make-this-project-?)
   - [TODO List](#TODO-List)
 
@@ -108,9 +108,10 @@ erDiagram
 > [!NOTE]  
 > This database diagram should not have an id in the contextPageLinks table. Since it isn't possible to define a composed primary key, i had to add a id to this table and make the contextId and pageId only Foreign Keys.
 
-## Encountered Development Errors
+## Errors made during developpement
 
-I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
+- I initially created the project's database with the pages table inside the contexts table, thinking it would be a better development approach since there is only one pages table per context and it would allow easier data access. I quickly realized that this implementation required me to pass the entire Context object just to update its pages, and it could slow down the loading of contexts since they are loaded along with the pages. This might not be a problem for my small extension, but it would be better practice to make it more optimized.
+- Before updating, i should have made a new branch to save the previus database's state, helping the updateDatabase() function creation.
 
 ## Why did i make this project ?
 
