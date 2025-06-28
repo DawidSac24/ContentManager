@@ -70,6 +70,7 @@ export async function openDatabase(): Promise<IDBDatabase> {
         createDatabase(request);
       } else if (oldVersion < DB_VERSION) {
         const mergingData = await updateDatabase(db, transaction, oldVersion);
+        deleteStores(db);
         await createDatabase(request);
         await mergeData(mergingData);
       }
@@ -158,5 +159,21 @@ async function mergeData(
 
     // adding the new pages, the pagesController will handle the creation of context-page links
     await pageController.add(pages, addedContext.id);
+  }
+}
+
+function deleteStores(db: IDBDatabase): void {
+  try {
+    if (db.objectStoreNames.contains("contexts")) {
+      db.deleteObjectStore("contexts");
+    }
+    if (db.objectStoreNames.contains("pages")) {
+      db.deleteObjectStore("pages");
+    }
+    if (db.objectStoreNames.contains("contextPageLinks")) {
+      db.deleteObjectStore("contextPageLinks");
+    }
+  } catch (error) {
+    console.error("Error deleting object stores:", error);
   }
 }
