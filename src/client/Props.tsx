@@ -1,38 +1,38 @@
-import { ContextDTO } from "../local-server/models/context.model";
+import { Context } from "../local-server/models/context.model";
 import { PageDTO } from "../local-server/models/page.model";
 import { ContextState } from "./hooks/useContextState";
 
 export type Props = {
-  context: ContextDTO;
+  context: Context;
   loadContexts: () => void;
 };
 
 export type ContextProps = {
-  context: ContextDTO;
+  context: Context;
   setContextState: (state: ContextState) => void;
 };
 
 export type DefaultContextProps = {
-  context: ContextDTO;
+  context: Context;
   selectContext: () => void;
 };
 
 export type SelectedContextProps = {
-  context: ContextDTO;
+  context: Context;
   loadContexts: () => void;
   setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
 };
 
 export type EditedContextProps = {
-  context: ContextDTO;
+  context: Context;
   loadContexts: () => void;
   setContextState: (state: ContextState) => void;
   onOutsideClick: () => void;
 };
 
 export type ContextButtonsProps = {
-  context: ContextDTO;
+  context: Context;
   loadContexts: () => void;
   loadPages: () => void;
   setContextState: (state: ContextState) => void;

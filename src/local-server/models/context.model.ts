@@ -1,3 +1,5 @@
+import { NewPage } from "./page.model";
+
 export interface NewContext {
   name: string;
 }
@@ -6,7 +8,7 @@ export interface Context extends NewContext {
   id: number;
 }
 
-export interface ContextDTO {
-  id: number;
-  name: string;
+export interface MergingContextWithPages {
+  context: NewContext;
+  pages: NewPage[];
 }

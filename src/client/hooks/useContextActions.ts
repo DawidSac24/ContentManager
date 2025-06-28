@@ -1,12 +1,12 @@
 import { ContextController } from "../../local-server/controllers/contexts.controller";
 import { PageController } from "../../local-server/controllers/pages.controller";
-import { ContextDTO } from "../../local-server/models/context.model";
+import { Context } from "../../local-server/models/context.model";
 
 const contextController = ContextController.getInstance();
 const pageController = PageController.getInstance();
 
 export function useContextActions() {
-  const editContext = async (context: ContextDTO, newContextName: string) => {
+  const editContext = async (context: Context, newContextName: string) => {
     context.name = newContextName;
     await contextController.updateContext(context);
   };

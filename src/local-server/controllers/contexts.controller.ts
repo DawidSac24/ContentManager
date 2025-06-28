@@ -1,4 +1,4 @@
-import { ContextDTO, NewContext } from "../models/context.model";
+import { Context, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
 import { LoggerService } from "../services/logger.service";
@@ -30,7 +30,7 @@ export class ContextController {
    * Get all contexts from the ContextService.
    * @returns A promise that resolves to an array of ContextDTO objects.
    */
-  public async getAll(): Promise<ContextDTO[]> {
+  public async getAll(): Promise<Context[]> {
     LoggerService.info("Get all contexts");
 
     try {
@@ -43,7 +43,7 @@ export class ContextController {
     }
   }
 
-  public async getById(id: number): Promise<ContextDTO> {
+  public async getById(id: number): Promise<Context> {
     LoggerService.info("Get context by id");
 
     if (!isIdentifier(id)) {
@@ -62,15 +62,17 @@ export class ContextController {
 
   /**
    * Add a new context.
-   * @param context The context to add, either a NewContextDTO or ContextDTO object.
-   * @returns A promise that resolves to the updated ContextDTO object.
+   * @param newContext The NewContext to add.
+   * @returns Context object representing the added context.
    * @throws Error if the context cannot be added.
    * @throws Error if the context is invalid.
    */
-  public async addContext(): Promise<ContextDTO> {
-    const newContext: NewContext = {
-      name: "New Context",
-    };
+  public async addContext(newContext?: NewContext): Promise<Context> {
+    if (!newContext) {
+      newContext = {
+        name: "New Context",
+      };
+    }
 
     LoggerService.info(`Add context: ${newContext.name}`);
 
@@ -91,7 +93,7 @@ export class ContextController {
    * @throws Error if the context cannot be updated.
    * @throws Error if the context is invalid.
    */
-  public async updateContext(context: ContextDTO): Promise<ContextDTO> {
+  public async updateContext(context: Context): Promise<Context> {
     LoggerService.info(`Update context: ${context.name}`);
 
     if (!isContext(context)) {

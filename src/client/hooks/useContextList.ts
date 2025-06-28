@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-import { ContextDTO } from "../../local-server/models/context.model";
+import { Context } from "../../local-server/models/context.model";
 import { ContextController } from "../../local-server/controllers/contexts.controller";
 import { LoggerService } from "../../local-server/services/logger.service";
 
 const contextController = ContextController.getInstance();
 
 export function useContextlist() {
-  const [contexts, setContexts] = useState<ContextDTO[]>([]);
+  const [contexts, setContexts] = useState<Context[]>([]);
   const [selectedContextId, setSelectedContextId] = useState<
     number | undefined
   >();
@@ -52,7 +52,7 @@ export function useContextlist() {
     setEditedName("");
   };
 
-  const editContext = async (contextToUpdate: ContextDTO) => {
+  const editContext = async (contextToUpdate: Context) => {
     try {
       await contextController.updateContext(contextToUpdate);
       loadContexts();
