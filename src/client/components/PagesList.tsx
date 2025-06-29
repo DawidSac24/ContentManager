@@ -44,13 +44,13 @@ function PagesList({
         <ul
           className="list-container h-full w-[97%]
         flex flex-col gap-2
-        overflow-auto cursor-default"
+        overflow-x-hidden overflow-y-auto cursor-default"
         >
           {pages.map((page, index) => (
             <li
               key={index}
               className="h-[22px] w-fit pl-4 pt-2 pb-2
-              text-sm font-(family-name:--modernist) 
+              text-xs font-(family-name:--modernist) 
               cursor-default"
             >
               {shortenString(page.title)}
