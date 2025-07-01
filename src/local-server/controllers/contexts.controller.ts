@@ -97,8 +97,8 @@ export class ContextController {
     LoggerService.info(`Update context: ${context.name}`);
 
     if (!isContext(context)) {
-      LoggerService.error("Invalid context id");
-      throw new Error("Invalid context id");
+      LoggerService.error("Invalid context");
+      throw new Error("Invalid context");
     }
 
     try {

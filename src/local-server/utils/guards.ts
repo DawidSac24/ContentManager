@@ -109,11 +109,7 @@ export function isContext(data: unknown): data is Context {
     "id" in data &&
     isIdentifier(data.id) &&
     "name" in data &&
-    isString(data.name) &&
-    "pages" in data &&
-    isArray(data.pages) &&
-    "isDeleted" in data &&
-    isBoolean(data.isDeleted)
+    isString(data.name)
   );
 }
 

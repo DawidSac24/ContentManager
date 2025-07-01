@@ -8,11 +8,25 @@
     "build": "vite build --watch",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "ts-jest"
   },
   "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "testMatch": [
-      "**/tests/**/*.test.ts"
+      "**/__tests__/**/*.ts",
+      "**/?(*.)+(spec|test).ts"
     ]
   },
   "dependencies": {
@@ -33,9 +47,11 @@
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "fake-indexeddb": "^6.0.1",
     "globals": "^16.0.0",
     "jest": "^30.0.3",
     "tailwindcss": "^4.1.8",
+    "ts-jest": "^29.4.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1"

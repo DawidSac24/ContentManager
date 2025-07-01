@@ -12,41 +12,53 @@ import { PageController } from "../controllers/pages.controller";
 const DB_NAME = "contexts";
 const DB_VERSION = 3;
 
-export function createDatabase(request: IDBOpenDBRequest): void {
-  const db = request.result;
+export async function createDatabase(
+  request: IDBOpenDBRequest
+): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    request.onupgradeneeded = function () {
+      const db = request.result;
 
-  // Contexts store
-  if (!db.objectStoreNames.contains("contexts")) {
-    db.createObjectStore("contexts", {
-      keyPath: "id",
-      autoIncrement: true,
-    });
-  }
+      // Contexts store
+      if (!db.objectStoreNames.contains("contexts")) {
+        db.createObjectStore("contexts", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+      }
 
-  // Pages store
-  if (!db.objectStoreNames.contains("pages")) {
-    db.createObjectStore("pages", {
-      keyPath: "id",
-      autoIncrement: true,
-    });
-  }
+      // Pages store
+      if (!db.objectStoreNames.contains("pages")) {
+        db.createObjectStore("pages", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+      }
 
-  // Join table: contextPageLinks
-  if (!db.objectStoreNames.contains("contextPageLinks")) {
-    const linkStore = db.createObjectStore("contextPageLinks", {
-      keyPath: "id",
-      autoIncrement: true,
-    });
+      // Join table: contextPageLinks
+      if (!db.objectStoreNames.contains("contextPageLinks")) {
+        const linkStore = db.createObjectStore("contextPageLinks", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
 
-    // Indexes for querying
-    linkStore.createIndex("contextId", "contextId", { unique: false });
-    linkStore.createIndex("pageId", "pageId", { unique: false });
+        // Indexes for querying
+        linkStore.createIndex("contextId", "contextId", { unique: false });
+        linkStore.createIndex("pageId", "pageId", { unique: false });
+        linkStore.createIndex("context_page_unique", ["contextId", "pageId"], {
+          unique: true,
+        });
+      }
+    };
 
-    // Unique index for contextId and pageId combination
-    linkStore.createIndex("context_page_unique", ["contextId", "pageId"], {
-      unique: true,
-    });
-  }
+    request.onsuccess = function () {
+      resolve(request.result);
+    };
+
+    request.onerror = function () {
+      reject(new Error(`Error creating database: ${request.error}`));
+    };
+  });
 }
 
 /**
@@ -67,10 +79,10 @@ export async function openDatabase(): Promise<IDBDatabase> {
 
       if (oldVersion === 0 || !db.objectStoreNames.contains("contexts")) {
         // If the database is being created for the first time, create the stores
-        createDatabase(request);
+        await createDatabase(request);
       } else if (oldVersion < DB_VERSION) {
         const mergingData = await updateDatabase(db, transaction, oldVersion);
-        deleteStores(db);
+        await deleteStores(db);
         await createDatabase(request);
         await mergeData(mergingData);
       }
@@ -86,7 +98,15 @@ export async function openDatabase(): Promise<IDBDatabase> {
   });
 }
 
-async function updateDatabase(
+/**
+ * Updates the database schema and migrates data if necessary.
+ * This function handles the migration from version 1 to version 3.
+ * @param db The IDBDatabase object.
+ * @param transaction The IDBTransaction object.
+ * @param oldVersion The old version of the database.
+ * @returns A promise that resolves to an array of MergingContextWithPages objects.
+ */
+export async function updateDatabase(
   db: IDBDatabase,
   transaction: IDBTransaction,
   oldVersion: number
@@ -98,12 +118,6 @@ async function updateDatabase(
     // NOTE : Skipped version 2 as no changes were specified
     // -> no need to handle version 2 explicitly
 
-    /** Update logic for version 3
-     * retreiving all old data
-     * converting them to the new structure
-     * then deleting the old database
-     * returning the new structure to allow data merge
-     */
     if (oldVersion < 3) {
       const contextsStore = transaction.objectStore("contexts");
       // Get all contexts from the old store
@@ -177,3 +191,11 @@ function deleteStores(db: IDBDatabase): void {
     console.error("Error deleting object stores:", error);
   }
 }
+
+module.exports = {
+  createDatabase,
+  openDatabase,
+  updateDatabase,
+  mergeData,
+  deleteStores,
+};

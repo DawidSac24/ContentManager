@@ -5,6 +5,12 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["chrome"]
+    "types": ["jest", "node", "chrome"],
+    "target": "ES6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "strict": true,
+    "skipLibCheck": true
   }
 }
