@@ -1,7 +1,6 @@
 import { Context, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
-import { LoggerService } from "../services/logger.service";
 import { isContext, isIdentifier } from "../utils/guards";
 
 /**
@@ -31,23 +30,23 @@ export class ContextController {
    * @returns A promise that resolves to an array of ContextDTO objects.
    */
   public async getAll(): Promise<Context[]> {
-    LoggerService.info("Get all contexts");
+    console.info("Get all contexts");
 
     try {
       const contexts = await this.contextService.getAllContexts();
-      LoggerService.info("Contexts loaded successfully");
+      console.info("Contexts loaded successfully");
       return contexts;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
 
   public async getById(id: number): Promise<Context> {
-    LoggerService.info("Get context by id");
+    console.info("Get context by id");
 
     if (!isIdentifier(id)) {
-      LoggerService.error("Invalid context id");
+      console.error("Invalid context id");
       throw new Error("Invalid context id");
     }
 
@@ -55,7 +54,7 @@ export class ContextController {
       const context = await this.contextService.getById(id);
       return context;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -74,14 +73,14 @@ export class ContextController {
       };
     }
 
-    LoggerService.info(`Add context: ${newContext.name}`);
+    console.info(`Add context: ${newContext.name}`);
 
     try {
       const added = await this.contextService.addContext(newContext);
-      LoggerService.info(`Context: ${newContext.name} added successfully`);
+      console.info(`Context: ${newContext.name} added successfully`);
       return added;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -94,19 +93,19 @@ export class ContextController {
    * @throws Error if the context is invalid.
    */
   public async updateContext(context: Context): Promise<Context> {
-    LoggerService.info(`Update context: ${context.name}`);
+    console.info(`Update context: ${context.name}`);
 
     if (!isContext(context)) {
-      LoggerService.error("Invalid context");
+      console.error("Invalid context");
       throw new Error("Invalid context");
     }
 
     try {
       const updated = await this.contextService.putContext(context);
-      LoggerService.info(`Context: ${context.name} updated successfully`);
+      console.info(`Context: ${context.name} updated successfully`);
       return updated;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -118,10 +117,10 @@ export class ContextController {
    * @throws Error if the context ID is invalid or if deletion fails.
    */
   public async deleteContext(contextId: number): Promise<void> {
-    LoggerService.info(`delete context: ${contextId}`);
+    console.info(`delete context: ${contextId}`);
 
     if (!isIdentifier(contextId)) {
-      LoggerService.error("Invalid ID type");
+      console.error("Invalid ID type");
       throw new Error("Invalid ID type");
     }
 
@@ -130,7 +129,7 @@ export class ContextController {
       this.contextPageLinkService.deleteByContextId(contextId);
       return;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }

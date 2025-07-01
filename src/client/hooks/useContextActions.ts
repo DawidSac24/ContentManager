@@ -1,6 +1,6 @@
-import { ContextController } from "../../local-server/controllers/contexts.controller";
-import { PageController } from "../../local-server/controllers/pages.controller";
-import { Context } from "../../local-server/models/context.model";
+import { ContextController } from "../../controllers/contexts.controller";
+import { PageController } from "../../controllers/pages.controller";
+import { Context } from "../../models/context.model";
 
 const contextController = ContextController.getInstance();
 const pageController = PageController.getInstance();

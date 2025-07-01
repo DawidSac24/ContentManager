@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { Context } from "../../local-server/models/context.model";
-import { ContextController } from "../../local-server/controllers/contexts.controller";
-import { LoggerService } from "../../local-server/services/logger.service";
+import { Context } from "../../models/context.model";
+import { ContextController } from "../../controllers/contexts.controller";
 
 const contextController = ContextController.getInstance();
 
@@ -57,7 +56,7 @@ export function useContextlist() {
       await contextController.updateContext(contextToUpdate);
       loadContexts();
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
     }
   };
 

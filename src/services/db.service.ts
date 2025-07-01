@@ -12,53 +12,33 @@ import { PageController } from "../controllers/pages.controller";
 const DB_NAME = "contexts";
 const DB_VERSION = 3;
 
-export async function createDatabase(
-  request: IDBOpenDBRequest
-): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    request.onupgradeneeded = function () {
-      const db = request.result;
+export function createDatabaseSchema(db: IDBDatabase): void {
+  if (!db.objectStoreNames.contains("contexts")) {
+    db.createObjectStore("contexts", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+  }
 
-      // Contexts store
-      if (!db.objectStoreNames.contains("contexts")) {
-        db.createObjectStore("contexts", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-      }
+  if (!db.objectStoreNames.contains("pages")) {
+    db.createObjectStore("pages", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+  }
 
-      // Pages store
-      if (!db.objectStoreNames.contains("pages")) {
-        db.createObjectStore("pages", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-      }
+  if (!db.objectStoreNames.contains("contextPageLinks")) {
+    const linkStore = db.createObjectStore("contextPageLinks", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
 
-      // Join table: contextPageLinks
-      if (!db.objectStoreNames.contains("contextPageLinks")) {
-        const linkStore = db.createObjectStore("contextPageLinks", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-
-        // Indexes for querying
-        linkStore.createIndex("contextId", "contextId", { unique: false });
-        linkStore.createIndex("pageId", "pageId", { unique: false });
-        linkStore.createIndex("context_page_unique", ["contextId", "pageId"], {
-          unique: true,
-        });
-      }
-    };
-
-    request.onsuccess = function () {
-      resolve(request.result);
-    };
-
-    request.onerror = function () {
-      reject(new Error(`Error creating database: ${request.error}`));
-    };
-  });
+    linkStore.createIndex("contextId", "contextId", { unique: false });
+    linkStore.createIndex("pageId", "pageId", { unique: false });
+    linkStore.createIndex("context_page_unique", ["contextId", "pageId"], {
+      unique: true,
+    });
+  }
 }
 
 /**
@@ -77,13 +57,12 @@ export async function openDatabase(): Promise<IDBDatabase> {
       const transaction = request.transaction!;
       const oldVersion = event.oldVersion;
 
-      if (oldVersion === 0 || !db.objectStoreNames.contains("contexts")) {
-        // If the database is being created for the first time, create the stores
-        await createDatabase(request);
+      if (oldVersion === 0) {
+        createDatabaseSchema(db);
       } else if (oldVersion < DB_VERSION) {
         const mergingData = await updateDatabase(db, transaction, oldVersion);
-        await deleteStores(db);
-        await createDatabase(request);
+        deleteStores(db);
+        createDatabaseSchema(db);
         await mergeData(mergingData);
       }
     };
@@ -128,25 +107,15 @@ export async function updateDatabase(
 
       request.onsuccess = async function () {
         oldContexts = request.result;
-        // convert old contexts to new structure
-        for (const context of oldContexts) {
-          const newContext: NewContext = {
-            name: context.name,
-          };
-          const newPages: NewPage[] = [];
 
-          // Convert old pages to new structure
-          context.pages.forEach((page) => {
-            const newPage: NewPage = {
-              title: page.title,
-              url: page.url,
-            };
-            newPages.push(newPage);
-          });
-          mergingData.push({
-            context: newContext,
-            pages: newPages,
-          });
+        for (const context of oldContexts) {
+          const newContext: NewContext = { name: context.name };
+          const newPages: NewPage[] = context.pages.map((page) => ({
+            title: page.title,
+            url: page.url,
+          }));
+
+          mergingData.push({ context: newContext, pages: newPages });
           resolve(mergingData);
         }
 
@@ -193,7 +162,7 @@ function deleteStores(db: IDBDatabase): void {
 }
 
 module.exports = {
-  createDatabase,
+  createDatabaseSchema,
   openDatabase,
   updateDatabase,
   mergeData,

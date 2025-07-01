@@ -1,5 +1,5 @@
-import { Context } from "../local-server/models/context.model";
-import { PageDTO } from "../local-server/models/page.model";
+import { Context } from "../models/context.model";
+import { PageDTO } from "../models/page.model";
 import { ContextState } from "./hooks/useContextState";
 
 export type Props = {

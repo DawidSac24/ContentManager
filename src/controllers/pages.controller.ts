@@ -1,6 +1,5 @@
 import { PagesService } from "../services/pages.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
-import { LoggerService } from "../services/logger.service";
 import { isIdentifier, isPagesArray } from "../utils/guards";
 import { NewPage, Page } from "../models/page.model";
 import { ContextPageLinks } from "../models/context-page.links.model";
@@ -29,7 +28,7 @@ export class PageController {
 
   public async getById(id: number): Promise<Page> {
     if (!isIdentifier(id)) {
-      LoggerService.error("Invalid page ID");
+      console.error("Invalid page ID");
       throw new Error("Invalid page ID");
     }
 
@@ -37,7 +36,7 @@ export class PageController {
       const page: Page = await this.pagesService.getById(id);
       return page;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -51,7 +50,7 @@ export class PageController {
    */
   public async getByContextId(contextId: number): Promise<Page[]> {
     if (!isIdentifier(contextId)) {
-      LoggerService.error("Invalid context ID");
+      console.error("Invalid context ID");
       throw new Error("Invalid context ID");
     }
     try {
@@ -62,7 +61,7 @@ export class PageController {
 
       for (const link of links) {
         if (!isIdentifier(link.pageId)) {
-          LoggerService.error("Invalid page ID in context-page link");
+          console.error("Invalid page ID in context-page link");
           throw new Error("Invalid page ID in context-page link");
         }
         const page: Page = await this.pagesService.getById(link.pageId);
@@ -71,7 +70,7 @@ export class PageController {
 
       return pages;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -85,12 +84,12 @@ export class PageController {
    */
   public async add(pages: NewPage[], contextId: number): Promise<Page[]> {
     if (!isIdentifier(contextId)) {
-      LoggerService.error("Invalid context ID");
+      console.error("Invalid context ID");
       throw new Error("Invalid context ID");
     }
 
     if (!isPagesArray(pages)) {
-      LoggerService.error("Invalid pages array");
+      console.error("Invalid pages array");
       throw new Error("Invalid pages array");
     }
 
@@ -99,10 +98,10 @@ export class PageController {
       const addedPages: Page[] = await this.pagesService.add(pages);
       console.log("Added pages:", addedPages);
       await this.contextPageLinkService.add(addedPages, contextId);
-      LoggerService.info("Pages added successfully");
+      console.info("Pages added successfully");
       return addedPages;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -115,7 +114,7 @@ export class PageController {
   public async saveOpenPages(contextId: number): Promise<Page[]> {
     try {
       if (!isIdentifier(contextId)) {
-        LoggerService.error("Invalid context ID ( pages.controller.ts )");
+        console.error("Invalid context ID ( pages.controller.ts )");
         throw new Error("Invalid context ID");
       }
 
@@ -131,10 +130,10 @@ export class PageController {
 
       const result: Page[] = await this.add(openedPages, contextId);
 
-      LoggerService.info("Pages stored successfully");
+      console.info("Pages stored successfully");
       return result;
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }
@@ -145,7 +144,7 @@ export class PageController {
    */
   public async loadPages(contextId: number): Promise<void> {
     if (!isIdentifier(contextId)) {
-      LoggerService.error("Invalid context ID");
+      console.error("Invalid context ID");
       throw new Error("Invalid context ID");
     }
 
@@ -154,7 +153,7 @@ export class PageController {
 
       this.pagesService.load(pages);
     } catch (error) {
-      LoggerService.error(error);
+      console.error(error);
       throw error;
     }
   }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { PageDTO } from "../../local-server/models/page.model";
-import { PageController } from "../../local-server/controllers/pages.controller";
+import { PageDTO } from "../../models/page.model";
+import { PageController } from "../../controllers/pages.controller";
 
 const pageController = PageController.getInstance();
 
