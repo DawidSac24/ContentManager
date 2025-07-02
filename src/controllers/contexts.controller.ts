@@ -47,7 +47,7 @@ export class ContextController {
 
     if (!isIdentifier(id)) {
       console.error("Invalid context id");
-      throw new Error("Invalid context id");
+      return Promise.reject("Invalid context id");
     }
 
     try {
@@ -97,7 +97,7 @@ export class ContextController {
 
     if (!isContext(context)) {
       console.error("Invalid context");
-      throw new Error("Invalid context");
+      return Promise.reject(Error("Invalid context id"));
     }
 
     try {
@@ -120,8 +120,8 @@ export class ContextController {
     console.info(`delete context: ${contextId}`);
 
     if (!isIdentifier(contextId)) {
-      console.error("Invalid ID type");
-      throw new Error("Invalid ID type");
+      console.error("Invalid context id");
+      throw new Error("Invalid context id");
     }
 
     try {
