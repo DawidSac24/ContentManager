@@ -106,7 +106,7 @@ erDiagram
 ```
 
 > [!NOTE]  
-> This database diagram should not have an id in the contextPageLinks table. Since it isn't possible to define a composed primary key, i had to add a id to this table and make the contextId and pageId only Foreign Keys.
+> This database diagram should not have an id in the contextPageLinks table. Since it isn't possible to define a composed primary key in indexedDB, i had to add a id to this table and make the contextId and pageId only Foreign Keys.
 
 ## Errors made during developpement
 
