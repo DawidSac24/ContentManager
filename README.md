@@ -74,7 +74,7 @@ Follow these steps to use it:
 This project is currently is mostly finished. Some major futures are planned to be added.
 
 ## Contributing
-Contributions are more than welcome! Whether you’ve found a bug, have a feature request, or want to improve the code or documentation, feel free to open an issue or submit a pull request. This project is a great place to learn, collaborate, and grow together. Let’s make Content Manager even better—your input matters!
+Contributions are more than welcome! Whether you’ve found a bug, have a feature request, or want to improve the code or documentation, feel free to open an issue or submit a pull request. This project is a great place to learn, collaborate, and grow together. Let’s make Content Manager even better!
 
 ## Technical Details
 
