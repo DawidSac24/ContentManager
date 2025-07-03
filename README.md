@@ -12,6 +12,7 @@
 - [Features](#Features)
 - [Use Cases](Use-Cases)
 - [Development](#Development)
+  - [Contributing](#Contributing) 
   - [Technical Details](#Technical-Details)
   - [Errors made during developpement](#Errors-made-during-developpements)
   - [Why did i make this project ?](#Why-did-i-make-this-project-?)
@@ -71,6 +72,9 @@ Follow these steps to use it:
 # Development
 
 This project is currently is mostly finished. Some major futures are planned to be added.
+
+## Contributing
+Contributions are more than welcome! Whether you’ve found a bug, have a feature request, or want to improve the code or documentation, feel free to open an issue or submit a pull request. This project is a great place to learn, collaborate, and grow together. Let’s make Content Manager even better—your input matters!
 
 ## Technical Details
 
