@@ -1,5 +1,6 @@
 import { PagesService } from "../services/pages.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
+import { ContextService } from "../services/context.service";
 import { isIdentifier, isPagesArray } from "../utils/guards";
 import { NewPage, Page } from "../models/page.model";
 import { ContextPageLinks } from "../models/context-page.links.model";
@@ -13,10 +14,12 @@ export class PageController {
   private static instance: PageController;
   private pagesService: PagesService;
   private contextPageLinkService: ContextPageLinkService;
+  private contextService: ContextService;
 
   private constructor() {
     this.pagesService = PagesService.getInstance();
     this.contextPageLinkService = ContextPageLinkService.getInstance();
+    this.contextService = ContextService.getInstance();
   }
 
   public static getInstance(): PageController {
@@ -78,6 +81,7 @@ export class PageController {
   /**
    * Adds new pages to the database and links them to a specific context
    * by adding the context-page-links.
+   * uses context.service to check the contextId
    * @param pages An array of NewPage objects to be added.
    * @param contextId The ID of the context to link the pages to.
    * @returns A promise that resolves to an array of added Page objects.
@@ -94,6 +98,12 @@ export class PageController {
     }
 
     try {
+      const context = await this.contextService.getById(contextId);
+      if (!context) {
+        console.error("Context not found");
+        throw new Error("Context not found");
+      }
+
       console.log("Adding pages:", pages, "to context ID:", contextId);
       const addedPages: Page[] = await this.pagesService.add(pages);
       console.log("Added pages:", addedPages);

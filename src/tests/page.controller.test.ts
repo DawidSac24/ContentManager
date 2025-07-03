@@ -1,5 +1,6 @@
-import { PageController } from "../controllers/pages.controller";
 import { ContextController } from "../controllers/contexts.controller";
+import { PageController } from "../controllers/pages.controller";
+import { NewPage } from "../models/page.model";
 
 let controller: PageController;
 let contextController: ContextController;
@@ -10,18 +11,49 @@ beforeEach(() => {
   contextController = ContextController.getInstance();
 });
 
+const mockPages: NewPage[] = [{ title: "Test Page", url: "Test url" }];
+
 describe("Page Controller", () => {
   describe("adding tests", () => {
-    it("should add a page", async () => {
-      const mockPages = await controller.add(
-        [{ title: "Test Page", url: "Test url" }],
-        1
+    it("should throw if context not found", async () => {
+      await expect(controller.add(mockPages, 1)).rejects.toThrow(
+        "Context not found"
       );
+    });
 
-      expect(mockPages[0].title).toBe("Test Page");
-      expect(mockPages[0].id).toBeDefined();
+    it("should add a page", async () => {
+      const context = await contextController.addContext({
+        name: "Test Context",
+      });
+      const addedPages = await controller.add(mockPages, context.id);
 
-      console.log("All contexts: \n", await contextController.getAll());
+      expect(addedPages.length).toBe(1);
+      expect(addedPages[0].title).toBe("Test Page");
+      expect(addedPages[0].id).toBeDefined();
+    });
+  });
+
+  describe("getting tests", () => {
+    it("should get a page by id", async () => {
+      const context = await contextController.addContext({
+        name: "Test Context",
+      });
+      const addedPages = await controller.add(mockPages, context.id);
+      const page = await controller.getById(addedPages[0].id);
+      expect(page.title).toBe("Test Page");
+      expect(page.id).toBeDefined();
+    });
+
+    it("should get all pages by context id", async () => {
+      const context = await contextController.addContext({
+        name: "Test Context",
+      });
+      await controller.add(mockPages, context.id);
+      const pages = await controller.getByContextId(context.id);
+
+      expect(pages.length).toBe(1);
+      expect(pages[0].title).toBe("Test Page");
+      expect(pages[0].id).toBeDefined();
     });
   });
 });
