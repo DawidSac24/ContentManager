@@ -95,7 +95,7 @@ export class ContextPageLinkService {
     });
   }
 
-  public async deleteByContextId(contextId: number): Promise<void> {
+  public async deleteByContextId(contextId: number): Promise<number[]> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
@@ -103,15 +103,18 @@ export class ContextPageLinkService {
       const objectStore = transaction.objectStore("contextPageLinks");
       const index = objectStore.index("contextId");
       const getRequest = index.getAll(contextId);
+      const deletedPagesIds: number[] = [];
 
       getRequest.onsuccess = () => {
         const linksToDelete = getRequest.result as ContextPageLinks[];
         if (linksToDelete.length === 0) {
-          resolve();
+          resolve(deletedPagesIds);
           return;
         }
 
         for (const link of linksToDelete) {
+          deletedPagesIds.push(link.pageId);
+
           const deleteRequest = objectStore.delete(link.id);
           deleteRequest.onerror = function () {
             reject(
@@ -130,7 +133,7 @@ export class ContextPageLinkService {
       };
 
       transaction.oncomplete = () => {
-        resolve();
+        resolve(deletedPagesIds);
       };
     });
   }

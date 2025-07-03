@@ -1,5 +1,6 @@
 import { Context, NewContext } from "../models/context.model";
 import { ContextService } from "../services/context.service";
+import { PagesService } from "../services/pages.service";
 import { ContextPageLinkService } from "../services/context-page.link.service";
 import { isContext, isIdentifier } from "../utils/guards";
 
@@ -11,10 +12,12 @@ import { isContext, isIdentifier } from "../utils/guards";
 export class ContextController {
   private static instance: ContextController;
   private contextService: ContextService;
+  private pageService: PagesService;
   private contextPageLinkService: ContextPageLinkService;
 
   private constructor() {
     this.contextService = ContextService.getInstance();
+    this.pageService = PagesService.getInstance();
     this.contextPageLinkService = ContextPageLinkService.getInstance();
   }
 
@@ -126,8 +129,9 @@ export class ContextController {
 
     try {
       await this.contextService.deleteContext(contextId);
-      this.contextPageLinkService.deleteByContextId(contextId);
-      return;
+      const pageIdsToDelete: number[] =
+        await this.contextPageLinkService.deleteByContextId(contextId);
+      await this.pageService.delete(pageIdsToDelete);
     } catch (error) {
       console.error(error);
       throw error;

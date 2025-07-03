@@ -146,50 +146,27 @@ export class PagesService {
     );
   }
 
-  public async deleteByContextId(contextId: number): Promise<void> {
+  public async delete(pageIds: number[]): Promise<void> {
     const db = await openDatabase();
 
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction("contextPageLinks", "readwrite");
-      const objectStore = transaction.objectStore("contextPageLinks");
-      const index = objectStore.index("contextId");
+      const transaction = db.transaction("pages", "readwrite");
+      const objectStore = transaction.objectStore("pages");
 
-      const getRequest = index.getAll(contextId);
+      for (const pageId of pageIds) {
+        const deleteRequest = objectStore.delete(pageId);
 
-      getRequest.onsuccess = () => {
-        const links = getRequest.result as { id: number }[];
+        deleteRequest.onerror = function () {
+          reject(new Error(`Error deleting page : ${deleteRequest.error}`));
+        };
+      }
 
-        if (links.length === 0) {
-          resolve();
-          return;
-        }
-
-        let remaining = links.length;
-        let hasError = false;
-
-        links.forEach((link) => {
-          const deleteRequest = objectStore.delete(link.id);
-
-          deleteRequest.onsuccess = () => {
-            remaining--;
-            if (remaining === 0 && !hasError) {
-              resolve();
-            }
-          };
-
-          deleteRequest.onerror = () => {
-            hasError = true;
-            reject(new Error(`Error deleting link with ID ${link.id}`));
-          };
-        });
+      transaction.oncomplete = () => {
+        resolve();
       };
 
-      getRequest.onerror = () => {
-        reject(
-          new Error(
-            `Error getting links for context ID ${contextId}: ${getRequest.error}`
-          )
-        );
+      transaction.onerror = (err) => {
+        reject(new Error(`Error deleting pages : ${err}`));
       };
     });
   }

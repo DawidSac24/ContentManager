@@ -119,7 +119,7 @@ export class PageController {
   /**
    * Saves all the opened pages
    * @param contextId The context where the pages will be stored
-   * @returns the edited Context
+   * @returns the list of pages added
    */
   public async saveOpenPages(contextId: number): Promise<Page[]> {
     try {
@@ -130,7 +130,10 @@ export class PageController {
 
       console.log("Saving open pages...");
 
-      await this.pagesService.deleteByContextId(contextId);
+      const pagesToDelete = await this.contextPageLinkService.deleteByContextId(
+        contextId
+      );
+      await this.pagesService.delete(pagesToDelete);
 
       console.log("cleared pages by context ID");
 

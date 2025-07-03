@@ -5,13 +5,13 @@ import { NewPage } from "../models/page.model";
 let controller: PageController;
 let contextController: ContextController;
 
+const mockPages: NewPage[] = [{ title: "Test Page", url: "Test url" }];
+
 beforeEach(() => {
-  jest.resetModules(); // or use a resetInstance method
+  jest.resetModules();
   controller = PageController.getInstance();
   contextController = ContextController.getInstance();
 });
-
-const mockPages: NewPage[] = [{ title: "Test Page", url: "Test url" }];
 
 describe("Page Controller", () => {
   describe("adding tests", () => {
