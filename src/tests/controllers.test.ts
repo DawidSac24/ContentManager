@@ -132,12 +132,6 @@ describe("Controllers Integration", () => {
         { id: 2, title: "Old Tab 2", url: "http://old2.com" },
       ]);
     });
-    chrome.tabs.remove.mockImplementation((ids, callback) => {
-      if (callback) callback();
-    });
-    chrome.tabs.create.mockImplementation(({ url }, callback) => {
-      callback({ id: Math.floor(Math.random() * 1000), url, title: url });
-    });
     // Should not throw
     await expect(pageController.loadPages(contextId)).resolves.toBeUndefined();
   });
