@@ -119,7 +119,7 @@ erDiagram
 
 ## Why did i make this project ?
 
-I decided to make this project mainly to try to apply the things that i learned in school on a real project. This helped me to have a better idea of how the real world web developpement might look and what are the general problemes that i may encounter and find a solution for. This project made me decide and make some important architechture and developement decisions and learn about the different flaws/compromises of each implementation choice that i made.
+I decided to make this project mainly to try to apply the things that i learned in school on a real project. This made me have a better idea of how the real world web developpement might look and what are the general problemes that i may encounter and have to find a solution for. This project made me decide and make some important architechture and developement decisions and learn about the different flaws/compromises of each choice i made.
 I also wanted to learn some new technologies and develop some that i arleady knew.  
 Developping a project like this made me acquire experiance that i would not have by only going to school and, most importantly, it was a lot of fun!
 
